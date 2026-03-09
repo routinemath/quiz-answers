@@ -336,7 +336,8 @@ function renderTable() {
   const fSc = document.getElementById('fScore').value;
   const fSo = document.getElementById('fSort').value;
 
-  filteredResults = allResults.filter(r => {
+  // 1. 필터링 (학생, 시험지 선택 등)
+  let baseResults = allResults.filter(r => {
     if (fS && r.student !== fS) return false;
     if (fT && r.title !== fT) return false;
     if (fSc === 'high' && (r.score||0) < 80) return false;
@@ -345,37 +346,63 @@ function renderTable() {
     return true;
   });
 
-  filteredResults.sort((a,b) => {
-    if (fSo==='score_desc') return (b.score||0)-(a.score||0);
-    if (fSo==='score_asc')  return (a.score||0)-(b.score||0);
-    if (fSo==='student')    return (a.student||'').localeCompare(b.student||'');
-    return (b._fname||'').localeCompare(a._fname||'');
+  // 2. 학생별+시험지별로 그룹화 (여러 번 푼 걸 하나로 합치기)
+  const groups = {};
+  const timeSorted = [...baseResults].sort((a, b) => (a._fname||'').localeCompare(b._fname||''));
+
+  timeSorted.forEach(r => {
+    const key = r.student + '|||' + r.title;
+    if (!groups[key]) {
+      groups[key] = { student: r.student, title: r.title, attempts: [] };
+    }
+    groups[key].attempts.push(r);
   });
 
+  // 3. 화면에 보여줄 순서 정렬
+  filteredResults = Object.values(groups);
+  filteredResults.sort((a, b) => {
+    const lastA = a.attempts[a.attempts.length - 1];
+    const lastB = b.attempts[b.attempts.length - 1];
+    if (fSo==='score_desc') return (lastB.score||0)-(lastA.score||0);
+    if (fSo==='score_asc')  return (lastA.score||0)-(lastB.score||0);
+    if (fSo==='student')    return (a.student||'').localeCompare(b.student||'');
+    return (lastB._fname||'').localeCompare(lastA._fname||'');
+  });
+
+  const tb = document.getElementById('tbody');
   if (!filteredResults.length) {
-    document.getElementById('tbody').innerHTML = '';
+    tb.innerHTML = '';
     document.getElementById('tableEmpty').style.display = 'flex';
     return;
   }
   document.getElementById('tableEmpty').style.display = 'none';
 
-  document.getElementById('tbody').innerHTML = filteredResults.map((r, idx) => {
-    const pct = r.score||0;
+  // 4. 표 그리기 (한수연 [3회차] 81% ➔ 100% 형태)
+  tb.innerHTML = filteredResults.map((g, idx) => {
+    const latest = g.attempts[g.attempts.length - 1];
+    const pct = latest.score||0;
     const cls = pct>=80?'hi':pct>=60?'md':pct<40?'fl':'lo';
-    const wrongs = (r.results||[]).filter(x=>!x.correct).map(x=>x.number+'번');
-    const wrongHtml = wrongs.length
-      ? wrongs.map(w=>`<span class="wtag">${w}</span>`).join('')
-      : '<span style="color:var(--green);font-size:12px;">전부 정답 🎉</span>';
-    return `<tr${idx===0?' class="new-row"':''}>
-      <td><strong>${esc(r.student||'?')}</strong></td>
-      <td style="color:var(--muted);font-size:12px;">${esc(r.title||'–')}</td>
-      <td><span class="badge ${cls}">${pct}%</span></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:${pct}%;background:${pct>=80?'var(--green)':pct>=60?'var(--accent)':'var(--red)'}"></div></div><span class="bar-pct">${r.correct||0}/${r.total||0}</span></div></td>
+    const timeline = g.attempts.map(a => `${a.score||0}%`).join(' ➔ ');
+    const wrongs = (latest.results||[]).filter(x=>!x.correct).map(x=>x.number+'번');
+    const wrongHtml = wrongs.length ? wrongs.map(w=>`<span class="wtag">${w}</span>`).join('') : '<span style="color:var(--green);font-size:12px;">전부 정답 🎉</span>';
+
+    return `<tr>
+      <td><strong>${esc(g.student)}</strong></td>
+      <td style="color:var(--muted);font-size:12px;">${esc(g.title)} <span style="color:var(--accent); font-weight:bold;">[${g.attempts.length}회차]</span></td>
+      <td><div style="font-weight:bold; color:var(--yellow); margin-bottom:4px; font-size:11px;">${timeline}</div><span class="badge ${cls}">${pct}%</span></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:${pct}%;background:${pct>=80?'var(--green)':pct>=60?'var(--accent)':'var(--red)'}"></div></div><span class="bar-pct">${latest.correct||0}/${latest.total||0}</span></div></td>
       <td><div class="wtags">${wrongHtml}</div></td>
-      <td class="ts">${esc(r.gradedAt||'–')}</td>
-      <td><button class="btn btn-g btn-sm" onclick="showDetail(${idx})">상세</button></td>
+      <td class="ts">${esc(latest.gradedAt||'–')}</td>
+      <td><button class="btn btn-g btn-sm" onclick='showDetailByData(${JSON.stringify(latest).replace(/'/g, "&apos;")})'>상세</button></td>
     </tr>`;
   }).join('');
+}
+
+// 상세 팝업을 띄워주는 보조 함수 (파일 맨 끝 </script> 바로 위에 넣으세요)
+function showDetailByData(data) {
+  const tempIdx = 9999; 
+  filteredResults[tempIdx] = data;
+  showDetail(tempIdx);
 }
 
 function renderProbGrid() {
