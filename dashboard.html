@@ -336,7 +336,7 @@ function renderTable() {
   const fSc = document.getElementById('fScore').value;
   const fSo = document.getElementById('fSort').value;
 
-  // 1. 필터링
+  // 1. 기본 필터링
   let baseResults = allResults.filter(r => {
     if (fS && r.student !== fS) return false;
     if (fT && r.title !== fT) return false;
@@ -346,7 +346,7 @@ function renderTable() {
     return true;
   });
 
-  // 2. 그룹화 (중복 제거 및 성장 과정 합치기)
+  // 2. 학생+시험지 기준으로 그룹화
   const groups = {};
   const timeSorted = [...baseResults].sort((a, b) => (a._fname||'').localeCompare(b._fname||''));
 
@@ -358,8 +358,9 @@ function renderTable() {
     groups[key].attempts.push(r);
   });
 
-  filteredResults = Object.values(groups);
-  filteredResults.sort((a, b) => {
+  // 3. 그룹 배열 만들기 및 정렬
+  let groupArray = Object.values(groups);
+  groupArray.sort((a, b) => {
     const lastA = a.attempts[a.attempts.length - 1];
     const lastB = b.attempts[b.attempts.length - 1];
     if (fSo==='score_desc') return (lastB.score||0)-(lastA.score||0);
@@ -369,24 +370,25 @@ function renderTable() {
   });
 
   const tb = document.getElementById('tbody');
-  if (!filteredResults.length) {
+  if (!groupArray.length) {
     tb.innerHTML = '';
     document.getElementById('tableEmpty').style.display = 'flex';
+    filteredResults = []; 
     return;
   }
   document.getElementById('tableEmpty').style.display = 'none';
 
-  // 3. 표 출력
-  tb.innerHTML = filteredResults.map((g, idx) => {
-    const latest = g.attempts[g.attempts.length - 1];
+  // 4. 핵심 해결책: 상세창이 꼬이지 않도록 배열을 '최신 결과물'들로 예쁘게 맞춰줍니다.
+  filteredResults = groupArray.map(g => g.attempts[g.attempts.length - 1]);
+
+  // 5. 표 그리기
+  tb.innerHTML = groupArray.map((g, idx) => {
+    const latest = filteredResults[idx]; // 최신 결과
     const pct = latest.score||0;
     const cls = pct>=80?'hi':pct>=60?'md':pct<40?'fl':'lo';
     const timeline = g.attempts.map(a => `${a.score||0}%`).join(' ➔ ');
     const wrongs = (latest.results||[]).filter(x=>!x.correct).map(x=>x.number+'번');
     const wrongHtml = wrongs.length ? wrongs.map(w=>`<span class="wtag">${w}</span>`).join('') : '<span style="color:var(--green);font-size:12px;">전부 정답 🎉</span>';
-
-    // 상세보기를 위한 안전한 데이터 처리
-    const safeData = JSON.stringify(latest).replace(/'/g, "&apos;").replace(/"/g, "&quot;");
 
     return `<tr>
       <td><strong>${esc(g.student)}</strong></td>
@@ -395,23 +397,9 @@ function renderTable() {
       <td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:${pct}%;background:${pct>=80?'var(--green)':pct>=60?'var(--accent)':'var(--red)'}"></div></div><span class="bar-pct">${latest.correct||0}/${latest.total||0}</span></div></td>
       <td><div class="wtags">${wrongHtml}</div></td>
       <td class="ts">${esc(latest.gradedAt||'–')}</td>
-      <td><button class="btn btn-g btn-sm" onclick='showDetailByData(${safeData})'>상세</button></td>
+      <td><button class="btn btn-g btn-sm" onclick="showDetail(${idx})">상세</button></td>
     </tr>`;
   }).join('');
-// 상세 버튼을 누르면 실행되는 마법의 명령어입니다.
-function showDetailByData(data) {
-    // 기존에 있던 상세창(showDetail) 기능을 그대로 활용하기 위해
-    // 데이터를 임시로 저장소에 넣고 띄워줍니다.
-    if (!window.allResults) window.allResults = [];
-    if (!window.filteredResults) window.filteredResults = [];
-    
-    // 99999번이라는 임시 칸에 데이터를 넣습니다.
-    const tempIdx = 99999;
-    window.allResults[tempIdx] = data;
-    window.filteredResults[tempIdx] = data;
-    
-    // 이제 원래 있던 상세창 함수를 부릅니다.
-    showDetail(tempIdx);
 }
 
 function renderProbGrid() {
