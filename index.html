@@ -77,19 +77,40 @@
     page-break-after: auto;
 }
 
-/* 2x2 ê·¸ë¦¬ë"œ í…Œì´ë¸" */
-./* 2x2 그리드 테이블 */
+/* 2x2 그리드 테이블 (4문제 레이아웃) */
 .problem-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(2, 1fr);
     gap: 3mm;
-    height: 275mm; /* 안전한 여백을 위해 280 -> 275로 축소 */
+    height: 275mm;
     width: 100%;
 }
 
 .first-page .problem-grid {
-    height: 245mm; /* QR코드 들어갈 공간 확보를 위해 260 -> 245로 축소 */
+    height: 245mm;
+}
+
+/* 🆕 2문제 좌우 2단 레이아웃 (수능 수학 시험지 스타일) */
+.problem-grid.two-column {
+    display: grid; /* 💡 1단으로 풀리는 현상 강력 방지! */
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 5mm;
+    height: 275mm;
+    width: 100%;
+}
+
+.first-page .problem-grid.two-column {
+    height: 245mm;
+}
+
+/* 💡 깃허브 이미지가 그리드(단)를 뚫고 나가는 현상 방지 */
+.problem-grid img, 
+.problem-grid.two-column img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* 비율을 유지하면서 칸 안에 딱 맞게! */
 }
 
 /* 🆕 2문제 좌우 2단 레이아웃 (수능 수학 시험지 스타일) */
@@ -3334,21 +3355,22 @@ async function generateAndInsertQR(problems, examTitle, studentName, containerId
             : Date.now().toString(36) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
         const idxPart = (setIndex !== undefined) ? String(setIndex) : '0';
         const fileId = idxPart + uuid;
-        const filename = 'answers/' + fileId + '.json';
+        const fileName = "answers/" + token + "_" + Date.now() + "_" + Math.floor(Math.random() * 10000) + ".json";
 
         // token은 QR URL이 아닌 answers JSON 파일 안에만 저장
         // → QR에는 짧은 URL만 들어가므로 overflow 없음
         // → grading.html이 JSON을 다운로드한 뒤 _token으로 결과를 GitHub에 업로드
+        // 구글 스크립트로 보낼 안전한 데이터
         const payload = {
-            title: examTitle,
-            student: studentName,
+            title: examTitle || '제목 없음',
+            student: studentName || '이름 없음',
             date: new Date().toLocaleDateString('ko-KR'),
             _token: token,
             problems: problems.map(p => ({
-                number: p.number,
+                number: p.number || 0,
                 filename: p.filename || '',
                 githubUrl: p.githubUrl || '',
-                answer: (p.correctAnswer && p.correctAnswer !== '정답없음') ? p.correctAnswer : ''
+                answer: p.correctAnswer || ''
             }))
         };
         const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
