@@ -387,8 +387,17 @@ function renderTable() {
     const pct = latest.score||0;
     const cls = pct>=80?'hi':pct>=60?'md':pct<40?'fl':'lo';
     const timeline = g.attempts.map(a => `${a.score||0}%`).join(' ➔ ');
-    const wrongs = (latest.results||[]).filter(x=>!x.correct).map(x=>x.number+'번');
-    const wrongHtml = wrongs.length ? wrongs.map(w=>`<span class="wtag">${w}</span>`).join('') : '<span style="color:var(--green);font-size:12px;">전부 정답 🎉</span>';
+    
+    // 🔥 핵심 수정: 모든 회차를 뒤져서 '한 번이라도 틀렸던 문제'를 싹 수집합니다.
+    let everWrong = new Set();
+    g.attempts.forEach(a => {
+        (a.results||[]).forEach(p => {
+            if (!p.correct) everWrong.add(p.number);
+        });
+    });
+    // 번호 순서대로 예쁘게 정렬
+    const wrongs = Array.from(everWrong).sort((a,b)=>a-b).map(x=>x+'번');
+    const wrongHtml = wrongs.length ? wrongs.map(w=>`<span class="wtag">${w}</span>`).join('') : '<span style="color:var(--green);font-size:12px;">처음부터 100점! 🎉</span>';
 
     return `<tr>
       <td><strong>${esc(g.student)}</strong></td>
