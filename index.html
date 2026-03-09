@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>시험 대비 오답 풀이 생성기</title>
-    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#667eea">
-    <link rel="apple-touch-icon" href="icon-192.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         body { margin: 0; padding: 20px; font-family: 'Malgun Gothic', sans-serif; background: #f0f0f0; }
@@ -80,17 +78,18 @@
 }
 
 /* 2x2 ê·¸ë¦¬ë"œ í…Œì´ë¸" */
+./* 2x2 그리드 테이블 */
 .problem-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(2, 1fr);
     gap: 3mm;
-    height: 280mm;
+    height: 275mm; /* 안전한 여백을 위해 280 -> 275로 축소 */
     width: 100%;
 }
 
 .first-page .problem-grid {
-    height: 260mm;
+    height: 245mm; /* QR코드 들어갈 공간 확보를 위해 260 -> 245로 축소 */
 }
 
 /* 🆕 2문제 좌우 2단 레이아웃 (수능 수학 시험지 스타일) */
@@ -98,11 +97,11 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
     gap: 5mm;
-    height: 280mm;
+    height: 275mm; /* 280 -> 275로 축소 */
 }
 
 .first-page .problem-grid.two-column {
-    height: 260mm;
+    height: 245mm; /* QR코드 들어갈 공간 확보를 위해 260 -> 245로 축소 */
 }
 
 /* 2단 레이아웃용 문제 셀 */
@@ -260,9 +259,21 @@
     .exam-header {
         padding: 2mm 0;
         margin-bottom: 3mm;
+        display: flex !important;
+        align-items: center !important;
+        overflow: hidden;
     }
     .exam-title {
         font-size: 16pt;
+        flex: 1 !important;
+        min-width: 0;
+    }
+    /* QR 컨테이너가 인쇄 시 페이지 밖으로 나가지 않도록 */
+    .exam-header > div[style*="flex-shrink"] {
+        flex-shrink: 0 !important;
+        width: 20mm !important;
+        height: 20mm !important;
+        overflow: hidden;
     }
     .problem-grid {
         gap: 2mm;
@@ -410,9 +421,10 @@
         
         <div class="control-group">
     <label>📁 이미지 폴더 선택 (PNG 파일):</label>
-    <input type="file" id="folderInput" webkitdirectory directory multiple accept="image/png" style="display:none;">
-    <button class="btn" onclick="document.getElementById('folderInput').click()">📂 폴더 불러오기</button>
-    <button class="btn btn-danger" onclick="clearAllFolders()" style="margin-left:5px;">🗑️ 전체 초기화</button>
+<input type="file" id="folderInput" webkitdirectory directory multiple accept="image/png" style="display:none;">
+<button class="btn" onclick="document.getElementById('folderInput').click()">📂 내 컴퓨터 폴더</button>
+<button class="btn" onclick="loadImagesFromGithub()" style="background:#2196F3; margin-left:5px;">☁️ 깃허브에서 불러오기</button>
+<button class="btn btn-danger" onclick="clearAllFolders()" style="margin-left:5px;">🗑️ 전체 초기화</button>
     
     <!-- 폴더 구조 탐색기 -->
     <div id="folderExplorer" style="margin-top:15px; display:none;">
@@ -953,6 +965,31 @@ async function init() {
 // 폴더 구조 저장 변수
 let folderStructure = {};
 let selectedFolderPaths = new Set();
+// 중간 폴더별 비율 설정 { path: percent }
+let folderPercentMap = {};
+
+// 경로에서 모든 이미지를 재귀적으로 수집 (하위 폴더 포함)
+function getAllFilesRecursive(structure, path) {
+    const parts = path.split('/');
+    let current = structure;
+    for (let part of parts) {
+        if (current[part]) current = current[part];
+        else if (current.subfolders && current.subfolders[part]) current = current.subfolders[part];
+        else return [];
+    }
+    const result = [];
+    function collect(node) {
+        if (node.files) node.files.forEach(f => result.push(f));
+        if (node.subfolders) Object.values(node.subfolders).forEach(sub => collect(sub));
+    }
+    collect(current);
+    return result;
+}
+
+// 폴더 깊이 (미사용 - 하위호환용으로 유지)
+function getFolderDepth(path) {
+    return path.split('/').length;
+}
 
 // 이미지 로드 - 폴더 구조 분석
 document.getElementById('folderInput').addEventListener('change', function(e) {
@@ -1074,18 +1111,61 @@ function expandFolder(path) {
     }
 }
 
-// 폴더 선택/해제
-function selectFolder(path) {
-    if (selectedFolderPaths.has(path)) {
-        selectedFolderPaths.delete(path);
-    } else {
-        selectedFolderPaths.add(path);
+// 폴더 선택 로직
+// - 직계 자식 폴더가 있는 폴더 클릭 → 자식 폴더들을 비중 단위로 등록
+// - 이미지가 직접 들어있는 최하위 폴더 클릭 → 그 폴더 자체를 비중 단위로 등록
+// selectedFolderPaths: 비중 설정 대상 폴더들의 경로 Set
+// folderPercentMap: { path: percent }
+
+// 클릭된 폴더의 직계 자식 폴더 목록 반환
+function getDirectChildren(path) {
+    const node = getNodeFromPath(folderStructure, path);
+    if (!node) return [];
+    return Object.keys(node.subfolders || {}).map(name => `${path}/${name}`);
+}
+
+// 구조에서 노드 가져오기
+function getNodeFromPath(structure, path) {
+    const parts = path.split('/');
+    let current = structure;
+    for (let part of parts) {
+        if (current[part]) current = current[part];
+        else if (current.subfolders && current.subfolders[part]) current = current.subfolders[part];
+        else return null;
     }
-    
-    // 해당 폴더의 이미지 적용
+    return current;
+}
+
+function selectFolder(path) {
+    const children = getDirectChildren(path);
+    const hasChildren = children.length > 0;
+
+    if (hasChildren) {
+        // 자식 폴더들이 있는 경우: 자식들을 비중 단위로 등록
+        const allSelected = children.every(p => selectedFolderPaths.has(p));
+        children.forEach(p => {
+            if (allSelected) {
+                selectedFolderPaths.delete(p);
+                delete folderPercentMap[p];
+            } else {
+                if (!selectedFolderPaths.has(p)) {
+                    selectedFolderPaths.add(p);
+                    folderPercentMap[p] = 0;
+                }
+            }
+        });
+    } else {
+        // 최하위 폴더(이미지 직접 포함): 자기 자신을 비중 단위로 등록
+        if (selectedFolderPaths.has(path)) {
+            selectedFolderPaths.delete(path);
+            delete folderPercentMap[path];
+        } else {
+            selectedFolderPaths.add(path);
+            folderPercentMap[path] = 0;
+        }
+    }
+
     applySelectedFolders();
-    
-    // UI 업데이트 (현재 펼쳐진 상태 유지)
     updateFolderTreeSelection();
     updateSelectedFolderDisplay();
 }
@@ -1137,25 +1217,39 @@ function getSubfoldersFromPath(structure, path) {
     return current.subfolders || {};
 }
 
-// 선택된 폴더의 이미지 적용
-function applySelectedFolders() {
-    // 기존 이미지 초기화
+// ✅ [수정] 선택된 폴더의 이미지 적용 (재귀 수집) - Base64 사전 변환 추가
+async function applySelectedFolders() {
     allImages = [];
     
-    // 선택된 폴더의 파일들 추가
     selectedFolderPaths.forEach(path => {
-        const files = getFilesFromPath(folderStructure, path);
+        const files = getAllFilesRecursive(folderStructure, path);
         files.forEach(file => {
-            if (!allImages.find(img => img.name === file.name)) {
+            if (!allImages.find(img => img.name === file.name && img.webkitRelativePath === file.webkitRelativePath)) {
                 allImages.push(file);
             }
         });
     });
     
-    showStatus(`✅ ${allImages.length}개의 이미지가 적용되었습니다.`, true);
+    showStatus(`⏳ ${allImages.length}개의 이미지를 로딩 중입니다... (잠시만 기다려 주세요)`, true);
     showProblemList();
     
-    // 난이도 분석 실행
+    // ✅ [핵심 수정] 모든 이미지를 Base64로 미리 변환해서 file 객체에 저장
+    // 이렇게 하면 나중에 generateQuiz를 호출할 때 항상 이미지가 안전하게 표시됩니다
+    let converted = 0;
+    await Promise.all(allImages.map(async (file) => {
+        try {
+            file.base64Data = await fileToBase64(file);
+        } catch(e) {
+            console.warn('Base64 변환 실패:', file.name, e);
+        }
+        converted++;
+        if (converted % 20 === 0 || converted === allImages.length) {
+            showStatus(`⏳ 이미지 로딩 중... ${converted}/${allImages.length}`, true);
+        }
+    }));
+
+    showStatus(`✅ ${allImages.length}개의 이미지가 적용되었습니다.`, true);
+    
     if (allImages.length > 0) {
         analyzeDifficulty();
     } else {
@@ -1282,7 +1376,7 @@ function getFilesFromPath(structure, path) {
     return current.files || [];
 }
 
-// 선택된 폴더 표시
+// 선택된 폴더 표시 + 퍼센트 입력 UI
 function updateSelectedFolderDisplay() {
     const container = document.getElementById('selectedFolders');
     const list = document.getElementById('selectedFolderList');
@@ -1293,20 +1387,90 @@ function updateSelectedFolderDisplay() {
     }
     
     container.style.display = 'block';
-    let html = '';
-    
-    selectedFolderPaths.forEach(path => {
-        const fileCount = getFilesFromPath(folderStructure, path).length;
+
+    const paths = Array.from(selectedFolderPaths);
+    const totalPercent = paths.reduce((sum, p) => sum + (folderPercentMap[p] || 0), 0);
+    const isValid = Math.abs(totalPercent - 100) < 1;
+
+    let html = `<div style="margin-bottom:8px; font-size:13px; color:#555;">각 폴더의 출제 비중(%)을 입력하세요. 합계가 100%여야 합니다.</div>`;
+    html += `<div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;">`;
+
+    paths.forEach(path => {
+        const allFilesCount = getAllFilesRecursive(folderStructure, path).filter(f => !f.name.toLowerCase().includes('해설')).length;
+        const folderName = path.split('/').pop();
+        const folderParent = path.includes('/') ? path.split('/').slice(0, -1).join('/') : '';
+        const pct = folderPercentMap[path] || 0;
         html += `
-            <div style="display:inline-block; margin:3px; padding:5px 10px; background:#d4edda; border-radius:15px; font-size:12px;">
-                📁 ${path} (${fileCount}개)
-                <span onclick="selectFolder('${path.replace(/'/g, "\\'")}'); event.stopPropagation();" 
-                      style="cursor:pointer; margin-left:5px; color:#dc3545; font-weight:bold;">✕</span>
+            <div style="background:#f0f4ff; border:1px solid #c5d0f0; border-radius:10px; padding:8px 12px; min-width:180px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2px;">
+                    <span style="font-weight:bold; font-size:13px;">📁 ${folderName}</span>
+                    <span onclick="removeFolderSelection('${path.replace(/'/g, "\\'")}');" 
+                          style="cursor:pointer; color:#dc3545; font-weight:bold; font-size:14px; margin-left:8px;">✕</span>
+                </div>
+                ${folderParent ? `<div style="font-size:10px; color:#aaa; margin-bottom:3px;">${folderParent}/</div>` : ''}
+                <div style="font-size:11px; color:#888; margin-bottom:6px;">총 ${allFilesCount}개 문제</div>
+                <div style="display:flex; align-items:center; gap:4px;">
+                    <input type="number" min="0" max="100" step="1" value="${pct}"
+                        id="pct_${path.replace(/[^a-zA-Z0-9]/g, '_')}"
+                        onchange="updateFolderPercent('${path.replace(/'/g, "\\'")}', this.value)"
+                        style="width:60px; padding:4px 6px; border:1px solid #ccc; border-radius:4px; font-size:13px; text-align:right;">
+                    <span style="font-size:13px; color:#555;">%</span>
+                </div>
             </div>
         `;
     });
-    
+
+    html += `</div>`;
+
+    // 합계 표시
+    const sumColor = isValid ? '#4CAF50' : '#e53935';
+    const sumBg = isValid ? '#f0fff4' : '#fff5f5';
+    html += `
+        <div id="percentSumDisplay" style="padding:8px 14px; background:${sumBg}; border-radius:6px; font-size:13px; font-weight:bold; color:${sumColor}; display:inline-block;">
+            합계: ${totalPercent.toFixed(0)}%
+            ${isValid ? ' ✅ 설정 완료' : ' ⚠️ 합계가 100%가 되어야 문제를 생성할 수 있습니다.'}
+        </div>
+        <button onclick="autoDistributePercent()" style="margin-left:10px; padding:6px 12px; background:#607D8B; color:white; border:none; border-radius:4px; cursor:pointer; font-size:12px;">⚖️ 균등 분배</button>
+    `;
+
     list.innerHTML = html;
+}
+
+function removeFolderSelection(path) {
+    selectedFolderPaths.delete(path);
+    delete folderPercentMap[path];
+    applySelectedFolders();
+    updateFolderTreeSelection();
+    updateSelectedFolderDisplay();
+}
+
+function updateFolderPercent(path, value) {
+    folderPercentMap[path] = parseFloat(value) || 0;
+    // 합계 표시만 업데이트
+    const paths = Array.from(selectedFolderPaths);
+    const totalPercent = paths.reduce((sum, p) => sum + (folderPercentMap[p] || 0), 0);
+    const isValid = Math.abs(totalPercent - 100) < 1;
+    const sumColor = isValid ? '#4CAF50' : '#e53935';
+    const sumBg = isValid ? '#f0fff4' : '#fff5f5';
+    const el = document.getElementById('percentSumDisplay');
+    if (el) {
+        el.style.background = sumBg;
+        el.style.color = sumColor;
+        el.innerHTML = `합계: ${totalPercent.toFixed(0)}%` +
+            (isValid ? ' ✅ 설정 완료' : ' ⚠️ 합계가 100%가 되어야 문제를 생성할 수 있습니다.');
+    }
+    // 비율 기반 allImages 재구성은 생성 시 처리
+}
+
+function autoDistributePercent() {
+    const paths = Array.from(selectedFolderPaths);
+    if (paths.length === 0) return;
+    const each = Math.floor(100 / paths.length);
+    const remainder = 100 - each * paths.length;
+    paths.forEach((p, i) => {
+        folderPercentMap[p] = each + (i === 0 ? remainder : 0);
+    });
+    updateSelectedFolderDisplay();
 }
 
 // 전체 초기화
@@ -1315,6 +1479,7 @@ function clearAllFolders() {
         allImages = [];
         folderStructure = {};
         selectedFolderPaths.clear();
+        folderPercentMap = {};
         csvDataMap = {}; // ⭐ 이 줄 추가! ⭐
         document.getElementById('folderTree').innerHTML = '';
         document.getElementById('folderExplorer').style.display = 'none';
@@ -1435,15 +1600,30 @@ function findExplanationForByIndex(index, allImages, problemImgName) {
     ) || null;
 }
 
-// 🆕 이미지 비율 분석 함수
+// ✅ [수정] 파일을 Base64 데이터 URL로 변환하는 헬퍼 함수
+// blob URL 대신 Base64를 사용하면 시간이 지나거나 초기화 후에도 이미지가 사라지지 않습니다
+function fileToBase64(file) {
+    // 이미 변환된 경우(file.base64Data가 있으면) 즉시 반환
+    if (file.base64Data) return Promise.resolve(file.base64Data);
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result);
+        reader.onerror = () => reject(new Error('파일 읽기 실패: ' + file.name));
+        reader.readAsDataURL(file);
+    });
+}
+
+// ✅ [수정] 이미지 비율 분석 함수 - Base64 사용으로 변경
 async function analyzeImageRatio(imgFile) {
-    return new Promise((resolve) => {
+    return new Promise(async (resolve) => {
         const img = new Image();
         img.onload = () => {
             const ratio = img.naturalHeight / img.naturalWidth;
             resolve(ratio > 1.8 ? 'tall' : 'normal');
         };
-        img.src = URL.createObjectURL(imgFile);
+        img.onerror = () => resolve('normal');
+        // ✅ blob URL 대신 Base64 사용
+        img.src = await fileToBase64(imgFile);
     });
 }
 
@@ -1530,6 +1710,244 @@ async function generateSetQuiz() {
     // 난이도 필터 적용된 풀 구성
     const useDifficultyFilter = document.getElementById('useDifficultyFilter').checked;
     let filteredPool = [];
+
+    // ── 폴더 비율 + 난이도 교차 쿼터제 ──────────────────────────────
+    const paths = Array.from(selectedFolderPaths);
+    const totalPct = paths.reduce((sum, p) => sum + (folderPercentMap[p] || 0), 0);
+    const hasValidPercent = paths.length > 0 && Math.abs(totalPct - 100) < 1;
+
+    if (hasValidPercent && useDifficultyFilter) {
+        // 난이도별 설정 수량 파악
+        const difficulties = ['대표문제', '하', '중하', '중', '중상', '상', 'C단계', '3점', '4점', '미분류'];
+        const diffCounts = {};
+        difficulties.forEach(diff => {
+            const count = parseInt(document.getElementById(`diff_${diff}`)?.value) || 0;
+            if (count > 0) diffCounts[diff] = count;
+        });
+        if (Object.keys(diffCounts).length === 0) {
+            showStatus('⚠️ 난이도 문제 수를 1개 이상 지정해주세요.', false);
+            return;
+        }
+
+        // 난이도 매칭 함수
+        function matchDiff(img, diff) {
+            const fn = img.name.toLowerCase();
+            if (diff === 'C단계') return fn.includes('_c단계.png') || fn.includes('-c단계.png') || fn.includes('_c.png') || fn.includes('-c.png');
+            const d = diff.toLowerCase();
+            if (diff === '3점' || diff === '4점') return fn.includes(`_${d}.png`) || fn.includes(`-${d}.png`) || fn.includes(`_${d}`);
+            return fn.includes(`_${d}.png`) || fn.includes(`-${d}.png`);
+        }
+
+        // ── 정수 배분 헬퍼 (라지스트 리마인더 알고리즘) ──
+        // total 개를 weights 비율로 나누되 합이 정확히 total이 되게 보장
+        function distributeByWeight(total, weights) {
+            const sum = weights.reduce((a, b) => a + b, 0);
+            if (sum === 0) return weights.map(() => 0);
+            const floats = weights.map(w => total * w / sum);
+            const floors = floats.map(f => Math.floor(f));
+            const remainders = floats.map((f, i) => f - floors[i]);
+            let remaining = total - floors.reduce((a, b) => a + b, 0);
+            const indices = remainders.map((_, i) => i).sort((a, b) => remainders[b] - remainders[a]);
+            for (let i = 0; i < remaining; i++) floors[indices[i]]++;
+            return floors;
+        }
+
+        // 폴더별 가중치, 난이도별 가중치 준비
+        const folderWeights = paths.map(p => folderPercentMap[p] || 0);
+        const activeDiffs = Object.keys(diffCounts);
+        const diffWeights = activeDiffs.map(d => diffCounts[d]);
+
+        // 각 세트를 독립적으로 구성
+        const usedAcrossSets = new Set();
+        const sets = [];
+
+        for (let s = 0; s < setCount; s++) {
+            let setImages = [];
+
+            // 폴더별 총 할당 수 (합 = quizPerSet, 오차 없음)
+            const folderTotals = distributeByWeight(quizPerSet, folderWeights);
+
+            paths.forEach((folderPath, fi) => {
+                const folderTotal = folderTotals[fi];
+                if (folderTotal === 0) return;
+
+                const folderFiles = getAllFilesRecursive(folderStructure, folderPath)
+                    .filter(f => !f.name.toLowerCase().includes('해설'));
+                const folderPool = pool.filter(img =>
+                    folderFiles.some(ff => ff.name === img.name && ff.webkitRelativePath === img.webkitRelativePath)
+                );
+
+                // 이 폴더 안에서 난이도별 할당 수 (합 = folderTotal, 오차 없음)
+                const diffTotals = distributeByWeight(folderTotal, diffWeights);
+
+                activeDiffs.forEach((diff, di) => {
+                    const needed = diffTotals[di];
+                    if (needed === 0) return;
+
+                    const candidates = folderPool.filter(img => matchDiff(img, diff));
+                    const fresh    = candidates.filter(img => !usedAcrossSets.has(img.name));
+                    const fallback = candidates.filter(img =>  usedAcrossSets.has(img.name));
+
+                    fresh.sort(()    => Math.random() - 0.5);
+                    fallback.sort(() => Math.random() - 0.5);
+
+                    let picked = [...fresh, ...fallback].slice(0, needed);
+                    // 그래도 부족하면 candidates 반복 사용
+                    while (picked.length < needed && candidates.length > 0) {
+                        const extra = [...candidates].sort(() => Math.random() - 0.5)
+                            .slice(0, needed - picked.length);
+                        picked.push(...extra);
+                    }
+                    picked = picked.slice(0, needed);
+                    picked.forEach(img => usedAcrossSets.add(img.name));
+                    setImages.push(...picked);
+                });
+            });
+
+            // 세트 내 문제 순서 셔플
+            setImages.sort(() => Math.random() - 0.5);
+            sets.push(setImages);
+        }
+
+        // ── 회차별 렌더링으로 이동 ──
+        const examTitle = document.getElementById('examTitle').value || '오답 학습 문제지';
+        const showFilename = document.getElementById('showFilename').checked;
+        const includeQR = document.getElementById('includeQR') ? document.getElementById('includeQR').checked : true;
+        const showAnswerSheet = document.getElementById('showAnswerSheet').checked;
+        showStatus(`⏳ ${setCount}회분 세트 생성 중...`, true);
+        let fullHTML = '';
+        const allSetData = [];
+
+        for (let s = 0; s < setCount; s++) {
+            const setImages = sets[s];
+            const setLabel = `${s + 1}회차`;
+            const setTitle = `${examTitle} [${setLabel}]`;
+            const imageRatios = await Promise.all(setImages.map(img => analyzeImageRatio(img)));
+            function findExplanationFor(originalName) {
+                const base = originalName.replace(/\.png$/i, '').toLowerCase();
+                let cand = allImages.find(f => f.name.toLowerCase().includes('해설') && f.name.toLowerCase().includes(base));
+                if (cand) return cand;
+                const parts = base.split(/[_\- ]+/).filter(Boolean);
+                for (let p of parts) {
+                    cand = allImages.find(f => f.name.toLowerCase().includes('해설') && f.name.toLowerCase().includes(p));
+                    if (cand) return cand;
+                }
+                return null;
+            }
+            const qrContainerId = `qrCodeContainer_set${s}`;
+            let html = '';
+            let problemNumber = 1;
+            const setTotalPages = Math.ceil(setImages.length / quizPerPage);
+            for (let page = 0; page < setTotalPages; page++) {
+                const start = page * quizPerPage;
+                const pageImages = setImages.slice(start, start + quizPerPage);
+                if (pageImages.length === 0) break;
+                if (quizPerPage === 2) {
+                    if (page === 0) {
+                        html += `<div class="first-page"><div class="exam-header" style="display:flex; align-items:center; justify-content:center;"><div class="exam-title" style="flex:1; text-align:center;">${setTitle}</div>${includeQR ? `<div id="${qrContainerId}" style="flex-shrink:0; width:22mm; height:22mm;"></div>` : ''}</div><div class="problem-grid two-column">`;
+                    } else {
+                        html += `<div class="exam-page"><div class="problem-grid two-column">`;
+                    }
+                    for (let i = 0; i < pageImages.length; i++) {
+                        const imgFile = pageImages[i];
+                        // ✅ [수정] blob URL 대신 미리 변환된 Base64 사용
+                        const imgURL = imgFile.base64Data || await fileToBase64(imgFile);
+                        const filename = imgFile.name.replace(/\.png$/i, '');
+                        html += `<div class="problem-cell"><div class="answer-check"><button class="check-btn" onclick="markAnswer('${imgFile.name.replace(/'/g,"\\'")}', true)">✅</button><button class="check-btn" onclick="markAnswer('${imgFile.name.replace(/'/g,"\\'")}', false)">❌</button></div><div class="problem-header"><span class="number">문제 ${problemNumber}</span>${showFilename ? `<span class="filename">${filename}</span>` : ''}</div><div class="image-container"><img src="${imgURL}" class="problem-image" alt="문제 ${problemNumber}"></div><div class="solution-area"><div class="solution-label">&lt;풀이&gt;</div></div></div>`;
+                        problemNumber++;
+                    }
+                    html += `</div></div>`;
+                } else {
+                    const pageRatios = imageRatios.slice(start, start + quizPerPage);
+                    if (page === 0) {
+                        html += `<div class="first-page"><div class="exam-header" style="display:flex; align-items:center; justify-content:center;"><div class="exam-title" style="flex:1; text-align:center;">${setTitle}</div>${includeQR ? `<div id="${qrContainerId}" style="flex-shrink:0; width:22mm; height:22mm;"></div>` : ''}</div><div class="problem-grid">`;
+                    } else {
+                        html += `<div class="exam-page"><div class="problem-grid">`;
+                    }
+                    let i = 0, gridPosition = 0;
+                    while (i < pageImages.length && gridPosition < 4) {
+                        const imgFile = pageImages[i];
+                        const ratio = pageRatios[i];
+                        // ✅ [수정] blob URL 대신 미리 변환된 Base64 사용
+                        const imgURL = imgFile.base64Data || await fileToBase64(imgFile);
+                        const filename = imgFile.name.replace(/\.png$/i, '');
+                        if (ratio === 'tall' && gridPosition % 2 === 0) {
+                            html += `<div class="problem-cell tall-cell"><div class="answer-check"><button class="check-btn" onclick="markAnswer('${imgFile.name.replace(/'/g,"\\'")}', true)">✅</button><button class="check-btn" onclick="markAnswer('${imgFile.name.replace(/'/g,"\\'")}', false)">❌</button></div><div class="problem-header"><span class="number">문제 ${problemNumber}</span>${showFilename ? `<span class="filename">${filename}</span>` : ''}</div><div class="image-container"><img src="${imgURL}" class="problem-image" alt="문제 ${problemNumber}"></div><div class="solution-area"><div class="solution-label">&lt;풀이&gt;</div></div></div>`;
+                            problemNumber++; i++; gridPosition += 2;
+                        } else {
+                            html += `<div class="problem-cell"><div class="answer-check"><button class="check-btn" onclick="markAnswer('${imgFile.name.replace(/'/g,"\\'")}', true)">✅</button><button class="check-btn" onclick="markAnswer('${imgFile.name.replace(/'/g,"\\'")}', false)">❌</button></div><div class="problem-header"><span class="number">문제 ${problemNumber}</span>${showFilename ? `<span class="filename">${filename}</span>` : ''}</div><div class="image-container"><img src="${imgURL}" class="problem-image" alt="문제 ${problemNumber}"></div><div class="solution-area"><div class="solution-label">&lt;풀이&gt;</div></div></div>`;
+                            problemNumber++; i++; gridPosition++;
+                        }
+                    }
+                    while (gridPosition < 4) { html += `<div class="problem-cell empty-cell"></div>`; gridPosition++; }
+                    html += `</div></div>`;
+                }
+            }
+            // 해설 페이지
+            const explanations = setImages.map((imgFile, idx) => ({ problemNumber: idx + 1, explanationFile: findExplanationFor(imgFile.name) })).filter(item => item.explanationFile);
+            if (explanations.length > 0) {
+                const explPages = Math.ceil(explanations.length / 4);
+                for (let p = 0; p < explPages; p++) {
+                    const pageExpl = explanations.slice(p * 4, p * 4 + 4);
+                    html += `<div class="exam-page"><div class="problem-grid">`;
+                    for (let i = 0; i < 4; i++) {
+                        if (i < pageExpl.length) {
+                            const item = pageExpl[i];
+                            // ✅ [수정] blob URL 대신 미리 변환된 Base64 사용
+                            const u = item.explanationFile.base64Data || await fileToBase64(item.explanationFile);
+                            html += `<div class="problem-cell"><div class="problem-header"><span class="number">해설 ${item.problemNumber}</span></div><div class="image-container" style="max-height:none; flex:1;"><img src="${u}" class="problem-image" style="max-height:none;"></div></div>`;
+                        } else {
+                            html += `<div class="problem-cell" style="border:none;"></div>`;
+                        }
+                    }
+                    html += `</div></div>`;
+                }
+            }
+            // 정답표
+            if (showAnswerSheet && setImages.length > 0) {
+                const answers = setImages.map((img, idx) => ({ num: idx + 1, answer: findAnswer(img) }));
+                const quarterCount = Math.ceil(answers.length / 4);
+                const col1 = answers.slice(0, quarterCount), col2 = answers.slice(quarterCount, quarterCount * 2), col3 = answers.slice(quarterCount * 2, quarterCount * 3), col4 = answers.slice(quarterCount * 3);
+                html += `<div class="exam-page"><div style="padding:6mm;"><h2 style="text-align:center; margin-bottom:12px; border-bottom:2px solid #333; padding-bottom:6px; font-size:14pt;">📋 정답표 — ${setLabel}</h2><table style="width:100%; border-collapse:collapse; font-size:10pt; table-layout:fixed;"><thead><tr style="background:#f0f0f0;"><th style="border:1px solid #333; padding:4px; width:8%;">번호</th><th style="border:1px solid #333; padding:4px; width:17%;">정답</th><th style="border:1px solid #333; padding:4px; width:8%;">번호</th><th style="border:1px solid #333; padding:4px; width:17%;">정답</th><th style="border:1px solid #333; padding:4px; width:8%;">번호</th><th style="border:1px solid #333; padding:4px; width:17%;">정답</th><th style="border:1px solid #333; padding:4px; width:8%;">번호</th><th style="border:1px solid #333; padding:4px; width:17%;">정답</th></tr></thead><tbody>`;
+                for (let i = 0; i < quarterCount; i++) {
+                    html += `<tr>`;
+                    [col1, col2, col3, col4].forEach(col => {
+                        if (col[i]) { html += `<td style="border:1px solid #333; padding:3px; text-align:center; font-weight:bold; font-size:9pt;">${col[i].num}</td><td style="border:1px solid #333; padding:3px; text-align:center; font-size:10pt;">${col[i].answer}</td>`; }
+                        else { html += `<td style="border:1px solid #333; padding:3px;"></td><td style="border:1px solid #333; padding:3px;"></td>`; }
+                    });
+                    html += `</tr>`;
+                }
+                html += `</tbody></table></div></div>`;
+            }
+            if (s < setCount - 1) html += `<div style="page-break-after:always;"></div>`;
+            fullHTML += html;
+            allSetData.push({ setIndex: s, setLabel, setTitle, qrContainerId, problems: setImages.map((img, idx) => ({ number: idx + 1, filename: img.name, correctAnswer: findAnswer(img) })) });
+        }
+
+        document.getElementById('quizSheet').innerHTML = fullHTML;
+        updateAnswerButtons();
+        if (includeQR && typeof QRCode !== 'undefined') {
+            setTimeout(async () => {
+                for (let i = 0; i < allSetData.length; i++) {
+                    const setData = allSetData[i];
+                    await generateAndInsertQR(setData.problems, setData.setTitle, currentStudent, setData.qrContainerId, setData.setIndex);
+                    if (i < allSetData.length - 1) await new Promise(resolve => setTimeout(resolve, 1500));
+                }
+            }, 300);
+        }
+        const baseTime = Date.now();
+        const examTitleVal = document.getElementById('examTitle').value || '오답 학습 문제지';
+        const testType = document.getElementById('testType').value;
+        loadTestPapers();
+        allSetData.forEach((setData, idx) => {
+            const testId = `test_${baseTime + idx}`;
+            testPapers[testId] = { id: testId, studentName: currentStudent, title: setData.setTitle, type: testType, date: new Date().toISOString().split('T')[0], problems: setData.problems.map(p => ({ number: p.number, filename: p.filename, correctAnswer: p.correctAnswer, bookName: extractBookNameFromPath(allImages.find(img => img.name === p.filename)?.webkitRelativePath || p.filename), problemNum: extractProblemNumber(p.filename), difficulty: extractDifficulty(p.filename) })), status: '미채점', createdAt: new Date(baseTime + idx * 1000).toISOString() };
+        });
+        localStorage.setItem('testPapers', JSON.stringify(testPapers));
+        showStatus(`✅ ${setCount}회분 세트 생성 완료! (폴더×난이도 쿼터제 적용)`, true);
+        return; // 아래 기존 로직 실행 안 함
+    }
+    // ── 쿼터제 END ───────────────────────────────────────────────────
 
     if (useDifficultyFilter) {
         const difficulties = ['대표문제', '하', '중하', '중', '중상', '상', 'C단계', '3점', '4점', '미분류'];
@@ -1642,9 +2060,9 @@ async function generateSetQuiz() {
             if (quizPerPage === 2) {
                 if (page === 0) {
                     html += `<div class="first-page">
-                        <div class="exam-header" style="display:flex; align-items:center; justify-content:center; position:relative;">
+                        <div class="exam-header" style="display:flex; align-items:center; justify-content:center;">
                             <div class="exam-title" style="flex:1; text-align:center;">${setTitle}</div>
-                            ${includeQR ? `<div id="${qrContainerId}" style="position:absolute; right:0; top:50%; transform:translateY(-50%); width:22mm; height:22mm;"></div>` : ''}
+                            ${includeQR ? `<div id="${qrContainerId}" style="flex-shrink:0; width:22mm; height:22mm;"></div>` : ''}
                         </div>
                         <div class="problem-grid two-column">`;
                 } else {
@@ -1653,7 +2071,8 @@ async function generateSetQuiz() {
 
                 for (let i = 0; i < pageImages.length; i++) {
                     const imgFile = pageImages[i];
-                    const imgURL = URL.createObjectURL(imgFile);
+                    // ✅ [수정] blob URL 대신 미리 변환된 Base64 사용
+                    const imgURL = imgFile.base64Data || await fileToBase64(imgFile);
                     const filename = imgFile.name.replace(/\.png$/i, '');
                     html += `<div class="problem-cell">
                         <div class="answer-check">
@@ -1676,9 +2095,9 @@ async function generateSetQuiz() {
                 const pageRatios = imageRatios.slice(start, start + quizPerPage);
                 if (page === 0) {
                     html += `<div class="first-page">
-                        <div class="exam-header" style="display:flex; align-items:center; justify-content:center; position:relative;">
+                        <div class="exam-header" style="display:flex; align-items:center; justify-content:center;">
                             <div class="exam-title" style="flex:1; text-align:center;">${setTitle}</div>
-                            ${includeQR ? `<div id="${qrContainerId}" style="position:absolute; right:0; top:50%; transform:translateY(-50%); width:22mm; height:22mm;"></div>` : ''}
+                            ${includeQR ? `<div id="${qrContainerId}" style="flex-shrink:0; width:22mm; height:22mm;"></div>` : ''}
                         </div>
                         <div class="problem-grid">`;
                 } else {
@@ -1689,7 +2108,8 @@ async function generateSetQuiz() {
                 while (i < pageImages.length && gridPosition < 4) {
                     const imgFile = pageImages[i];
                     const ratio = pageRatios[i];
-                    const imgURL = URL.createObjectURL(imgFile);
+                    // ✅ [수정] blob URL 대신 미리 변환된 Base64 사용
+                    const imgURL = imgFile.base64Data || await fileToBase64(imgFile);
                     const filename = imgFile.name.replace(/\.png$/i, '');
 
                     if (ratio === 'tall' && gridPosition % 2 === 0) {
@@ -1744,7 +2164,8 @@ async function generateSetQuiz() {
                 for (let i = 0; i < 4; i++) {
                     if (i < pageExpl.length) {
                         const item = pageExpl[i];
-                        const u = URL.createObjectURL(item.explanationFile);
+                        // ✅ [수정] blob URL 대신 미리 변환된 Base64 사용
+                        const u = item.explanationFile.base64Data || await fileToBase64(item.explanationFile);
                         html += `<div class="problem-cell">
                             <div class="problem-header"><span class="number">해설 ${item.problemNumber}</span></div>
                             <div class="image-container" style="max-height:none; flex:1;"><img src="${u}" class="problem-image" style="max-height:none;"></div>
@@ -1802,7 +2223,7 @@ async function generateSetQuiz() {
 
         fullHTML += html;
 
-        // QR용 문제 데이터 저장
+       // QR용 문제 데이터 저장
         allSetData.push({
             setIndex: s,
             setLabel,
@@ -1811,6 +2232,7 @@ async function generateSetQuiz() {
             problems: setImages.map((img, idx) => ({
                 number: idx + 1,
                 filename: img.name,
+                githubUrl: (typeof img.base64Data === 'string' && img.base64Data.startsWith('http')) ? img.base64Data : '',
                 correctAnswer: findAnswer(img)
             }))
         });
@@ -1820,11 +2242,17 @@ async function generateSetQuiz() {
     document.getElementById('quizSheet').innerHTML = fullHTML;
     updateAnswerButtons();
 
-    // 각 회차별 QR 생성 — 기존 generateAndInsertQR 재사용 (containerId 지정)
+    // 각 회차별 QR 생성 (수정됨: 깃허브 차단을 막기 위해 대기 시간 추가)
     if (includeQR && typeof QRCode !== 'undefined') {
         setTimeout(async () => {
-            for (const setData of allSetData) {
+            for (let i = 0; i < allSetData.length; i++) {
+                const setData = allSetData[i];
                 await generateAndInsertQR(setData.problems, setData.setTitle, currentStudent, setData.qrContainerId, setData.setIndex);
+                
+                // 1회차 끝날 때마다 1.5초(1500ms) 휴식 후 다음 회차 진행 (차단 방지 핵심)
+                if (i < allSetData.length - 1) {
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                }
             }
         }, 300);
     }
@@ -1968,54 +2396,171 @@ async function generateQuiz() {  // ⭐ async 추가!
 const useDifficultyFilter = document.getElementById('useDifficultyFilter').checked;
 let selectedImages;
 
-if (useDifficultyFilter) {
-    // 난이도별 문제 수 추출
-    const difficulties = ['대표문제', '하', '중하', '중', '중상', '상', 'C단계', '3점', '4점', '미분류'];
+// ── 난이도 매칭 헬퍼 함수 ──────────────────────────────
+function matchDifficulty(img, diff) {
+    const fileName = img.name.toLowerCase();
+    const d = diff.toLowerCase();
+    if (diff === 'C단계') {
+        return fileName.includes('_c단계.png') || fileName.includes('-c단계.png') ||
+               fileName.includes('_c.png')    || fileName.includes('-c.png');
+    }
+    if (diff === '3점' || diff === '4점') {
+        return fileName.includes(`_${d}.png`) || fileName.includes(`-${d}.png`) ||
+               fileName.includes(`_${d}`);
+    }
+    return fileName.includes(`_${d}.png`) || fileName.includes(`-${d}.png`);
+}
+
+const difficulties = ['대표문제', '하', '중하', '중', '중상', '상', 'C단계', '3점', '4점', '미분류'];
+const paths = Array.from(selectedFolderPaths);
+const totalPct = paths.reduce((sum, p) => sum + (folderPercentMap[p] || 0), 0);
+const hasValidPercent = paths.length > 0 && Math.abs(totalPct - 100) < 1;
+
+if (useDifficultyFilter && hasValidPercent) {
+    // ── ★ 폴더 비율 × 난이도 교차 쿼터제 (라지스트 리마인더 알고리즘) ──
+    // 예) 수1:40% 수2:40% 확통:20%, 3점5개+4점5개 →
+    //     수1: 3점2개+4점2개, 수2: 3점2개+4점2개, 확통: 3점1개+4점1개
     selectedImages = [];
-    
+
+    // 난이도별 요청 수량 파악
+    const diffCounts = {};
+    difficulties.forEach(diff => {
+        const c = parseInt(document.getElementById(`diff_${diff}`)?.value) || 0;
+        if (c > 0) diffCounts[diff] = c;
+    });
+    const activeDiffs = Object.keys(diffCounts);
+
+    if (activeDiffs.length === 0) {
+        showStatus('⚠️ 난이도 문제 수를 1개 이상 지정해주세요.', false);
+        return;
+    }
+
+    // 정수 배분 헬퍼 - 합이 항상 total과 정확히 일치
+    function distributeExact(total, weights) {
+        const sum = weights.reduce((a, b) => a + b, 0);
+        if (sum === 0) return weights.map(() => 0);
+        const floats = weights.map(w => total * w / sum);
+        const floors = floats.map(f => Math.floor(f));
+        const remainders = floats.map((f, i) => f - floors[i]);
+        let remaining = total - floors.reduce((a, b) => a + b, 0);
+        const indices = remainders.map((_, i) => i).sort((a, b) => remainders[b] - remainders[a]);
+        for (let i = 0; i < remaining; i++) floors[indices[i]]++;
+        return floors;
+    }
+
+    const folderWeights = paths.map(p => folderPercentMap[p] || 0);
+    const diffWeights   = activeDiffs.map(d => diffCounts[d]);
+
+    // 폴더별 총 할당 수 (합 = actualQuizCount, 오차 없음)
+    const folderTotals = distributeExact(actualQuizCount, folderWeights);
+
+    paths.forEach((path, fi) => {
+        const folderTotal = folderTotals[fi];
+        if (folderTotal <= 0) return;
+
+        const folderFiles = getAllFilesRecursive(folderStructure, path)
+            .filter(f => !f.name.toLowerCase().includes('해설'));
+        const folderPool = filteredImages.filter(img =>
+            folderFiles.some(ff => ff.name === img.name && ff.webkitRelativePath === img.webkitRelativePath)
+        );
+
+
+        // 이 폴더 안에서 난이도별 할당 수 (합 = folderTotal, 오차 없음)
+        const diffTotals = distributeExact(folderTotal, diffWeights);
+
+        activeDiffs.forEach((diff, di) => {
+            const cnt = diffTotals[di];
+            if (cnt <= 0) return;
+            const pool = folderPool.filter(img => matchDifficulty(img, diff));
+            let picked;
+            if (sortMode === 'sorted') {
+                picked = pool.sort((a, b) => a.name.localeCompare(b.name)).slice(0, cnt);
+            } else {
+                picked = pool.sort(() => Math.random() - 0.5).slice(0, cnt);
+            }
+            selectedImages.push(...picked);
+        });
+    });
+
+    if (selectedImages.length === 0) {
+        showStatus('⚠️ 폴더 비율×난이도 조건에 맞는 문제가 없습니다. 폴더 및 난이도 설정을 확인하세요.', false);
+        return;
+    }
+    // 최종 섞기
+    if (sortMode !== 'sorted') {
+        selectedImages.sort(() => Math.random() - 0.5);
+    }
+
+} else if (useDifficultyFilter) {
+    // ── 난이도 필터만 적용 (폴더 비율 없음) ──────────────────────
+    selectedImages = [];
     difficulties.forEach(diff => {
         const count = parseInt(document.getElementById(`diff_${diff}`)?.value) || 0;
         if (count > 0) {
-            // 해당 난이도 문제 필터링
-            const diffImages = filteredImages.filter(img => {
-                const fileName = img.name.toLowerCase();
-                const d = diff.toLowerCase();
-                // C단계는 '_c단계' 또는 '-c단계' 또는 '_c' '-c' 패턴
-                if (diff === 'C단계') {
-                    return fileName.includes('_c단계.png') || fileName.includes('-c단계.png') ||
-                           fileName.includes('_c.png')    || fileName.includes('-c.png');
-                }
-                // 3점, 4점
-                if (diff === '3점' || diff === '4점') {
-                    return fileName.includes(`_${d}.png`) || fileName.includes(`-${d}.png`) ||
-                           fileName.includes(`_${d}`);
-                }
-                return fileName.includes(`_${d}.png`) || fileName.includes(`-${d}.png`);
-            });
-            
-            // 랜덤 또는 정렬 선택
+            const diffImages = filteredImages.filter(img => matchDifficulty(img, diff));
             let picked;
             if (sortMode === 'sorted') {
                 picked = diffImages.sort((a,b) => a.name.localeCompare(b.name)).slice(0, count);
             } else {
                 picked = diffImages.sort(() => Math.random() - 0.5).slice(0, count);
             }
-            
             selectedImages.push(...picked);
         }
     });
-    
     if (selectedImages.length === 0) {
         showStatus('⚠️ 지정한 난이도의 문제가 없습니다.', false);
         return;
     }
-    
+
 } else {
-    // 기존 로직 (페이지당 문제 수 방식)
-    if (sortMode === 'sorted') {
-        selectedImages = filteredImages.sort((a,b)=> a.name.localeCompare(b.name)).slice(0, actualQuizCount);
+    // ── 폴더 비율만 적용 (난이도 필터 없음) ──────────────────────
+    if (hasValidPercent) {
+        selectedImages = [];
+        let assigned = 0;
+        const allocations = paths.map((p, i) => {
+            const pct = (folderPercentMap[p] || 0) / 100;
+            const count = i === paths.length - 1
+                ? actualQuizCount - assigned
+                : Math.round(actualQuizCount * pct);
+            assigned += (i === paths.length - 1 ? count : Math.round(actualQuizCount * pct));
+            return { path: p, count: Math.max(0, count) };
+        });
+        assigned = allocations.slice(0, -1).reduce((s, a) => s + a.count, 0);
+        allocations[allocations.length - 1].count = Math.max(0, actualQuizCount - assigned);
+
+        allocations.forEach(({ path, count }) => {
+            if (count <= 0) return;
+            const folderFiles = getAllFilesRecursive(folderStructure, path)
+                .filter(f => !f.name.toLowerCase().includes('해설'));
+            const pool = filteredImages.filter(img =>
+                folderFiles.some(ff => ff.name === img.name && ff.webkitRelativePath === img.webkitRelativePath)
+            );
+            let picked;
+            if (sortMode === 'sorted') {
+                picked = pool.sort((a, b) => a.name.localeCompare(b.name)).slice(0, count);
+            } else {
+                picked = pool.sort(() => Math.random() - 0.5).slice(0, count);
+            }
+            selectedImages.push(...picked);
+        });
+
+        if (selectedImages.length === 0) {
+            showStatus('⚠️ 비율 설정에 맞는 문제가 없습니다. 필터 조건을 확인하세요.', false);
+            return;
+        }
+        if (sortMode !== 'sorted') {
+            selectedImages.sort(() => Math.random() - 0.5);
+        }
     } else {
-        selectedImages = filteredImages.sort(()=> Math.random()-0.5).slice(0, actualQuizCount);
+        // 비율 미설정: 기존 방식
+        if (selectedFolderPaths.size > 0 && paths.length > 0 && totalPct > 0) {
+            showStatus(`⚠️ 폴더 비율 합계가 ${totalPct.toFixed(0)}%입니다. 100%로 설정해야 비율 출제가 적용됩니다. 현재는 전체 랜덤으로 출제합니다.`, true);
+        }
+        if (sortMode === 'sorted') {
+            selectedImages = filteredImages.sort((a,b)=> a.name.localeCompare(b.name)).slice(0, actualQuizCount);
+        } else {
+            selectedImages = filteredImages.sort(()=> Math.random()-0.5).slice(0, actualQuizCount);
+        }
     }
 }
 
@@ -2067,9 +2612,9 @@ for (let page = 0; page < totalPages; page++) {
         if (page === 0) {
             html += `
             <div class="first-page">
-                <div class="exam-header" style="display:flex; align-items:center; justify-content:center; position:relative;">
+                <div class="exam-header" style="display:flex; align-items:center; justify-content:center;">
                     <div class="exam-title" style="flex:1; text-align:center;">${examTitle}</div>
-                    ${includeQR ? `<div id="qrCodeContainer" style="position:absolute; right:0; top:50%; transform:translateY(-50%); width:22mm; height:22mm;"></div>` : ''}
+                    ${includeQR ? `<div id="qrCodeContainer" style="flex-shrink:0; width:22mm; height:22mm;"></div>` : ''}
                 </div>
                 <div class="problem-grid two-column">
             `;
@@ -2080,7 +2625,8 @@ for (let page = 0; page < totalPages; page++) {
         // 2문제 배치
         for (let i = 0; i < pageImages.length; i++) {
             const imgFile = pageImages[i];
-            const imgURL = URL.createObjectURL(imgFile);
+            // ✅ [수정] blob URL 대신 미리 변환된 Base64 사용
+            const imgURL = imgFile.base64Data || await fileToBase64(imgFile);
             const filename = imgFile.name.replace(/\.png$/i, '');
             
             html += `
@@ -2115,9 +2661,9 @@ for (let page = 0; page < totalPages; page++) {
         if (page === 0) {
             html += `
             <div class="first-page">
-                <div class="exam-header" style="display:flex; align-items:center; justify-content:center; position:relative;">
+                <div class="exam-header" style="display:flex; align-items:center; justify-content:center;">
                     <div class="exam-title" style="flex:1; text-align:center;">${examTitle}</div>
-                    ${includeQR ? `<div id="qrCodeContainer" style="position:absolute; right:0; top:50%; transform:translateY(-50%); width:22mm; height:22mm;"></div>` : ''}
+                    ${includeQR ? `<div id="qrCodeContainer" style="flex-shrink:0; width:22mm; height:22mm;"></div>` : ''}
                 </div>
                 <div class="problem-grid">
             `;
@@ -2132,7 +2678,8 @@ for (let page = 0; page < totalPages; page++) {
     while (i < pageImages.length && gridPosition < 4) {
         const imgFile = pageImages[i];
         const ratio = pageRatios[i];
-        const imgURL = URL.createObjectURL(imgFile);
+        // ✅ [수정] blob URL 대신 미리 변환된 Base64 사용
+        const imgURL = imgFile.base64Data || await fileToBase64(imgFile);
         const filename = imgFile.name.replace(/\.png$/i, '');
         
         // 세로로 긴 이미지인 경우 (왼쪽 열에만 배치)
@@ -2193,6 +2740,66 @@ for (let page = 0; page < totalPages; page++) {
 
     html += `</div></div>`;
     } // 4문제 레이아웃 종료
+    // ✅ [수정] 페이지당 2/4문제 외 다른 숫자(6, 8 등)도 처리하는 범용 레이아웃
+    else {
+        const pageRatios = imageRatios.slice(start, end);
+        if (page === 0) {
+            html += `
+            <div class="first-page">
+                <div class="exam-header" style="display:flex; align-items:center; justify-content:center;">
+                    <div class="exam-title" style="flex:1; text-align:center;">${examTitle}</div>
+                    ${includeQR ? `<div id="qrCodeContainer" style="flex-shrink:0; width:22mm; height:22mm;"></div>` : ''}
+                </div>
+                <div class="problem-grid">
+            `;
+        } else {
+            html += `<div class="exam-page"><div class="problem-grid">`;
+        }
+        let i = 0, gridPosition = 0;
+        while (i < pageImages.length && gridPosition < quizPerPage) {
+            const imgFile = pageImages[i];
+            const ratio = pageRatios[i] || 'normal';
+            // ✅ [수정] blob URL 대신 미리 변환된 Base64 사용
+            const imgURL = imgFile.base64Data || await fileToBase64(imgFile);
+            const filename = imgFile.name.replace(/\.png$/i, '');
+            if (ratio === 'tall' && gridPosition % 2 === 0) {
+                html += `
+                <div class="problem-cell tall-cell">
+                    <div class="answer-check">
+                        <button class="check-btn" onclick="markAnswer('${imgFile.name.replace(/'/g,"\\'")}', true)">✅</button>
+                        <button class="check-btn" onclick="markAnswer('${imgFile.name.replace(/'/g,"\\'")}', false)">❌</button>
+                    </div>
+                    <div class="problem-header">
+                        <span class="number">문제 ${problemNumber}</span>
+                        ${showFilename ? `<span class="filename">${filename}</span>` : ''}
+                    </div>
+                    <div class="image-container"><img src="${imgURL}" class="problem-image" alt="문제 ${problemNumber}"></div>
+                    <div class="solution-area"><div class="solution-label">&lt;풀이&gt;</div></div>
+                </div>`;
+                problemNumber++; i++; gridPosition += 2;
+            } else {
+                html += `
+                <div class="problem-cell">
+                    <div class="answer-check">
+                        <button class="check-btn" onclick="markAnswer('${imgFile.name.replace(/'/g,"\\'")}', true)">✅</button>
+                        <button class="check-btn" onclick="markAnswer('${imgFile.name.replace(/'/g,"\\'")}', false)">❌</button>
+                    </div>
+                    <div class="problem-header">
+                        <span class="number">문제 ${problemNumber}</span>
+                        ${showFilename ? `<span class="filename">${filename}</span>` : ''}
+                    </div>
+                    <div class="image-container"><img src="${imgURL}" class="problem-image" alt="문제 ${problemNumber}"></div>
+                    <div class="solution-area"><div class="solution-label">&lt;풀이&gt;</div></div>
+                </div>`;
+                problemNumber++; i++; gridPosition++;
+            }
+        }
+        while (gridPosition < quizPerPage) {
+            html += `<div class="problem-cell empty-cell"></div>`;
+            gridPosition++;
+        }
+        html += `</div></div>`;
+    } // 범용 레이아웃 종료
 }
 
     // 해설 매핑 (문제 순서대로) — 해설은 문제 뒤(마지막)에 붙음
@@ -2213,7 +2820,8 @@ for (let page = 0; page < totalPages; page++) {
             for (let i = 0; i < 4; i++) {
                 if (i < pageExpl.length) {
                     const item = pageExpl[i];
-                    const u = URL.createObjectURL(item.explanationFile);
+                    // ✅ [수정] blob URL 대신 미리 변환된 Base64 사용
+                    const u = item.explanationFile.base64Data || await fileToBase64(item.explanationFile);
                     html += `
                     <div class="problem-cell">
                         <div class="problem-header">
@@ -2337,13 +2945,15 @@ for (let page = 0; page < totalPages; page++) {
     document.getElementById('quizSheet').innerHTML = html;
     updateAnswerButtons();
     
-    // QR 코드 생성 (DOM 렌더 후 실행)
+   // QR 코드 생성 (DOM 렌더 후 실행)
     const includeQRCheck = document.getElementById('includeQR') ? document.getElementById('includeQR').checked : true;
     if (includeQRCheck && typeof QRCode !== 'undefined') {
         setTimeout(() => {
             generateAndInsertQR(
                 selectedImages.map((img, idx) => ({
                     number: idx + 1,
+                    filename: img.name,
+                    githubUrl: (typeof img.base64Data === 'string' && img.base64Data.startsWith('http')) ? img.base64Data : '',
                     correctAnswer: findAnswer(img)
                 })),
                 examTitle,
@@ -2519,27 +3129,23 @@ function clearCSVData() {
     }
 }
 
-// 파일명에서 문제번호 추출
+// 파일명에서 문제번호 추출 (수정됨)
 function extractProblemNumber(filename) {
-    // 다양한 패턴 시도
-    
-    // 패턴 1: "RPM3-1_2.근호를포함한식의계산-05-중.png" → 5
-    let match = filename.match(/-(\d+)-[^-]+\.png$/i);
+    // 1순위: 파일명 마지막(확장자 바로 앞)에 있는 숫자 추출 (예: "방정식_123.png" -> 123)
+    let match = filename.match(/(\d+)(?=\.[^.]+$)/);
     if (match) {
-        return parseInt(match[1]); // 앞의 0 제거
+        return parseInt(match[1]); // 앞의 0을 제거하고 진짜 숫자만 반환
     }
     
-    // 패턴 2: "RPM_0038.jpg" 또는 "쎈_40.jpg" → 38 또는 40
+    // 2순위: 기존 패턴들 대비 (안전장치)
+    match = filename.match(/-(\d+)-[^-]+\.png$/i);
+    if (match) return parseInt(match[1]);
+    
     match = filename.match(/_(\d+)\./i);
-    if (match) {
-        return parseInt(match[1]); // 앞의 0 제거
-    }
+    if (match) return parseInt(match[1]);
     
-    // 패턴 3: "RPM0038.jpg" (언더스코어 없이)
     match = filename.match(/[A-Za-z가-힣]+(\d+)\./i);
-    if (match) {
-        return parseInt(match[1]);
-    }
+    if (match) return parseInt(match[1]);
     
     return null;
 }
@@ -2722,17 +3328,26 @@ async function generateAndInsertQR(problems, examTitle, studentName, containerId
     let qrText = '';
 
     if (hasGithub) {
-        // fileId: 타임스탬프 + 회차인덱스 + 랜덤 → 절대 겹치지 않음
-        const idxPart = (setIndex !== undefined) ? setIndex : Math.floor(Math.random()*999);
-        const randPart = Math.random().toString(36).slice(2, 7);
-        const fileId = Date.now().toString(36) + String(idxPart) + randPart;
+        // ✅ fileId: crypto.randomUUID() 기반으로 절대 충돌 없음 (409 완전 방지)
+        const uuid = (typeof crypto !== 'undefined' && crypto.randomUUID)
+            ? crypto.randomUUID().replace(/-/g, '')
+            : Date.now().toString(36) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+        const idxPart = (setIndex !== undefined) ? String(setIndex) : '0';
+        const fileId = idxPart + uuid;
         const filename = 'answers/' + fileId + '.json';
 
+        // token은 QR URL이 아닌 answers JSON 파일 안에만 저장
+        // → QR에는 짧은 URL만 들어가므로 overflow 없음
+        // → grading.html이 JSON을 다운로드한 뒤 _token으로 결과를 GitHub에 업로드
         const payload = {
-            title: examTitle, student: studentName,
+            title: examTitle,
+            student: studentName,
             date: new Date().toLocaleDateString('ko-KR'),
+            _token: token,
             problems: problems.map(p => ({
                 number: p.number,
+                filename: p.filename || '',
+                githubUrl: p.githubUrl || '',
                 answer: (p.correctAnswer && p.correctAnswer !== '정답없음') ? p.correctAnswer : ''
             }))
         };
@@ -2746,41 +3361,71 @@ async function generateAndInsertQR(problems, examTitle, studentName, containerId
                     'Accept': 'application/vnd.github.v3+json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ message: '시험지 정답 업로드: ' + examTitle, content })
+                body: JSON.stringify({ message: '정답 업로드: ' + examTitle, content })
             });
             if (res.ok) {
+                // QR에는 짧은 URL만 → overflow 불가
                 qrText = `https://${username}.github.io/${repo}/grading.html?id=${fileId}`;
                 console.log('업로드 성공! QR URL:', qrText);
             } else {
                 const err = await res.json();
-                console.error('GitHub 업로드 실패:', err);
-                qrText = buildAnswerCode(problems, examTitle, studentName);
+                console.error('GitHub 업로드 실패 (status ' + res.status + '):', err);
+                // 업로드 실패 시 폴백: 짧은 에러 안내 QR (정답 미포함 → overflow 없음)
+                qrText = `UPLOAD_FAILED|${username}/${repo}|재시도필요`;
             }
         } catch(e) {
             console.error('GitHub 업로드 오류:', e);
-            qrText = buildAnswerCode(problems, examTitle, studentName);
+            qrText = `UPLOAD_FAILED|${username}/${repo}|네트워크오류`;
         }
     } else {
+        // GitHub 미연동 시: 폴백 텍스트 코드
         qrText = buildAnswerCode(problems, examTitle, studentName);
         console.log('QR 코드(GitHub 미연동):', qrText);
     }
 
-    // QR 렌더링 — 완료될 때까지 await으로 대기
+    // QR 렌더링
+    // - GitHub URL 모드: correctLevel M (오류 복원력 중간)
+    // - 폴백 텍스트 모드: correctLevel L (짧은 텍스트 → 작은 QR)
+    const isUrlMode = qrText.startsWith('http');
     container.innerHTML = '';
     await new Promise((resolve) => {
         try {
-            const qr = new QRCode(container, {
+            new QRCode(container, {
                 text: qrText,
-                width: 84, height: 84,
-                colorDark: '#000000', colorLight: '#ffffff',
-                correctLevel: QRCode.CorrectLevel.L
+                width: 256,
+                height: 256,
+                colorDark: '#000000',
+                colorLight: '#ffffff',
+                correctLevel: isUrlMode ? QRCode.CorrectLevel.M : QRCode.CorrectLevel.L
             });
-            // QRCode.js는 내부적으로 setTimeout을 써서 렌더링하므로 100ms 대기
-            setTimeout(resolve, 100);
+            setTimeout(() => {
+                const img = container.querySelector('img');
+                const canvas = container.querySelector('canvas');
+                if (img) { img.style.width = '100%'; img.style.height = '100%'; }
+                if (canvas) { canvas.style.width = '100%'; canvas.style.height = '100%'; }
+                resolve();
+            }, 150);
         } catch(e) {
             console.error('QR 생성 오류:', e);
-            container.innerHTML = '<div style="font-size:7px;color:red;text-align:center">QR오류</div>';
-            resolve();
+            // 최후 폴백: 아주 짧은 텍스트로 재시도 → 이건 절대 overflow 안 남
+            try {
+                new QRCode(container, {
+                    text: 'ERROR:' + (username||'?') + '/' + (repo||'?'),
+                    width: 256, height: 256,
+                    colorDark: '#000000', colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.L
+                });
+                setTimeout(() => {
+                    const img = container.querySelector('img');
+                    const canvas = container.querySelector('canvas');
+                    if (img) { img.style.width = '100%'; img.style.height = '100%'; }
+                    if (canvas) { canvas.style.width = '100%'; canvas.style.height = '100%'; }
+                    resolve();
+                }, 150);
+            } catch(e2) {
+                container.innerHTML = '<div style="font-size:7px;color:red;text-align:center;padding:2px;">QR오류<br>GitHub 설정 확인</div>';
+                resolve();
+            }
         }
     });
     console.log('QR 생성 완료:', id);
@@ -4810,52 +5455,33 @@ function closeResultsViewer() {
     document.getElementById('resultsViewerModal').style.display = 'none';
 }
 
+// ── 메인 화면 모달: 구글 스프레드시트에서 결과 불러오기 ──
+// ── 메인 화면 모달: 구글 스프레드시트에서 결과 불러오기 ──
 async function loadResults() {
-    const username = localStorage.getItem('gh_username');
-    const repo     = localStorage.getItem('gh_repo');
-    const token    = localStorage.getItem('gh_token');
-    const status   = document.getElementById('resultsLoadStatus');
+    const googleScriptUrl = "https://script.google.com/macros/s/AKfycbyneXMqQ_HozdzHSO6qCo7IOsVo7bz9zM2v_dQbgStcejSAh3z-OP3pH2uCT2TCFlUItA/exec";
+    
+    const status = document.getElementById('resultsLoadStatus');
     const container = document.getElementById('resultsContainer');
     const filterStudent = document.getElementById('resultsFilterStudent')?.value || '';
-
-    if (!username || !repo || !token) {
-        container.innerHTML = '<div style="color:#e53935; padding:20px; text-align:center;">⚠️ GitHub 설정을 먼저 저장해주세요.</div>';
-        return;
-    }
 
     status.textContent = '불러오는 중...';
     container.innerHTML = '<div style="text-align:center; color:#aaa; padding:30px;">⏳ 로딩 중...</div>';
 
     try {
-        const res = await fetch(`https://api.github.com/repos/${username}/${repo}/contents/results`, {
-            headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' }
-        });
-
-        if (res.status === 404) {
-            container.innerHTML = '<div style="text-align:center; color:#aaa; padding:30px;">아직 저장된 채점 결과가 없습니다.<br><small>학생이 QR 채점을 완료하면 여기서 확인할 수 있어요.</small></div>';
-            status.textContent = '';
-            return;
-        }
+        const res = await fetch(googleScriptUrl);
         if (!res.ok) throw new Error('HTTP ' + res.status);
 
-        const files = await res.json();
-        let resultFiles = files.filter(f => f.name.endsWith('_result.json')).reverse();
-
-        if (resultFiles.length === 0) {
-            container.innerHTML = '<div style="text-align:center; color:#aaa; padding:30px;">아직 채점 결과가 없습니다.</div>';
-            status.textContent = '';
-            return;
+        const fetchedData = await res.json();
+        
+        if (fetchedData.status === "error") {
+            throw new Error(fetchedData.message);
         }
 
-        // 최대 30개 로드
-        const toLoad = resultFiles.slice(0, 30);
-        const results = await Promise.all(toLoad.map(async f => {
-            try { const r = await fetch(f.download_url); return await r.json(); }
-            catch(e) { return null; }
-        }));
+        // 최신 데이터가 위로 오게 배열 순서 뒤집기
+        let results = fetchedData.reverse();
 
         // 학생 필터 적용
-        const filtered = results.filter(Boolean).filter(r => !filterStudent || r.student === filterStudent);
+        const filtered = results.filter(r => !filterStudent || r.student === filterStudent);
 
         status.textContent = filtered.length + '개 결과';
 
@@ -4866,12 +5492,14 @@ async function loadResults() {
 
         let html = '';
         filtered.forEach(r => {
-            const pct = r.pct || 0;
+            const pct = r.score || 0;
             const color = pct >= 90 ? '#4CAF50' : pct >= 70 ? '#2196F3' : pct >= 50 ? '#FF9800' : '#f44336';
             const bg    = pct >= 90 ? '#f0fff4' : pct >= 70 ? '#e3f2fd' : pct >= 50 ? '#fff8e1' : '#fff5f5';
+            
+            // 상세 결과(results)에서 틀린 문제 번호 추출
             const wrongNums = (r.results || []).filter(x => !x.correct).map(x => x.number + '번').join(', ');
-            const correctCount = (r.results || []).filter(x => x.correct).length;
-            const totalCount = (r.results || []).length;
+            const correctCount = r.correct || 0;
+            const totalCount = r.total || 0;
 
             html += `
             <div style="border:1px solid #eee; border-radius:10px; padding:14px; margin-bottom:10px; background:${bg};">
@@ -4881,7 +5509,7 @@ async function loadResults() {
                         <span style="font-size:12px; color:#666; margin-left:8px;">${r.title || ''}</span>
                     </div>
                     <div style="text-align:right;">
-                        <div style="font-size:22px; font-weight:bold; color:${color};">${r.score !== undefined ? r.score + '점' : '-'}</div>
+                        <div style="font-size:22px; font-weight:bold; color:${color};">${pct}점</div>
                         <div style="font-size:11px; color:#888;">${correctCount}/${totalCount} 정답</div>
                     </div>
                 </div>
@@ -4898,6 +5526,111 @@ async function loadResults() {
     } catch(e) {
         container.innerHTML = `<div style="color:#e53935; padding:20px; text-align:center;">오류: ${e.message}</div>`;
         status.textContent = '';
+    }
+}
+// ── 깃허브에서 폴더 및 이미지 목록 불러오기 ──
+// ── 깃허브에서 폴더, 이미지, 정답지(CSV) 한 번에 불러오기 ──
+async function loadImagesFromGithub() {
+    // 👇 선생님의 깃허브 저장소 이름 (필요하면 나중에 쉼표로 계속 추가 가능!)
+    const repos = [
+        { owner: 'routinemath', repo: 'math-images-test' }
+    ];
+
+    showStatus('☁️ 깃허브에서 문제와 정답지를 동기화하는 중입니다...', true);
+    
+    // 기존 데이터 싹 비우기
+    folderStructure = {};
+    csvDataMap = {}; 
+    let totalImages = 0;
+    let totalCsvs = 0;
+
+    try {
+        for (const {owner, repo} of repos) {
+            // 1. 깃허브의 전체 폴더 트리 가져오기
+            const treeUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/main?recursive=1&t=${Date.now()}`;
+            const res = await fetch(treeUrl);
+            if (!res.ok) throw new Error(`${repo} 저장소 연결 실패`);
+            const data = await res.json();
+
+            // 2. 파일 분류 (이미지와 CSV)
+            const imageNodes = data.tree.filter(item => item.type === 'blob' && item.path.match(/\.(png|jpg|jpeg)$/i));
+            const csvNodes = data.tree.filter(item => item.type === 'blob' && item.path.match(/\.csv$/i));
+
+            // 3. 이미지 파일 세팅
+            imageNodes.forEach(item => {
+                const filename = item.path.split('/').pop();
+                const fileUrl = `https://raw.githubusercontent.com/${owner}/${repo}/main/${item.path}`;
+
+                const mockFile = {
+                    name: filename,
+                    webkitRelativePath: `${repo}/${item.path}`,
+                    base64Data: fileUrl
+                };
+                totalImages++;
+
+                const parts = mockFile.webkitRelativePath.split('/');
+                let current = folderStructure;
+                for (let i = 0; i < parts.length - 1; i++) {
+                    const folderName = parts[i];
+                    if (!current[folderName]) current[folderName] = { files: [], subfolders: {} };
+                    if (i < parts.length - 2) current = current[folderName].subfolders;
+                }
+                if (parts.length >= 2) {
+                    const lastFolderName = parts[parts.length - 2];
+                    let folder = folderStructure;
+                    for (let i = 0; i < parts.length - 2; i++) folder = folder[parts[i]].subfolders;
+                    if (folder[lastFolderName]) folder[lastFolderName].files.push(mockFile);
+                }
+            });
+
+            // 4. CSV 정답지 내용 읽어오기 (✨새로 추가된 마법!)
+            for (const item of csvNodes) {
+                const csvUrl = `https://raw.githubusercontent.com/${owner}/${repo}/main/${item.path}`;
+                const csvRes = await fetch(csvUrl);
+                if (!csvRes.ok) continue;
+                
+                const text = await csvRes.text();
+                // 파일명에서 확장자(.csv) 떼고 교재명으로 사용
+                const bookName = item.path.split('/').pop().replace('.csv', '');
+                
+                const lines = text.split('\n').filter(line => line.trim());
+                const csvData = {};
+                
+                for (let i = 1; i < lines.length; i++) { // 첫 줄(헤더) 제외
+                    const line = lines[i].trim();
+                    if (!line) continue;
+                    
+                    const firstCommaIndex = line.indexOf(',');
+                    if (firstCommaIndex === -1) continue;
+                    
+                    const numStr = line.substring(0, firstCommaIndex).trim();
+                    let answer = line.substring(firstCommaIndex + 1).trim();
+                    
+                    if (answer.startsWith('"') && answer.endsWith('"')) {
+                        answer = answer.substring(1, answer.length - 1);
+                    }
+                    
+                    const num = parseInt(numStr);
+                    if (!isNaN(num)) {
+                        csvData[num] = answer;
+                        csvData[numStr] = answer; 
+                    }
+                }
+                csvDataMap[bookName] = csvData;
+                totalCsvs++;
+            }
+        }
+
+        // 화면 갱신
+        displayFolderTree(folderStructure);
+        document.getElementById('folderExplorer').style.display = 'block';
+        updateCSVStatus(); // 읽어온 CSV 목록을 화면에 예쁘게 띄워줌
+        
+        showStatus(`✅ 깃허브에서 이미지 ${totalImages}개, 정답지 ${totalCsvs}개를 성공적으로 불러왔습니다!`, true);
+
+    } catch (e) {
+        console.error(e);
+        showStatus('❌ 깃허브 로드 오류: ' + e.message, false);
     }
 }
 </script>

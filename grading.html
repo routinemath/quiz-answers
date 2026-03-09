@@ -343,6 +343,8 @@ async function uploadResultToGitHub(correct, total, pct) {
       total,
       results: examData.problems.map(p => ({
         number:        p.number,
+        filename:      p.filename  || '',
+        githubUrl:     p.githubUrl || '',
         userAnswer:    p.userAns   || '',
         correctAnswer: p.answer    || '',
         correct:       p.ok        || false,

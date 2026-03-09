@@ -467,10 +467,15 @@ function showDetail(idx) {
     <div class="mrow"><span class="lbl">정답</span><span>${r.correct||0} / ${r.total||0} 문제</span></div>
     <div class="mrow"><span class="lbl">제출 시각</span><span class="ts">${esc(r.gradedAt||'–')}</span></div>
     <div style="margin:16px 0 8px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">문제별 결과</div>`;
+    
   (r.results||[]).forEach(p => {
     const meta = p.metaReason ? `<span class="meta-tag">${esc(p.metaReason)}</span>` : '';
-    html += `<div class="mrow">
-      <span class="lbl">${p.number}번</span>
+    // 👇 이미지가 있으면 클릭해서 크게 볼 수 있는 썸네일 생성!
+    const imgThumb = p.githubUrl ? `<img src="${p.githubUrl}" style="height:40px; border-radius:4px; border:1px solid #ddd; cursor:pointer;" onclick="window.open('${p.githubUrl}')" title="크게 보기">` : '';
+    
+    html += `<div class="mrow" style="align-items:center;">
+      <span class="lbl" style="width:40px;">${p.number}번</span>
+      <div style="flex:1; display:flex; align-items:center;">${imgThumb}</div>
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
         <span>${p.correct?'✅ 정답':'❌ 오답'}</span>
         ${!p.correct&&p.userAnswer?`<span style="color:var(--muted);font-size:12px;">학생 답: ${esc(p.userAnswer)}</span>`:''}
