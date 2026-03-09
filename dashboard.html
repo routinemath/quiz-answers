@@ -503,9 +503,11 @@ function showDetail(idx) {
     
   (r.results||[]).forEach(p => {
     const meta = p.metaReason ? `<span class="meta-tag">${esc(p.metaReason)}</span>` : '';
-    // 👇 이미지가 있으면 클릭해서 크게 볼 수 있는 썸네일 생성!
     const imgThumb = p.githubUrl ? `<img src="${p.githubUrl}" style="height:40px; border-radius:4px; border:1px solid #ddd; cursor:pointer;" onclick="window.open('${p.githubUrl}')" title="크게 보기">` : '';
     
+    // 🛒 핵심! 오답일 경우에만 [장바구니 담기] 버튼 생성
+    const cartBtn = p.githubUrl && !p.correct ? `<button class="btn btn-sm" style="background:var(--accent);color:white;border:none;margin-left:8px;cursor:pointer;padding:4px 8px;" onclick="addToCart('${p.githubUrl}', '${p.filename||''}', '${p.correctAnswer||p.answer||''}', '${p.number}', '${esc(r.student)}')">+ 담기</button>` : '';
+
     html += `<div class="mrow" style="align-items:center;">
       <span class="lbl" style="width:40px;">${p.number}번</span>
       <div style="flex:1; display:flex; align-items:center;">${imgThumb}</div>
@@ -513,6 +515,7 @@ function showDetail(idx) {
         <span>${p.correct?'✅ 정답':'❌ 오답'}</span>
         ${!p.correct&&p.userAnswer?`<span style="color:var(--muted);font-size:12px;">학생 답: ${esc(p.userAnswer)}</span>`:''}
         ${meta}
+        ${cartBtn}
       </div>
     </div>`;
   });
@@ -587,7 +590,51 @@ function showDetailByData(data) {
   filteredResults[dummyIdx] = data;
   showDetail(dummyIdx);
 }
+// ── 🛒 스마트 오답 장바구니 시스템 ──
+let wrongCart = JSON.parse(localStorage.getItem('mathWrongCart') || '[]');
 
+function updateCartUI() {
+  let panel = document.getElementById('cartPanel');
+  if (!panel) {
+    // 둥둥 떠다니는 장바구니 UI를 자동으로 만듭니다
+    panel = document.createElement('div');
+    panel.id = 'cartPanel';
+    panel.innerHTML = `<span>🛒 오답 장바구니</span> <span id="cartCount" style="background:white;color:var(--accent);padding:2px 8px;border-radius:12px;margin:0 8px;">0</span> <span style="font-size:12px;">복습지 만들기 ➔</span>`;
+    panel.style.cssText = 'position:fixed;bottom:24px;left:24px;background:var(--accent);color:white;padding:12px 20px;border-radius:30px;box-shadow:0 4px 12px rgba(0,0,0,0.3);display:none;align-items:center;z-index:900;cursor:pointer;font-weight:bold;transition:transform 0.2s;';
+    panel.onmouseover = () => panel.style.transform = 'translateY(-3px)';
+    panel.onmouseout = () => panel.style.transform = 'translateY(0)';
+    panel.onclick = goToPrint;
+    document.body.appendChild(panel);
+  }
+  
+  if (wrongCart.length > 0) {
+    panel.style.display = 'flex';
+    document.getElementById('cartCount').textContent = wrongCart.length;
+  } else {
+    panel.style.display = 'none';
+  }
+}
+
+function addToCart(githubUrl, filename, answer, number, student) {
+  if (wrongCart.some(item => item.githubUrl === githubUrl)) { toast('이미 장바구니에 담긴 문제입니다.'); return; }
+  
+  // 임시 파일명과 정답을 기억해 둡니다
+  const safeFilename = filename || `오답_${student}_${number}번_${Date.now()}.png`;
+  wrongCart.push({ githubUrl: githubUrl, name: safeFilename, answer: answer });
+  
+  localStorage.setItem('mathWrongCart', JSON.stringify(wrongCart));
+  updateCartUI();
+  toast(`🛒 장바구니에 담았습니다! (총 ${wrongCart.length}문제)`);
+}
+
+function goToPrint() {
+  if (confirm(`장바구니에 담긴 ${wrongCart.length}문제로 오답 복습지를 만드시겠습니까?`)) {
+    window.open('index_고등수정v8.html', '_blank'); // 선생님의 시험지 만들기 창을 엽니다
+  }
+}
+
+// 화면 켜질 때 장바구니 업데이트
+setTimeout(updateCartUI, 500);
 
 </script>
 </body>
