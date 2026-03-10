@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>채점 결과 대시보드</title>
+<title>스마트 채점 대시보드</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -22,15 +22,23 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 .ts{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
 
-#cfg{background:var(--surface);border-bottom:1px solid var(--border);padding:18px 24px;display:none;}
-#cfg.open{display:block;}
-.cfg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
-.cfg-field label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;}
-.cfg-field input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px 12px;font-size:13px;font-family:'DM Mono',monospace;outline:none;}
-.cfg-field input:focus{border-color:var(--accent);}
-
 .main{padding:22px 24px;max-width:1300px;margin:0 auto;}
 
+/* 학생 카드 그리드 */
+.student-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; margin-top: 20px; }
+.student-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; cursor: pointer; transition: transform 0.2s, border-color 0.2s; position: relative; overflow: hidden; }
+.student-card::before { content:''; position:absolute; top:0; left:0; width:4px; height:100%; background:var(--accent); border-radius:var(--radius) 0 0 var(--radius); }
+.student-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+.student-card .name { font-size: 20px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.student-card .stat { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-bottom: 6px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+.student-card .stat:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.student-card .val { font-family: 'DM Mono', monospace; font-weight: bold; color: var(--text); }
+
+/* 디테일 화면 헤더 */
+.detail-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.detail-header h2 { font-size: 24px; font-weight: 900; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+
+/* 기존 스타일 유지 */
 .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px;}
 .scard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;position:relative;overflow:hidden;}
 .scard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0;}
@@ -39,13 +47,9 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 .scard .val{font-size:30px;font-weight:900;font-family:'DM Mono',monospace;line-height:1;}
 .scard.c1 .val{color:var(--accent)}.scard.c2 .val{color:var(--accent2)}.scard.c3 .val{color:var(--green)}.scard.c4 .val{color:var(--yellow)}.scard.c5 .val{color:var(--red)}
 
-.twocol{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
-@media(max-width:860px){.twocol{grid-template-columns:1fr}.main{padding:14px}.topbar{padding:12px 14px}.topbar-btns{flex-wrap:wrap;gap:6px;}}
-
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:18px;}
 .card-hd{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
 .card-hd h2{font-size:14px;font-weight:700;}
-.card-hd .sub{font-size:12px;color:var(--muted);}
 .card-bd{padding:14px 18px;}
 
 .tbl{width:100%;border-collapse:collapse;}
@@ -65,13 +69,6 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 .bar-fill{height:100%;border-radius:3px;transition:width .6s ease;}
 .bar-pct{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;min-width:30px;text-align:right;}
 
-.prob-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:7px;}
-.pcell{background:var(--surface2);border-radius:8px;padding:9px 4px;text-align:center;cursor:pointer;transition:transform .15s;}
-.pcell:hover{transform:translateY(-2px);}
-.pcell .pn{font-size:11px;color:var(--muted);margin-bottom:4px;font-family:'DM Mono',monospace;}
-.pcell .pr{font-size:16px;font-weight:900;font-family:'DM Mono',monospace;line-height:1;}
-.pcell .ps{font-size:9px;color:var(--muted);margin-top:3px;}
-
 .wtags{display:flex;flex-wrap:wrap;gap:4px;}
 .wtag{display:inline-block;padding:2px 7px;background:rgba(255,94,94,.12);color:var(--red);border-radius:4px;font-size:11px;font-family:'DM Mono',monospace;}
 
@@ -79,7 +76,6 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 .btn:hover{opacity:.85;}
 .btn-p{background:var(--accent);color:#fff;}
 .btn-g{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
-.btn-d{background:rgba(255,94,94,.15);color:var(--red);border:1px solid rgba(255,94,94,.3);}
 .btn-sm{padding:4px 9px;font-size:11px;}
 
 .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 20px;color:var(--muted);gap:10px;font-size:14px;text-align:center;}
@@ -87,110 +83,75 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 
 #modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;align-items:center;justify-content:center;padding:20px;}
 #modal.open{display:flex;}
-.mbox{background:var(--surface);border:1px solid var(--border);border-radius:18px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;padding:26px;}
+.mbox{background:var(--surface);border:1px solid var(--border);border-radius:18px;max-width:550px;width:100%;max-height:90vh;overflow-y:auto;padding:26px;}
 .mbox h3{font-size:16px;margin-bottom:16px;}
-.mrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.mrow{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
 .mrow:last-child{border-bottom:none;}
 .mrow .lbl{color:var(--muted);}
 .meta-tag{font-size:11px;padding:2px 8px;border-radius:12px;background:rgba(162,89,255,.15);color:var(--accent2);}
 
-.filter-bar{padding:10px 18px;border-bottom:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
-.filter-bar select{background:var(--surface2);border:1px solid var(--border);border-radius:7px;color:var(--text);padding:6px 10px;font-size:12px;outline:none;}
-
 #toast{position:fixed;bottom:24px;right:24px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 16px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.4);transform:translateY(16px);opacity:0;transition:all .3s;z-index:999;}
 #toast.show{transform:translateY(0);opacity:1;}
-
-@keyframes newrow{from{background:rgba(79,138,255,.15)}to{background:transparent}}
-.new-row td{animation:newrow 3s ease forwards;}
-
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <h1>📊 채점 <span>대시보드</span></h1>
-  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;" class="topbar-btns">
+  <h1>📊 스마트 <span>대시보드</span></h1>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
     <span class="ts"><span class="live-dot"></span><span id="lastUpdated">–</span></span>
-    <button class="btn btn-g btn-sm" onclick="toggleCfg()">⚙️ GitHub 설정</button>
-    <button class="btn btn-d btn-sm" onclick="deleteAllResults()">🗑️ 전체 삭제</button>
     <button class="btn btn-p btn-sm" onclick="loadResults()">🔄 새로고침</button>
   </div>
 </div>
 
-<div id="cfg">
-  <div class="cfg-grid">
-    <div class="cfg-field"><label>GitHub 사용자명</label><input id="cfgUser" placeholder="예: myname"></div>
-    <div class="cfg-field"><label>저장소(Repo) 이름</label><input id="cfgRepo" placeholder="예: quiz-answers"></div>
-    <div class="cfg-field"><label>Personal Access Token</label><input id="cfgToken" type="password" placeholder="ghp_xxxxxxxxxxxx"></div>
+<div id="mainView" class="main">
+  <div style="margin-bottom: 20px;">
+    <h2 style="font-size: 20px; font-weight: 700;">👥 학생 목록</h2>
+    <p style="color: var(--muted); font-size: 13px; margin-top: 5px;">상세 기록을 보려면 학생 카드를 클릭하세요.</p>
   </div>
-  <div style="margin-top:12px;display:flex;gap:8px;">
-    <button class="btn btn-p btn-sm" onclick="saveCfg()">💾 저장 후 불러오기</button>
-    <button class="btn btn-g btn-sm" onclick="toggleCfg()">닫기</button>
+  <div id="studentGrid" class="student-grid">
+    </div>
+  <div id="studentEmpty" class="empty" style="display:none; margin-top: 40px;">
+    <div class="ico">📭</div>
+    <div>아직 제출된 결과가 없습니다.</div>
   </div>
-  <p style="margin-top:10px;font-size:12px;color:var(--muted);">💡 GitHub Pages가 활성화된 Public 저장소와 token이 필요합니다. token은 이 브라우저에만 저장됩니다.</p>
 </div>
 
-<div class="main">
+<div id="detailView" class="main" style="display:none;">
+  <div class="detail-header">
+    <h2 id="detailTitle">👤 학생 이름</h2>
+    <button class="btn btn-g" onclick="showMainView()">⬅️ 전체 목록으로 돌아가기</button>
+  </div>
 
   <div class="summary">
-    <div class="scard c1"><div class="lbl">총 제출</div><div class="val" id="sTot">–</div></div>
-    <div class="scard c3"><div class="lbl">평균 점수</div><div class="val" id="sAvg">–</div></div>
-    <div class="scard c2"><div class="lbl">최고 점수</div><div class="val" id="sMax">–</div></div>
-    <div class="scard c5"><div class="lbl">최저 점수</div><div class="val" id="sMin">–</div></div>
-    <div class="scard c4"><div class="lbl">오늘 제출</div><div class="val" id="sToday">–</div></div>
+    <div class="scard c1"><div class="lbl">총 제출</div><div class="val" id="dTot">–</div></div>
+    <div class="scard c3"><div class="lbl">평균 점수</div><div class="val" id="dAvg">–</div></div>
+    <div class="scard c2"><div class="lbl">최고 점수</div><div class="val" id="dMax">–</div></div>
   </div>
 
-  <div class="card">
-    <div class="filter-bar">
-      <select id="fStudent" onchange="renderTable()"><option value="">전체 학생</option></select>
-      <select id="fTitle" onchange="renderTable()"><option value="">전체 시험지</option></select>
-      <select id="fScore" onchange="renderTable()">
-        <option value="">점수 전체</option>
-        <option value="high">80점 이상</option>
-        <option value="mid">60~79점</option>
-        <option value="low">60점 미만</option>
-      </select>
-      <select id="fSort" onchange="renderTable()">
-        <option value="newest">최신순</option>
-        <option value="score_desc">점수 높은 순</option>
-        <option value="score_asc">점수 낮은 순</option>
-        <option value="student">학생명순</option>
-      </select>
-    </div>
-    <div style="overflow-x:auto;">
-      <table class="tbl">
-        <thead><tr>
-          <th>학생</th><th>시험지</th><th>점수</th><th>정답률</th><th>오답 문제</th><th>제출 시각</th><th></th>
-        </tr></thead>
-        <tbody id="tbody"></tbody>
-      </table>
-    </div>
-    <div id="tableEmpty" class="empty" style="display:none;">
-      <div class="ico">📭</div>
-      <div>아직 제출된 결과가 없습니다.</div>
-      <div style="font-size:12px;">학생이 QR 채점을 완료하면 여기에 자동으로 표시됩니다.</div>
-    </div>
-  </div>
-
-  <div class="twocol">
+  <div style="display: grid; grid-template-columns: 1fr 300px; gap: 18px;">
+    
     <div class="card" style="margin-bottom:0;">
-      <div class="card-hd"><h2>📉 문제별 오답률</h2><span class="sub" id="probSub">–</span></div>
-      <div class="card-bd"><div class="prob-grid" id="probGrid"><div class="empty" style="grid-column:1/-1"><div class="ico">📊</div><div>데이터 없음</div></div></div></div>
+      <div class="card-hd"><h2>📉 점수 성장 타임라인</h2></div>
+      <div style="overflow-x:auto;">
+        <table class="tbl">
+          <thead><tr>
+            <th>시험지</th><th>점수 과정</th><th>최종 정답률</th><th>오답 문제</th><th>최근 제출</th><th>상세</th>
+          </tr></thead>
+          <tbody id="detailTbody"></tbody>
+        </table>
+      </div>
+      <div id="detailTableEmpty" class="empty" style="display:none;">데이터 없음</div>
     </div>
+
     <div class="card" style="margin-bottom:0;">
-      <div class="card-hd"><h2>🧠 오답 원인 분석</h2><span class="sub" id="metaSub">–</span></div>
-      <div class="card-bd" id="metaChart"><div class="empty"><div class="ico">🧐</div><div>데이터 없음</div></div></div>
+      <div class="card-hd"><h2>🧠 주요 오답 원인</h2></div>
+      <div class="card-bd" id="detailMetaChart">
+        <div class="empty"><div class="ico">🧐</div><div>데이터 없음</div></div>
+      </div>
     </div>
-  </div>
 
-  <div class="card">
-    <div class="card-hd"><h2>👥 학생별 성취 현황</h2><span class="sub" id="studentSub">–</span></div>
-    <div class="card-bd" id="studentChart"><div class="empty"><div class="ico">👤</div><div>데이터 없음</div></div></div>
   </div>
-
 </div>
 
 <div id="modal">
@@ -207,340 +168,220 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 
 <script>
 let allResults = [];
-let filteredResults = [];
-let refreshTimer = null;
-let prevCount = 0;
+let filteredResults = []; // 상세 보기용 배열
+let currentDetailStudent = ''; // 현재 보고 있는 학생 이름
 
 window.onload = function() {
-  loadCfg();
-  loadResults(); // 깃허브 토큰 검사 없이 무조건 데이터 불러오기
-  refreshTimer = setInterval(() => { loadResults(); }, 30000);
+  loadResults();
 };
 
-function getCfg() {
-  return {
-    user:  localStorage.getItem('db_gh_user')  || '',
-    repo:  localStorage.getItem('db_gh_repo')  || '',
-    token: localStorage.getItem('db_gh_token') || ''
-  };
-}
-function loadCfg() {
-  const c = getCfg();
-  document.getElementById('cfgUser').value  = c.user;
-  document.getElementById('cfgRepo').value  = c.repo;
-  document.getElementById('cfgToken').value = c.token;
-}
-function saveCfg() {
-  const u = document.getElementById('cfgUser').value.trim();
-  const r = document.getElementById('cfgRepo').value.trim();
-  const t = document.getElementById('cfgToken').value.trim();
-  if (!u||!r||!t) { toast('⚠️ 모든 항목을 입력해주세요'); return; }
-  localStorage.setItem('db_gh_user', u);
-  localStorage.setItem('db_gh_repo', r);
-  localStorage.setItem('db_gh_token', t);
-  toggleCfg();
-  loadResults();
-}
-function toggleCfg() {
-  document.getElementById('cfg').classList.toggle('open');
-}
-
-// ── 구글 스프레드시트에서 결과 불러오기 ──
+// ── 1. 구글 스프레드시트에서 데이터 불러오기 ──
 async function loadResults() {
-  // 👇 아까 학생용 코드에 넣었던 것과 똑같은 구글 스크립트 URL을 여기에 넣으세요!
+  // 👇 선생님의 구글 스크립트 주소 (변경하지 마세요)
   const googleScriptUrl = "https://script.google.com/macros/s/AKfycbyneXMqQ_HozdzHSO6qCo7IOsVo7bz9zM2v_dQbgStcejSAh3z-OP3pH2uCT2TCFlUItA/exec";
   
-  document.getElementById('lastUpdated').textContent = '불러오는 중...';
+  document.getElementById('lastUpdated').textContent = '데이터 불러오는 중...';
   try {
-    // 구글 서버에 데이터 요청 (GET)
     const res = await fetch(googleScriptUrl);
-    if (!res.ok) throw new Error('데이터를 불러올 수 없습니다. (' + res.status + ')');
+    if (!res.ok) throw new Error('데이터 로드 실패');
     
-    // 구글 스크립트가 엑셀 데이터를 깔끔한 JSON 배열로 변환해서 돌려줍니다.
     const fetchedData = await res.json();
+    if (fetchedData.status === "error") throw new Error(fetchedData.message);
+
+    allResults = fetchedData;
+    document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString('ko-KR') + ' 업데이트 완료';
     
-    if (fetchedData.status === "error") {
-      throw new Error(fetchedData.message);
+    // 데이터 불러온 후 메인 화면 다시 그리기
+    renderMainView();
+    
+    // 만약 상세 화면을 보고 있는 중이었다면 상세 화면도 새로고침
+    if (currentDetailStudent && document.getElementById('detailView').style.display === 'block') {
+      openStudentDetail(currentDetailStudent);
     }
-
-    const newResults = fetchedData;
-    const isNew = newResults.length > prevCount && prevCount > 0;
-    prevCount = newResults.length;
-    allResults = newResults;
-    
-    // 대시보드 화면 다시 그리기
-    renderAll();
-
-    document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString('ko-KR') + ' 업데이트';
-    if (isNew) toast(`🔔 새 채점 결과가 도착했습니다!`);
-    
   } catch(e) {
-    document.getElementById('lastUpdated').textContent = '오류: ' + e.message;
-    toast('❌ 불러오기 실패: ' + e.message);
+    document.getElementById('lastUpdated').textContent = '오류 발생';
+    toast('❌ 데이터 불러오기 실패: ' + e.message);
   }
 }
 
-function renderAll() {
-  updateSummary();
-  updateFilters();
-  renderTable();
-  renderProbGrid();
-  renderMetaChart();
-  renderStudentChart();
-}
-
-function updateSummary() {
-  if (!allResults.length) {
-    ['sTot','sAvg','sMax','sMin','sToday'].forEach(id => document.getElementById(id).textContent = '–');
+// ── 2. 메인 화면: 학생 명찰(카드) 그리기 ──
+function renderMainView() {
+  const grid = document.getElementById('studentGrid');
+  const empty = document.getElementById('studentEmpty');
+  
+  if (allResults.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'flex';
     return;
   }
-  const scores = allResults.map(x => x.score||0);
-  const todayStr = new Date().toLocaleDateString('ko-KR');
-  const todayCnt = allResults.filter(r => {
-    try { return r.gradedAt && r.gradedAt.includes(new Date().toLocaleDateString('ko-KR').replace(/\./g,'').replace(/ /g,'')); }
-    catch { return false; }
-  }).length;
-  document.getElementById('sTot').textContent   = allResults.length;
-  document.getElementById('sAvg').textContent   = Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) + '%';
-  document.getElementById('sMax').textContent   = Math.max(...scores) + '%';
-  document.getElementById('sMin').textContent   = Math.min(...scores) + '%';
-  // 오늘 제출 — gradedAt이 '2025. 1. 1. 오전 9:00:00' 형식이므로 날짜 앞부분만 비교
-  const todayFull = new Date().toLocaleDateString('ko-KR');
-  const todayCnt2 = allResults.filter(r => r.gradedAt && r.gradedAt.startsWith(todayFull.split('.')[0].trim())).length;
-  // fallback: 파일명 타임스탬프 기반 (더 정확)
-  const nowTs = Date.now();
-  const oneDayMs = 86400000;
-  const todayCnt3 = allResults.filter(r => {
-    const fname = r._fname || '';
-    const tsHex = fname.split('_')[0];
-    const ts = parseInt(tsHex, 36);
-    return !isNaN(ts) && (nowTs - ts) < oneDayMs;
-  }).length;
-  document.getElementById('sToday').textContent = todayCnt3;
-}
+  empty.style.display = 'none';
 
-function updateFilters() {
-  const students = [...new Set(allResults.map(r=>r.student).filter(Boolean))].sort();
-  const titles   = [...new Set(allResults.map(r=>r.title).filter(Boolean))].sort();
-  const fS = document.getElementById('fStudent'), prevS = fS.value;
-  const fT = document.getElementById('fTitle'),   prevT = fT.value;
-  fS.innerHTML = '<option value="">전체 학생</option>' + students.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
-  fT.innerHTML = '<option value="">전체 시험지</option>' + titles.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join('');
-  if (prevS) fS.value = prevS;
-  if (prevT) fT.value = prevT;
-}
-
-function renderTable() {
-  const fS  = document.getElementById('fStudent').value;
-  const fT  = document.getElementById('fTitle').value;
-  const fSc = document.getElementById('fScore').value;
-  const fSo = document.getElementById('fSort').value;
-
-  // 1. 기본 필터링
-  let baseResults = allResults.filter(r => {
-    if (fS && r.student !== fS) return false;
-    if (fT && r.title !== fT) return false;
-    if (fSc === 'high' && (r.score||0) < 80) return false;
-    if (fSc === 'mid'  && ((r.score||0) < 60 || (r.score||0) >= 80)) return false;
-    if (fSc === 'low'  && (r.score||0) >= 60) return false;
-    return true;
+  // 학생별로 데이터 묶기
+  const studentMap = {};
+  allResults.forEach(r => {
+    const s = r.student || '이름 없음';
+    if (!studentMap[s]) studentMap[s] = { scores: [], count: 0, lastDate: '' };
+    
+    studentMap[s].scores.push(r.score || 0);
+    studentMap[s].count++;
+    
+    // 가장 최근 제출 시간 기록
+    if (!studentMap[s].lastDate || r.gradedAt > studentMap[s].lastDate) {
+      studentMap[s].lastDate = r.gradedAt;
+    }
   });
 
-  // 2. 학생+시험지 기준으로 그룹화
-  const groups = {};
-  const timeSorted = [...baseResults].sort((a, b) => (a._fname||'').localeCompare(b._fname||''));
+  // 학생 이름순으로 정렬해서 카드 만들기
+  let html = '';
+  Object.keys(studentMap).sort().forEach(name => {
+    const data = studentMap[name];
+    const avg = Math.round(data.scores.reduce((a,b)=>a+b,0) / data.count);
+    const col = avg >= 80 ? 'var(--green)' : avg >= 60 ? 'var(--accent)' : 'var(--red)';
+    
+    html += `
+      <div class="student-card" onclick="openStudentDetail('${esc(name)}')">
+        <div class="name">👤 ${esc(name)}</div>
+        <div class="stat"><span>총 제출</span> <span class="val">${data.count}회</span></div>
+        <div class="stat"><span>평균 점수</span> <span class="val" style="color:${col};">${avg}점</span></div>
+        <div class="stat"><span>최근 제출</span> <span class="val" style="font-size:11px; color:var(--muted);">${esc(data.lastDate)}</span></div>
+      </div>
+    `;
+  });
+  
+  grid.innerHTML = html;
+}
 
+// ── 3. 화면 전환 로직 ──
+function showMainView() {
+  document.getElementById('detailView').style.display = 'none';
+  document.getElementById('mainView').style.display = 'block';
+  currentDetailStudent = '';
+}
+
+function openStudentDetail(studentName) {
+  currentDetailStudent = studentName;
+  document.getElementById('mainView').style.display = 'none';
+  document.getElementById('detailView').style.display = 'block';
+  document.getElementById('detailTitle').innerHTML = `👤 ${esc(studentName)} 학생 기록`;
+  
+  const studentData = allResults.filter(r => (r.student || '이름 없음') === studentName);
+  renderStudentDetail(studentData);
+}
+
+// ── 4. 학생 상세 화면: 타임라인 표 & 오답 차트 그리기 ──
+function renderStudentDetail(data) {
+  // 요약 카드 업데이트
+  const scores = data.map(r => r.score || 0);
+  document.getElementById('dTot').textContent = data.length + '회';
+  document.getElementById('dAvg').textContent = Math.round(scores.reduce((a,b)=>a+b,0)/data.length) + '점';
+  document.getElementById('dMax').textContent = Math.max(...scores) + '점';
+
+  // 오답 원인(메타인지) 차트 업데이트
+  renderMetaChart(data);
+
+  // 성장 타임라인 표 그리기 (시험지별 묶기)
+  const groups = {};
+  const timeSorted = [...data].sort((a, b) => (a._fname||'').localeCompare(b._fname||''));
+  
   timeSorted.forEach(r => {
-    const key = r.student + '|||' + r.title;
-    if (!groups[key]) {
-      groups[key] = { student: r.student, title: r.title, attempts: [] };
-    }
+    const key = r.title; // 학생은 이미 한 명이므로 시험지 제목만 키로 사용
+    if (!groups[key]) groups[key] = { title: r.title, attempts: [] };
     groups[key].attempts.push(r);
   });
 
-  // 3. 그룹 배열 만들기 및 정렬
-  let groupArray = Object.values(groups);
-  groupArray.sort((a, b) => {
-    const lastA = a.attempts[a.attempts.length - 1];
-    const lastB = b.attempts[b.attempts.length - 1];
-    if (fSo==='score_desc') return (lastB.score||0)-(lastA.score||0);
-    if (fSo==='score_asc')  return (lastA.score||0)-(lastB.score||0);
-    if (fSo==='student')    return (a.student||'').localeCompare(b.student||'');
-    return (lastB._fname||'').localeCompare(lastA._fname||'');
-  });
+  const groupArray = Object.values(groups).reverse(); // 최신 시험지가 위로 오게
+  const tb = document.getElementById('detailTbody');
+  
+  filteredResults = groupArray.map(g => g.attempts[g.attempts.length - 1]); // 팝업창(showDetail)을 위한 배열
 
-  const tb = document.getElementById('tbody');
-  if (!groupArray.length) {
+  if (groupArray.length === 0) {
     tb.innerHTML = '';
-    document.getElementById('tableEmpty').style.display = 'flex';
-    filteredResults = []; 
+    document.getElementById('detailTableEmpty').style.display = 'flex';
     return;
   }
-  document.getElementById('tableEmpty').style.display = 'none';
+  document.getElementById('detailTableEmpty').style.display = 'none';
 
-  // 4. 핵심 해결책: 상세창이 꼬이지 않도록 배열을 '최신 결과물'들로 예쁘게 맞춰줍니다.
-  filteredResults = groupArray.map(g => g.attempts[g.attempts.length - 1]);
-
-  // 5. 표 그리기
   tb.innerHTML = groupArray.map((g, idx) => {
-    const latest = filteredResults[idx]; // 최신 결과
-    const pct = latest.score||0;
-    const cls = pct>=80?'hi':pct>=60?'md':pct<40?'fl':'lo';
+    const latest = filteredResults[idx];
+    const pct = latest.score || 0;
+    const cls = pct >= 80 ? 'hi' : pct >= 60 ? 'md' : 'fl';
+    
+    // 점수 오르는 과정
     const timeline = g.attempts.map(a => `${a.score||0}%`).join(' ➔ ');
     
-    // 🔥 핵심 수정: 모든 회차를 뒤져서 '한 번이라도 틀렸던 문제'를 싹 수집합니다.
+    // 지금까지 한 번이라도 틀렸던 문제 모으기
     let everWrong = new Set();
     g.attempts.forEach(a => {
-        (a.results||[]).forEach(p => {
-            if (!p.correct) everWrong.add(p.number);
-        });
+        (a.results||[]).forEach(p => { if (!p.correct) everWrong.add(p.number); });
     });
-    // 번호 순서대로 예쁘게 정렬
     const wrongs = Array.from(everWrong).sort((a,b)=>a-b).map(x=>x+'번');
     const wrongHtml = wrongs.length ? wrongs.map(w=>`<span class="wtag">${w}</span>`).join('') : '<span style="color:var(--green);font-size:12px;">처음부터 100점! 🎉</span>';
 
     return `<tr>
-      <td><strong>${esc(g.student)}</strong></td>
-      <td style="color:var(--muted);font-size:12px;">${esc(g.title)} <span style="color:var(--accent); font-weight:bold;">[${g.attempts.length}회차]</span></td>
-      <td><div style="font-weight:bold; color:var(--yellow); margin-bottom:4px; font-size:11px;">${timeline}</div><span class="badge ${cls}">${pct}%</span></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:${pct}%;background:${pct>=80?'var(--green)':pct>=60?'var(--accent)':'var(--red)'}"></div></div><span class="bar-pct">${latest.correct||0}/${latest.total||0}</span></div></td>
+      <td style="font-weight:bold;">${esc(g.title)} <span style="font-size:11px; color:var(--accent); font-weight:normal; margin-left:4px;">[${g.attempts.length}회]</span></td>
+      <td><div style="font-weight:bold; color:var(--yellow); font-size:12px; letter-spacing:0.5px;">${timeline}</div></td>
+      <td><span class="badge ${cls}">${pct}%</span></td>
       <td><div class="wtags">${wrongHtml}</div></td>
       <td class="ts">${esc(latest.gradedAt||'–')}</td>
-      <td><button class="btn btn-g btn-sm" onclick="showDetail(${idx})">상세</button></td>
+      <td><button class="btn btn-g btn-sm" onclick="showDetail(${idx})">상세 기록</button></td>
     </tr>`;
   }).join('');
 }
 
-function renderProbGrid() {
-  if (!allResults.length) {
-    document.getElementById('probGrid').innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="ico">📊</div><div>데이터 없음</div></div>';
-    document.getElementById('probSub').textContent = '–'; return;
-  }
-  const totMap={}, wrongMap={};
-  allResults.forEach(r => {
-    (r.results||[]).forEach(p => {
-      totMap[p.number]  = (totMap[p.number]||0)+1;
-      if (!p.correct) wrongMap[p.number] = (wrongMap[p.number]||0)+1;
-    });
-  });
-  const nums = Object.keys(totMap).map(Number).sort((a,b)=>a-b);
-  document.getElementById('probSub').textContent = nums.length + '문제';
-  document.getElementById('probGrid').innerHTML = nums.map(n => {
-    const tot=totMap[n]||1, wrong=wrongMap[n]||0;
-    const rate=Math.round(wrong/tot*100);
-    const col=rate>=70?'var(--red)':rate>=40?'var(--yellow)':'var(--green)';
-    return `<div class="pcell" onclick="showProbDetail(${n})" title="${n}번: ${wrong}/${tot}명 오답">
-      <div class="pn">${n}번</div>
-      <div class="pr" style="color:${col}">${rate}%</div>
-      <div class="ps">오답률</div>
-    </div>`;
-  }).join('');
-}
-
-function renderMetaChart() {
-  const counts={};
-  const labelMap={'계산실수':'🧮 계산 실수','집중력부족':'😵 문제 잘못 읽음','조건활용못함':'⚙️ 조건 활용 못함','식세우기어려움':'🧩 식 세우기 어려움','개념연결못함':'📖 개념 모름'};
-  allResults.forEach(r => {
+// 특정 학생의 오답 원인 분석 차트
+function renderMetaChart(data) {
+  const counts = {};
+  const labelMap = {'계산실수':'🧮 계산 실수','집중력부족':'😵 문제 잘못 읽음','조건활용못함':'⚙️ 조건 활용 못함','식세우기어려움':'🧩 식 세우기 어려움','개념연결못함':'📖 개념 모름','기타':'❓ 기타'};
+  
+  data.forEach(r => {
     (r.results||[]).forEach(p => {
       if (!p.metaReason) return;
-      const key = Object.keys(labelMap).find(k=>p.metaReason.includes(k)) || p.metaReason;
-      counts[key]=(counts[key]||0)+1;
+      const key = Object.keys(labelMap).find(k => p.metaReason.includes(k)) || p.metaReason;
+      counts[key] = (counts[key] || 0) + 1;
     });
   });
-  const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
-  if (!entries.length) {
-    document.getElementById('metaChart').innerHTML = '<div class="empty"><div class="ico">🧐</div><div>메타인지 데이터 없음</div></div>';
-    document.getElementById('metaSub').textContent = '–'; return;
+
+  const entries = Object.entries(counts).sort((a,b) => b[1] - a[1]);
+  if (entries.length === 0) {
+    document.getElementById('detailMetaChart').innerHTML = '<div class="empty"><div class="ico">🧐</div><div>오답 원인 데이터가 없습니다.</div></div>';
+    return;
   }
-  const max=entries[0][1];
-  document.getElementById('metaSub').textContent = entries.reduce((a,b)=>a+b[1],0)+'건';
-  document.getElementById('metaChart').innerHTML = entries.map(([key,cnt]) => {
-    const label=labelMap[key]||key, pct=Math.round(cnt/max*100);
-    return `<div style="margin-bottom:10px;">
-      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>${label}</span><span style="color:var(--muted);font-family:'DM Mono',monospace;">${cnt}건</span></div>
-      <div class="bar"><div class="bar-fill" style="width:${pct}%;background:var(--accent2)"></div></div>
+
+  const max = entries[0][1];
+  document.getElementById('detailMetaChart').innerHTML = entries.map(([key, cnt]) => {
+    const label = labelMap[key] || key;
+    const pct = Math.round(cnt / max * 100);
+    return `<div style="margin-bottom:12px;">
+      <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; font-weight:bold;"><span>${label}</span><span style="color:var(--accent);">${cnt}번</span></div>
+      <div class="bar" style="height:8px;"><div class="bar-fill" style="width:${pct}%; background:var(--accent)"></div></div>
     </div>`;
   }).join('');
 }
 
-function renderStudentChart() {
-  if (!allResults.length) {
-    document.getElementById('studentChart').innerHTML = '<div class="empty"><div class="ico">👤</div><div>데이터 없음</div></div>';
-    document.getElementById('studentSub').textContent = '–'; return;
-  }
-  const map={};
-  allResults.forEach(r => {
-    const s=r.student||'?';
-    if (!map[s]) map[s]={scores:[],cnt:0};
-    map[s].scores.push(r.score||0);
-    map[s].cnt++;
-  });
-  const students = Object.entries(map)
-    .map(([name,d])=>({name,avg:Math.round(d.scores.reduce((a,b)=>a+b,0)/d.scores.length),cnt:d.cnt}))
-    .sort((a,b)=>b.avg-a.avg);
-  document.getElementById('studentSub').textContent = students.length+'명';
-  document.getElementById('studentChart').innerHTML = students.map(s => {
-    const col=s.avg>=80?'var(--green)':s.avg>=60?'var(--accent)':'var(--red)';
-    const cls=s.avg>=80?'hi':s.avg>=60?'md':'fl';
-    return `<div style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);">
-      <div style="min-width:70px;font-size:13px;font-weight:600;">${esc(s.name)}</div>
-      <div style="flex:1;"><div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:${s.avg}%;background:${col}"></div></div><span class="bar-pct">${s.avg}%</span></div></div>
-      <span class="badge ${cls}">${s.avg}%</span>
-      <span style="font-size:11px;color:var(--muted);">${s.cnt}회 제출</span>
-    </div>`;
-  }).join('');
-}
-
+// ── 5. 상세 모달창 (장바구니 기능 포함 - 변경 없음) ──
 function showDetail(idx) {
   const r = filteredResults[idx]; if (!r) return;
-  document.getElementById('mTitle').textContent = `📋 ${r.student} — ${r.title}`;
-  const pct=r.score||0, cls=pct>=80?'hi':pct>=60?'md':'fl';
+  document.getElementById('mTitle').textContent = `📋 ${r.title} 상세 기록`;
+  const pct = r.score||0; const cls = pct>=80?'hi':pct>=60?'md':'fl';
+  
   let html = `
-    <div class="mrow"><span class="lbl">점수</span><span class="badge ${cls}">${pct}%</span></div>
-    <div class="mrow"><span class="lbl">정답</span><span>${r.correct||0} / ${r.total||0} 문제</span></div>
-    <div class="mrow"><span class="lbl">제출 시각</span><span class="ts">${esc(r.gradedAt||'–')}</span></div>
-    <div style="margin:16px 0 8px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">문제별 결과</div>`;
+    <div class="mrow"><span class="lbl">최종 점수</span><span class="badge ${cls}">${pct}%</span></div>
+    <div class="mrow"><span class="lbl">최종 정답</span><span style="font-weight:bold;">${r.correct||0} / ${r.total||0} 문제</span></div>
+    <div style="margin:20px 0 10px;font-size:12px;font-weight:bold;color:var(--muted);">문제별 오답 기록 및 장바구니 담기</div>`;
     
   (r.results||[]).forEach(p => {
     const meta = p.metaReason ? `<span class="meta-tag">${esc(p.metaReason)}</span>` : '';
-    const imgThumb = p.githubUrl ? `<img src="${p.githubUrl}" style="height:40px; border-radius:4px; border:1px solid #ddd; cursor:pointer;" onclick="window.open('${p.githubUrl}')" title="크게 보기">` : '';
-    
-    // 🛒 핵심! 오답일 경우에만 [장바구니 담기] 버튼 생성
-    const cartBtn = p.githubUrl && !p.correct ? `<button class="btn btn-sm" style="background:var(--accent);color:white;border:none;margin-left:8px;cursor:pointer;padding:4px 8px;" onclick="addToCart('${p.githubUrl}', '${p.filename||''}', '${p.correctAnswer||p.answer||''}', '${p.number}', '${esc(r.student)}')">+ 담기</button>` : '';
+    const imgThumb = p.githubUrl ? `<img src="${p.githubUrl}" style="height:45px; border-radius:4px; border:1px solid #ddd; cursor:pointer;" onclick="window.open('${p.githubUrl}')" title="크게 보기">` : '';
+    const cartBtn = p.githubUrl && !p.correct ? `<button class="btn btn-sm" style="background:var(--accent);color:white;border:none;margin-left:8px;cursor:pointer;padding:6px 10px;" onclick="addToCart('${p.githubUrl}', '${p.filename||''}', '${p.correctAnswer||p.answer||''}', '${p.number}', '${esc(r.student)}')">+ 장바구니 담기</button>` : '';
 
     html += `<div class="mrow" style="align-items:center;">
-      <span class="lbl" style="width:40px;">${p.number}번</span>
+      <span class="lbl" style="width:40px; font-weight:bold;">${p.number}번</span>
       <div style="flex:1; display:flex; align-items:center;">${imgThumb}</div>
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
-        <span>${p.correct?'✅ 정답':'❌ 오답'}</span>
-        ${!p.correct&&p.userAnswer?`<span style="color:var(--muted);font-size:12px;">학생 답: ${esc(p.userAnswer)}</span>`:''}
+        <span style="font-weight:bold; color:${p.correct ? 'var(--green)' : 'var(--red)'}">${p.correct?'✅ 정답':'❌ 오답'}</span>
+        ${!p.correct&&p.userAnswer?`<span style="color:var(--muted);font-size:12px;">(학생 답: ${esc(p.userAnswer)})</span>`:''}
         ${meta}
         ${cartBtn}
-      </div>
-    </div>`;
-  });
-  document.getElementById('mBody').innerHTML = html;
-  document.getElementById('modal').classList.add('open');
-}
-
-function showProbDetail(num) {
-  const relevant = allResults.filter(r=>(r.results||[]).some(p=>p.number===num));
-  const wrongCount = relevant.filter(r=>{const p=(r.results||[]).find(x=>x.number===num);return p&&!p.correct;}).length;
-  document.getElementById('mTitle').textContent = `📊 ${num}번 문제 분석`;
-  let html = `
-    <div class="mrow"><span class="lbl">응시 인원</span><span>${relevant.length}명</span></div>
-    <div class="mrow"><span class="lbl">오답 인원</span><span style="color:var(--red)">${wrongCount}명</span></div>
-    <div class="mrow"><span class="lbl">오답률</span><span style="color:var(--red)">${relevant.length?Math.round(wrongCount/relevant.length*100):0}%</span></div>
-    <div style="margin:16px 0 8px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">학생별</div>`;
-  relevant.forEach(r => {
-    const p=(r.results||[]).find(x=>x.number===num); if(!p) return;
-    const meta = p.metaReason ? `<span class="meta-tag">${esc(p.metaReason)}</span>` : '';
-    html += `<div class="mrow">
-      <span>${esc(r.student||'?')}</span>
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
-        <span>${p.correct?'✅':'❌'}</span>
-        ${!p.correct&&p.userAnswer?`<span style="color:var(--muted);font-size:12px;">${esc(p.userAnswer)}</span>`:''}
-        ${meta}
       </div>
     </div>`;
   });
@@ -551,52 +392,20 @@ function showProbDetail(num) {
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 document.getElementById('modal').addEventListener('click', e => { if(e.target===document.getElementById('modal')) closeModal(); });
 
-async function deleteAllResults() {
-  if (!confirm('GitHub의 results 폴더 내 파일을 모두 삭제하시겠습니까?\n(되돌릴 수 없습니다)')) return;
-  const {user,repo,token}=getCfg();
-  if (!token) { toast('⚠️ 설정을 먼저 저장해주세요'); return; }
-  try {
-    const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/results`,
-      {headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json'}});
-    if (!res.ok) { toast('삭제 실패: '+res.status); return; }
-    const files = await res.json();
-    toast(`🗑️ ${files.length}개 파일 삭제 중...`);
-    await Promise.all(files.map(f=>fetch(`https://api.github.com/repos/${user}/${repo}/contents/${f.path}`,{
-      method:'DELETE',
-      headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body:JSON.stringify({message:'결과 삭제',sha:f.sha})
-    })));
-    allResults=[]; renderAll(); prevCount=0;
-    toast('✅ 전체 삭제 완료');
-  } catch(e) { toast('❌ 삭제 오류: '+e.message); }
-}
-
-let toastTimer;
 function toast(msg) {
-  const el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>el.classList.remove('show'),3500);
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(window.toastTimer);
+  window.toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
 }
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-function esc(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-// 이 함수는 파일 맨 끝의 </script> 바로 위에 붙여넣으세요!
-function showDetailByData(data) {
-  // 가짜 인덱스를 만들어 기존 상세창 기능을 속여서 띄웁니다.
-  const dummyIdx = 99999;
-  allResults[dummyIdx] = data; 
-  filteredResults[dummyIdx] = data;
-  showDetail(dummyIdx);
-}
-// ── 🛒 스마트 오답 장바구니 시스템 ──
+// ── 🛒 스마트 오답 장바구니 시스템 (변경 없음) ──
 let wrongCart = JSON.parse(localStorage.getItem('mathWrongCart') || '[]');
 
 function updateCartUI() {
   let panel = document.getElementById('cartPanel');
   if (!panel) {
-    // 둥둥 떠다니는 장바구니 UI를 자동으로 만듭니다
     panel = document.createElement('div');
     panel.id = 'cartPanel';
     panel.innerHTML = `<span>🛒 오답 장바구니</span> <span id="cartCount" style="background:white;color:var(--accent);padding:2px 8px;border-radius:12px;margin:0 8px;">0</span> <span style="font-size:12px;">복습지 만들기 ➔</span>`;
@@ -617,25 +426,20 @@ function updateCartUI() {
 
 function addToCart(githubUrl, filename, answer, number, student) {
   if (wrongCart.some(item => item.githubUrl === githubUrl)) { toast('이미 장바구니에 담긴 문제입니다.'); return; }
-  
-  // 임시 파일명과 정답을 기억해 둡니다
   const safeFilename = filename || `오답_${student}_${number}번_${Date.now()}.png`;
   wrongCart.push({ githubUrl: githubUrl, name: safeFilename, answer: answer });
-  
   localStorage.setItem('mathWrongCart', JSON.stringify(wrongCart));
   updateCartUI();
   toast(`🛒 장바구니에 담았습니다! (총 ${wrongCart.length}문제)`);
 }
 
 function goToPrint() {
-  if (confirm(`장바구니에 담긴 ${wrongCart.length}문제로 오답 복습지를 만드시겠습니까?`)) {
-    window.open('index_고등수정v8.html', '_blank'); // 선생님의 시험지 만들기 창을 엽니다
+  if (confirm(`장바구니에 담긴 ${wrongCart.length}문제로 맞춤형 복습지를 만드시겠습니까?`)) {
+    window.open('index_고등수정v8.html', '_blank'); 
   }
 }
 
-// 화면 켜질 때 장바구니 업데이트
 setTimeout(updateCartUI, 500);
-
 </script>
 </body>
 </html>
