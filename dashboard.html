@@ -38,7 +38,6 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 .detail-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
 .detail-header h2 { font-size: 24px; font-weight: 900; color: var(--accent); display: flex; align-items: center; gap: 10px; }
 
-/* 기존 스타일 유지 */
 .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px;}
 .scard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;position:relative;overflow:hidden;}
 .scard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0;}
@@ -64,11 +63,6 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 .badge.lo{background:rgba(245,200,66,.15);color:var(--yellow)}
 .badge.fl{background:rgba(255,94,94,.15);color:var(--red)}
 
-.bar-wrap{display:flex;align-items:center;gap:8px;}
-.bar{flex:1;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;}
-.bar-fill{height:100%;border-radius:3px;transition:width .6s ease;}
-.bar-pct{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;min-width:30px;text-align:right;}
-
 .wtags{display:flex;flex-wrap:wrap;gap:4px;}
 .wtag{display:inline-block;padding:2px 7px;background:rgba(255,94,94,.12);color:var(--red);border-radius:4px;font-size:11px;font-family:'DM Mono',monospace;}
 
@@ -90,6 +84,9 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 .mrow .lbl{color:var(--muted);}
 .meta-tag{font-size:11px;padding:2px 8px;border-radius:12px;background:rgba(162,89,255,.15);color:var(--accent2);}
 
+.cfg-field{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px 12px;font-size:13px;outline:none;}
+.cfg-field:focus{border-color:var(--accent);}
+
 #toast{position:fixed;bottom:24px;right:24px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 16px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.4);transform:translateY(16px);opacity:0;transition:all .3s;z-index:999;}
 #toast.show{transform:translateY(0);opacity:1;}
 </style>
@@ -100,6 +97,7 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
   <h1>📊 스마트 <span>대시보드</span></h1>
   <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
     <span class="ts"><span class="live-dot"></span><span id="lastUpdated">–</span></span>
+    <button class="btn btn-g btn-sm" style="border-color:var(--accent); color:var(--accent);" onclick="openManualGrade()">📝 수기 채점 추가</button>
     <button class="btn btn-p btn-sm" onclick="loadResults()">🔄 새로고침</button>
   </div>
 </div>
@@ -109,11 +107,9 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
     <h2 style="font-size: 20px; font-weight: 700;">👥 학생 목록</h2>
     <p style="color: var(--muted); font-size: 13px; margin-top: 5px;">상세 기록을 보려면 학생 카드를 클릭하세요.</p>
   </div>
-  <div id="studentGrid" class="student-grid">
-    </div>
+  <div id="studentGrid" class="student-grid"></div>
   <div id="studentEmpty" class="empty" style="display:none; margin-top: 40px;">
-    <div class="ico">📭</div>
-    <div>아직 제출된 결과가 없습니다.</div>
+    <div class="ico">📭</div><div>아직 제출된 결과가 없습니다.</div>
   </div>
 </div>
 
@@ -122,198 +118,155 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
     <h2 id="detailTitle">👤 학생 이름</h2>
     <button class="btn btn-g" onclick="showMainView()">⬅️ 전체 목록으로 돌아가기</button>
   </div>
-
   <div class="summary">
     <div class="scard c1"><div class="lbl">총 제출</div><div class="val" id="dTot">–</div></div>
     <div class="scard c3"><div class="lbl">평균 점수</div><div class="val" id="dAvg">–</div></div>
     <div class="scard c2"><div class="lbl">최고 점수</div><div class="val" id="dMax">–</div></div>
   </div>
-
   <div style="display: grid; grid-template-columns: 1fr 300px; gap: 18px;">
-    
     <div class="card" style="margin-bottom:0;">
       <div class="card-hd"><h2>📉 점수 성장 타임라인</h2></div>
       <div style="overflow-x:auto;">
         <table class="tbl">
-          <thead><tr>
-            <th>시험지</th><th>점수 과정</th><th>최종 정답률</th><th>오답 문제</th><th>최근 제출</th><th>상세</th>
-          </tr></thead>
+          <thead><tr><th>시험지</th><th>점수 과정</th><th>최종 정답률</th><th>오답 문제</th><th>최근 제출</th><th>상세</th></tr></thead>
           <tbody id="detailTbody"></tbody>
         </table>
       </div>
       <div id="detailTableEmpty" class="empty" style="display:none;">데이터 없음</div>
     </div>
-
     <div class="card" style="margin-bottom:0;">
       <div class="card-hd"><h2>🧠 주요 오답 원인</h2></div>
-      <div class="card-bd" id="detailMetaChart">
-        <div class="empty"><div class="ico">🧐</div><div>데이터 없음</div></div>
-      </div>
+      <div class="card-bd" id="detailMetaChart"><div class="empty"><div class="ico">🧐</div><div>데이터 없음</div></div></div>
     </div>
-
   </div>
 </div>
 
 <div id="modal">
   <div class="mbox">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-      <h3 id="mTitle">상세 결과</h3>
+      <h3 id="mTitle">상세 기록</h3>
       <button class="btn btn-g btn-sm" onclick="closeModal()">✕ 닫기</button>
     </div>
     <div id="mBody"></div>
   </div>
 </div>
 
+<div id="manualModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:1000; align-items:center; justify-content:center; padding:20px;">
+   <div class="mbox" style="max-width:650px; width:100%; max-height:90vh;">
+      <h3 style="font-size:18px; color:var(--accent); margin-bottom:15px;">📝 초고속 수기 채점</h3>
+      
+      <div style="background:var(--surface2); padding:15px; border-radius:8px; margin-bottom:15px;">
+         <label style="font-size:12px; color:var(--muted); display:block; margin-bottom:5px;">1. 채점할 시험지 선택 (Index 연동)</label>
+         <select id="mgSelectTest" class="cfg-field" onchange="selectMgTest()" style="margin-bottom:10px;">
+            <option value="">-- 시험지를 선택하세요 --</option>
+         </select>
+         
+         <div style="display:flex; gap:10px;">
+            <input id="mgStudent" placeholder="학생 이름" class="cfg-field" readonly style="background:var(--bg); color:var(--muted);">
+            <input id="mgTitle" placeholder="시험지 제목" class="cfg-field" readonly style="background:var(--bg); color:var(--muted);">
+            <input type="number" id="mgTotal" style="display:none;"> </div>
+      </div>
+
+      <p style="font-size:12px; color:var(--muted); margin-bottom:15px;">💡 모두 <b>'정답(✅)'</b> 처리되어 있습니다. <b>틀린 문제 번호를 클릭</b>해서 오답 원인을 체크하세요.</p>
+      
+      <div id="mgGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(100px, 1fr)); gap:10px; max-height:40vh; overflow-y:auto; padding-right:5px;">
+          <div style="grid-column:1/-1; text-align:center; padding:20px; color:var(--muted);">👆 먼저 위에서 채점할 시험지를 선택해주세요.</div>
+      </div>
+      
+      <div style="margin-top:20px; text-align:right; border-top:1px solid var(--border); padding-top:16px;">
+         <button class="btn btn-g" onclick="closeMg()">취소</button>
+         <button class="btn btn-p" onclick="submitMg()">🚀 채점 완료 및 깃허브 전송</button>
+      </div>
+   </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
+// (기존에 있던 대시보드 핵심 기능들은 그대로 둡니다)
 let allResults = [];
-let filteredResults = []; // 상세 보기용 배열
-let currentDetailStudent = ''; // 현재 보고 있는 학생 이름
+let filteredResults = [];
+let currentDetailStudent = '';
 
-window.onload = function() {
-  loadResults();
-};
+window.onload = function() { loadResults(); };
 
-// ── 1. 구글 스프레드시트에서 데이터 불러오기 ──
 async function loadResults() {
-  // 👇 선생님의 구글 스크립트 주소 (변경하지 마세요)
   const googleScriptUrl = "https://script.google.com/macros/s/AKfycbyneXMqQ_HozdzHSO6qCo7IOsVo7bz9zM2v_dQbgStcejSAh3z-OP3pH2uCT2TCFlUItA/exec";
-  
   document.getElementById('lastUpdated').textContent = '데이터 불러오는 중...';
   try {
     const res = await fetch(googleScriptUrl);
     if (!res.ok) throw new Error('데이터 로드 실패');
-    
     const fetchedData = await res.json();
     if (fetchedData.status === "error") throw new Error(fetchedData.message);
-
     allResults = fetchedData;
     document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString('ko-KR') + ' 업데이트 완료';
-    
-    // 데이터 불러온 후 메인 화면 다시 그리기
     renderMainView();
-    
-    // 만약 상세 화면을 보고 있는 중이었다면 상세 화면도 새로고침
-    if (currentDetailStudent && document.getElementById('detailView').style.display === 'block') {
-      openStudentDetail(currentDetailStudent);
-    }
-  } catch(e) {
-    document.getElementById('lastUpdated').textContent = '오류 발생';
-    toast('❌ 데이터 불러오기 실패: ' + e.message);
-  }
+    if (currentDetailStudent && document.getElementById('detailView').style.display === 'block') openStudentDetail(currentDetailStudent);
+  } catch(e) { toast('❌ 실패: ' + e.message); }
 }
 
-// ── 2. 메인 화면: 학생 명찰(카드) 그리기 ──
 function renderMainView() {
   const grid = document.getElementById('studentGrid');
   const empty = document.getElementById('studentEmpty');
-  
-  if (allResults.length === 0) {
-    grid.innerHTML = '';
-    empty.style.display = 'flex';
-    return;
-  }
+  if (allResults.length === 0) { grid.innerHTML = ''; empty.style.display = 'flex'; return; }
   empty.style.display = 'none';
 
-  // 학생별로 데이터 묶기
   const studentMap = {};
   allResults.forEach(r => {
     const s = r.student || '이름 없음';
     if (!studentMap[s]) studentMap[s] = { scores: [], count: 0, lastDate: '' };
-    
     studentMap[s].scores.push(r.score || 0);
     studentMap[s].count++;
-    
-    // 가장 최근 제출 시간 기록
-    if (!studentMap[s].lastDate || r.gradedAt > studentMap[s].lastDate) {
-      studentMap[s].lastDate = r.gradedAt;
-    }
+    if (!studentMap[s].lastDate || r.gradedAt > studentMap[s].lastDate) studentMap[s].lastDate = r.gradedAt;
   });
 
-  // 학생 이름순으로 정렬해서 카드 만들기
   let html = '';
   Object.keys(studentMap).sort().forEach(name => {
     const data = studentMap[name];
     const avg = Math.round(data.scores.reduce((a,b)=>a+b,0) / data.count);
     const col = avg >= 80 ? 'var(--green)' : avg >= 60 ? 'var(--accent)' : 'var(--red)';
-    
     html += `
       <div class="student-card" onclick="openStudentDetail('${esc(name)}')">
         <div class="name">👤 ${esc(name)}</div>
         <div class="stat"><span>총 제출</span> <span class="val">${data.count}회</span></div>
         <div class="stat"><span>평균 점수</span> <span class="val" style="color:${col};">${avg}점</span></div>
         <div class="stat"><span>최근 제출</span> <span class="val" style="font-size:11px; color:var(--muted);">${esc(data.lastDate)}</span></div>
-      </div>
-    `;
+      </div>`;
   });
-  
   grid.innerHTML = html;
 }
 
-// ── 3. 화면 전환 로직 ──
-function showMainView() {
-  document.getElementById('detailView').style.display = 'none';
-  document.getElementById('mainView').style.display = 'block';
-  currentDetailStudent = '';
-}
+function showMainView() { document.getElementById('detailView').style.display = 'none'; document.getElementById('mainView').style.display = 'block'; currentDetailStudent = ''; }
 
 function openStudentDetail(studentName) {
   currentDetailStudent = studentName;
-  document.getElementById('mainView').style.display = 'none';
-  document.getElementById('detailView').style.display = 'block';
+  document.getElementById('mainView').style.display = 'none'; document.getElementById('detailView').style.display = 'block';
   document.getElementById('detailTitle').innerHTML = `👤 ${esc(studentName)} 학생 기록`;
-  
-  const studentData = allResults.filter(r => (r.student || '이름 없음') === studentName);
-  renderStudentDetail(studentData);
+  renderStudentDetail(allResults.filter(r => (r.student || '이름 없음') === studentName));
 }
 
-// ── 4. 학생 상세 화면: 타임라인 표 & 오답 차트 그리기 ──
 function renderStudentDetail(data) {
-  // 요약 카드 업데이트
   const scores = data.map(r => r.score || 0);
   document.getElementById('dTot').textContent = data.length + '회';
   document.getElementById('dAvg').textContent = Math.round(scores.reduce((a,b)=>a+b,0)/data.length) + '점';
   document.getElementById('dMax').textContent = Math.max(...scores) + '점';
-
-  // 오답 원인(메타인지) 차트 업데이트
   renderMetaChart(data);
 
-  // 성장 타임라인 표 그리기 (시험지별 묶기)
   const groups = {};
   const timeSorted = [...data].sort((a, b) => (a._fname||'').localeCompare(b._fname||''));
-  
-  timeSorted.forEach(r => {
-    const key = r.title; // 학생은 이미 한 명이므로 시험지 제목만 키로 사용
-    if (!groups[key]) groups[key] = { title: r.title, attempts: [] };
-    groups[key].attempts.push(r);
-  });
+  timeSorted.forEach(r => { const key = r.title; if (!groups[key]) groups[key] = { title: r.title, attempts: [] }; groups[key].attempts.push(r); });
 
-  const groupArray = Object.values(groups).reverse(); // 최신 시험지가 위로 오게
+  const groupArray = Object.values(groups).reverse();
   const tb = document.getElementById('detailTbody');
-  
-  filteredResults = groupArray.map(g => g.attempts[g.attempts.length - 1]); // 팝업창(showDetail)을 위한 배열
+  filteredResults = groupArray.map(g => g.attempts[g.attempts.length - 1]);
 
-  if (groupArray.length === 0) {
-    tb.innerHTML = '';
-    document.getElementById('detailTableEmpty').style.display = 'flex';
-    return;
-  }
+  if (groupArray.length === 0) { tb.innerHTML = ''; document.getElementById('detailTableEmpty').style.display = 'flex'; return; }
   document.getElementById('detailTableEmpty').style.display = 'none';
 
   tb.innerHTML = groupArray.map((g, idx) => {
-    const latest = filteredResults[idx];
-    const pct = latest.score || 0;
-    const cls = pct >= 80 ? 'hi' : pct >= 60 ? 'md' : 'fl';
-    
-    // 점수 오르는 과정
+    const latest = filteredResults[idx]; const pct = latest.score || 0; const cls = pct >= 80 ? 'hi' : pct >= 60 ? 'md' : 'fl';
     const timeline = g.attempts.map(a => `${a.score||0}%`).join(' ➔ ');
-    
-    // 지금까지 한 번이라도 틀렸던 문제 모으기
-    let everWrong = new Set();
-    g.attempts.forEach(a => {
-        (a.results||[]).forEach(p => { if (!p.correct) everWrong.add(p.number); });
-    });
+    let everWrong = new Set(); g.attempts.forEach(a => { (a.results||[]).forEach(p => { if (!p.correct) everWrong.add(p.number); }); });
     const wrongs = Array.from(everWrong).sort((a,b)=>a-b).map(x=>x+'번');
     const wrongHtml = wrongs.length ? wrongs.map(w=>`<span class="wtag">${w}</span>`).join('') : '<span style="color:var(--green);font-size:12px;">처음부터 100점! 🎉</span>';
 
@@ -328,118 +281,222 @@ function renderStudentDetail(data) {
   }).join('');
 }
 
-// 특정 학생의 오답 원인 분석 차트
 function renderMetaChart(data) {
-  const counts = {};
-  const labelMap = {'계산실수':'🧮 계산 실수','집중력부족':'😵 문제 잘못 읽음','조건활용못함':'⚙️ 조건 활용 못함','식세우기어려움':'🧩 식 세우기 어려움','개념연결못함':'📖 개념 모름','기타':'❓ 기타'};
-  
-  data.forEach(r => {
-    (r.results||[]).forEach(p => {
-      if (!p.metaReason) return;
-      const key = Object.keys(labelMap).find(k => p.metaReason.includes(k)) || p.metaReason;
-      counts[key] = (counts[key] || 0) + 1;
-    });
-  });
-
+  const counts = {}; const keywords = ['계산실수', '집중력부족', '조건활용못함', '식세우기어려움', '개념연결못함', '개념부족', '문제잘못읽음', '기타'];
+  data.forEach(r => { (r.results||[]).forEach(p => { if (!p.metaReason) return; keywords.forEach(k => { if(p.metaReason.includes(k)) counts[k] = (counts[k] || 0) + 1; }); }); });
   const entries = Object.entries(counts).sort((a,b) => b[1] - a[1]);
-  if (entries.length === 0) {
-    document.getElementById('detailMetaChart').innerHTML = '<div class="empty"><div class="ico">🧐</div><div>오답 원인 데이터가 없습니다.</div></div>';
-    return;
-  }
-
+  if (entries.length === 0) { document.getElementById('detailMetaChart').innerHTML = '<div class="empty"><div class="ico">🧐</div><div>오답 원인 데이터가 없습니다.</div></div>'; return; }
   const max = entries[0][1];
   document.getElementById('detailMetaChart').innerHTML = entries.map(([key, cnt]) => {
-    const label = labelMap[key] || key;
     const pct = Math.round(cnt / max * 100);
-    return `<div style="margin-bottom:12px;">
-      <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; font-weight:bold;"><span>${label}</span><span style="color:var(--accent);">${cnt}번</span></div>
-      <div class="bar" style="height:8px;"><div class="bar-fill" style="width:${pct}%; background:var(--accent)"></div></div>
-    </div>`;
+    return `<div style="margin-bottom:12px;"><div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; font-weight:bold;"><span>${key}</span><span style="color:var(--accent);">${cnt}번</span></div><div class="bar" style="height:8px;"><div class="bar-fill" style="width:${pct}%; background:var(--accent)"></div></div></div>`;
   }).join('');
 }
 
-// ── 5. 상세 모달창 (장바구니 기능 포함 - 변경 없음) ──
 function showDetail(idx) {
   const r = filteredResults[idx]; if (!r) return;
   document.getElementById('mTitle').textContent = `📋 ${r.title} 상세 기록`;
   const pct = r.score||0; const cls = pct>=80?'hi':pct>=60?'md':'fl';
-  
   let html = `
+    <div style="display:flex; justify-content:flex-end; margin-bottom:12px;"><button class="btn btn-p" onclick="reprintQuiz(${idx})" style="font-weight:bold; box-shadow:0 4px 6px rgba(79,138,255,0.3);">🖨️ 이 시험지 그대로 다시 인쇄</button></div>
     <div class="mrow"><span class="lbl">최종 점수</span><span class="badge ${cls}">${pct}%</span></div>
     <div class="mrow"><span class="lbl">최종 정답</span><span style="font-weight:bold;">${r.correct||0} / ${r.total||0} 문제</span></div>
     <div style="margin:20px 0 10px;font-size:12px;font-weight:bold;color:var(--muted);">문제별 오답 기록 및 장바구니 담기</div>`;
-    
   (r.results||[]).forEach(p => {
     const meta = p.metaReason ? `<span class="meta-tag">${esc(p.metaReason)}</span>` : '';
-    const imgThumb = p.githubUrl ? `<img src="${p.githubUrl}" style="height:45px; border-radius:4px; border:1px solid #ddd; cursor:pointer;" onclick="window.open('${p.githubUrl}')" title="크게 보기">` : '';
+    const imgThumb = p.githubUrl ? `<img src="${p.githubUrl}" style="height:45px; border-radius:4px; border:1px solid #ddd; cursor:pointer;">` : '';
     const cartBtn = p.githubUrl && !p.correct ? `<button class="btn btn-sm" style="background:var(--accent);color:white;border:none;margin-left:8px;cursor:pointer;padding:6px 10px;" onclick="addToCart('${p.githubUrl}', '${p.filename||''}', '${p.correctAnswer||p.answer||''}', '${p.number}', '${esc(r.student)}')">+ 장바구니 담기</button>` : '';
-
-    html += `<div class="mrow" style="align-items:center;">
-      <span class="lbl" style="width:40px; font-weight:bold;">${p.number}번</span>
-      <div style="flex:1; display:flex; align-items:center;">${imgThumb}</div>
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
-        <span style="font-weight:bold; color:${p.correct ? 'var(--green)' : 'var(--red)'}">${p.correct?'✅ 정답':'❌ 오답'}</span>
-        ${!p.correct&&p.userAnswer?`<span style="color:var(--muted);font-size:12px;">(학생 답: ${esc(p.userAnswer)})</span>`:''}
-        ${meta}
-        ${cartBtn}
-      </div>
-    </div>`;
+    html += `<div class="mrow" style="align-items:center;"><span class="lbl" style="width:40px; font-weight:bold;">${p.number}번</span><div style="flex:1; display:flex; align-items:center;">${imgThumb}</div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;"><span style="font-weight:bold; color:${p.correct ? 'var(--green)' : 'var(--red)'}">${p.correct?'✅ 정답':'❌ 오답'}</span>${meta} ${cartBtn}</div></div>`;
   });
-  document.getElementById('mBody').innerHTML = html;
-  document.getElementById('modal').classList.add('open');
+  document.getElementById('mBody').innerHTML = html; document.getElementById('modal').classList.add('open');
+}
+
+function reprintQuiz(idx) {
+    const r = filteredResults[idx]; if (!r || !r.results) return;
+    const reprintItems = r.results.map(p => ({ githubUrl: p.githubUrl, name: p.filename || `문제_${p.number}번.png`, answer: p.correctAnswer || p.answer || '', number: p.number })).filter(item => item.githubUrl);
+    if (reprintItems.length === 0) { toast('⚠️ 이미지 데이터가 없습니다.'); return; }
+    localStorage.setItem('mathReprintQuiz', JSON.stringify({ title: r.title, student: r.student, items: reprintItems }));
+    if (confirm(`[${r.title}] 시험지를 다시 인쇄하시겠습니까?`)) window.open('index_고등수정v8.html', '_blank');
 }
 
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 document.getElementById('modal').addEventListener('click', e => { if(e.target===document.getElementById('modal')) closeModal(); });
 
-function toast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg; el.classList.add('show');
-  clearTimeout(window.toastTimer);
-  window.toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
-}
+function toast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(window.toastTimer); window.toastTimer = setTimeout(() => el.classList.remove('show'), 3000); }
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-// ── 🛒 스마트 오답 장바구니 시스템 (변경 없음) ──
+// ── 🛒 스마트 오답 장바구니 시스템 ──
 let wrongCart = JSON.parse(localStorage.getItem('mathWrongCart') || '[]');
-
 function updateCartUI() {
   let panel = document.getElementById('cartPanel');
   if (!panel) {
-    panel = document.createElement('div');
-    panel.id = 'cartPanel';
+    panel = document.createElement('div'); panel.id = 'cartPanel';
     panel.innerHTML = `<span>🛒 오답 장바구니</span> <span id="cartCount" style="background:white;color:var(--accent);padding:2px 8px;border-radius:12px;margin:0 8px;">0</span> <span style="font-size:12px;">복습지 만들기 ➔</span>`;
-    panel.style.cssText = 'position:fixed;bottom:24px;left:24px;background:var(--accent);color:white;padding:12px 20px;border-radius:30px;box-shadow:0 4px 12px rgba(0,0,0,0.3);display:none;align-items:center;z-index:900;cursor:pointer;font-weight:bold;transition:transform 0.2s;';
-    panel.onmouseover = () => panel.style.transform = 'translateY(-3px)';
-    panel.onmouseout = () => panel.style.transform = 'translateY(0)';
-    panel.onclick = goToPrint;
+    panel.style.cssText = 'position:fixed;bottom:24px;left:24px;background:var(--accent);color:white;padding:12px 20px;border-radius:30px;box-shadow:0 4px 12px rgba(0,0,0,0.3);display:none;align-items:center;z-index:900;cursor:pointer;font-weight:bold;';
+    panel.onclick = () => { if(confirm('장바구니 문제로 복습지를 만드시겠습니까?')) window.open('index_고등수정v8.html', '_blank'); };
     document.body.appendChild(panel);
   }
-  
-  if (wrongCart.length > 0) {
-    panel.style.display = 'flex';
-    document.getElementById('cartCount').textContent = wrongCart.length;
-  } else {
-    panel.style.display = 'none';
-  }
+  if (wrongCart.length > 0) { panel.style.display = 'flex'; document.getElementById('cartCount').textContent = wrongCart.length; } else { panel.style.display = 'none'; }
 }
-
-function addToCart(githubUrl, filename, answer, number, student) {
-  if (wrongCart.some(item => item.githubUrl === githubUrl)) { toast('이미 장바구니에 담긴 문제입니다.'); return; }
-  const safeFilename = filename || `오답_${student}_${number}번_${Date.now()}.png`;
-  wrongCart.push({ githubUrl: githubUrl, name: safeFilename, answer: answer });
-  localStorage.setItem('mathWrongCart', JSON.stringify(wrongCart));
-  updateCartUI();
-  toast(`🛒 장바구니에 담았습니다! (총 ${wrongCart.length}문제)`);
-}
-
-function goToPrint() {
-  if (confirm(`장바구니에 담긴 ${wrongCart.length}문제로 맞춤형 복습지를 만드시겠습니까?`)) {
-    window.open('index_고등수정v8.html', '_blank'); 
-  }
-}
-
+function addToCart(url, fname, ans, num, stu) { if (wrongCart.some(i => i.githubUrl === url)) { toast('이미 담긴 문제입니다.'); return; } wrongCart.push({ githubUrl: url, name: fname || `오답_${stu}_${num}번.png`, answer: ans }); localStorage.setItem('mathWrongCart', JSON.stringify(wrongCart)); updateCartUI(); toast('🛒 담았습니다!'); }
 setTimeout(updateCartUI, 500);
+
+// ── 🔥 초고속 수기 채점 시스템 (Index 연동 완벽 적용) ──
+let mgData = {};
+let localTestPapers = {}; // Index에서 불러온 시험지들
+
+function openManualGrade() {
+    document.getElementById('manualModal').style.display = 'flex';
+    
+    // 1. Index 파일(로컬스토리지)에서 '채점 대기' 중인 시험지들 불러오기
+    const savedPapers = localStorage.getItem('testPapers');
+    const selectBox = document.getElementById('mgSelectTest');
+    selectBox.innerHTML = '<option value="">-- 시험지를 선택하세요 --</option><option value="manual">➕ 직접 입력하기 (자유 채점)</option>';
+    
+    if(savedPapers) {
+        localTestPapers = JSON.parse(savedPapers);
+        const sortedKeys = Object.keys(localTestPapers).sort((a,b) => b.localeCompare(a)); // 최신순 정렬
+        
+        sortedKeys.forEach(key => {
+            const paper = localTestPapers[key];
+            if (paper.status === '채점완료') return; // 이미 채점된 건 빼기
+            
+            const opt = document.createElement('option');
+            opt.value = key;
+            opt.textContent = `[대기중] ${paper.studentName} — ${paper.title} (${paper.problems ? paper.problems.length : 20}문제)`;
+            selectBox.appendChild(opt);
+        });
+    }
+    
+    document.getElementById('mgStudent').value = ''; document.getElementById('mgTitle').value = '';
+    document.getElementById('mgStudent').readOnly = true; document.getElementById('mgTitle').readOnly = true;
+    document.getElementById('mgGrid').innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px; color:var(--muted);">👆 먼저 위에서 채점할 시험지를 선택해주세요.</div>';
+}
+
+function selectMgTest() {
+    const val = document.getElementById('mgSelectTest').value;
+    const stuInput = document.getElementById('mgStudent');
+    const titleInput = document.getElementById('mgTitle');
+    const totInput = document.getElementById('mgTotal');
+    
+    if (val === '') {
+        stuInput.value = ''; titleInput.value = '';
+        document.getElementById('mgGrid').innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px; color:var(--muted);">👆 먼저 위에서 채점할 시험지를 선택해주세요.</div>';
+        return;
+    }
+    
+    if (val === 'manual') {
+        stuInput.readOnly = false; titleInput.readOnly = false;
+        stuInput.style.background = 'var(--surface2)'; titleInput.style.background = 'var(--surface2)';
+        stuInput.style.color = 'var(--text)'; titleInput.style.color = 'var(--text)';
+        stuInput.value = ''; titleInput.value = ''; stuInput.focus();
+        totInput.value = 20;
+        buildMgGrid();
+        return;
+    }
+    
+    // 🔗 Index 시험지를 선택했을 때 (자동 입력!)
+    const paper = localTestPapers[val];
+    stuInput.value = paper.studentName || '이름 없음';
+    titleInput.value = paper.title || '제목 없음';
+    stuInput.readOnly = true; titleInput.readOnly = true;
+    stuInput.style.background = 'var(--bg)'; titleInput.style.background = 'var(--bg)';
+    
+    totInput.value = paper.problems ? paper.problems.length : 20;
+    buildMgGrid();
+}
+
+function closeMg() { document.getElementById('manualModal').style.display = 'none'; }
+
+function buildMgGrid() {
+    const tot = parseInt(document.getElementById('mgTotal').value) || 20;
+    mgData = {}; let html = '';
+    for(let i=1; i<=tot; i++) {
+        mgData[i] = { correct: true, meta: [] };
+        html += `<div id="mgBox_${i}" style="border:1px solid var(--border); border-radius:8px; padding:10px; text-align:center; cursor:pointer; background:rgba(46,204,138,.15); transition:all 0.2s;" onclick="toggleMg(${i})">
+            <div style="font-weight:bold; font-size:15px; margin-bottom:4px;">${i}번</div>
+            <div id="mgStatus_${i}" style="font-size:13px; font-weight:bold; color:var(--green);">✅ 정답</div>
+        </div>`;
+    }
+    document.getElementById('mgGrid').innerHTML = html;
+}
+
+function toggleMg(num) {
+    const box = document.getElementById(`mgBox_${num}`); const stat = document.getElementById(`mgStatus_${num}`);
+    if (mgData[num].correct) {
+        mgData[num].correct = false; box.style.background = 'rgba(255,94,94,.15)';
+        stat.innerHTML = `<div style="color:var(--red); margin-bottom:8px;">❌ 오답</div>
+          <div style="font-size:11px; color:var(--text); text-align:left; display:flex; flex-direction:column; gap:6px; background:var(--surface); padding:8px; border-radius:6px;" onclick="event.stopPropagation()">
+             <label style="cursor:pointer;"><input type="checkbox" onchange="updateMeta(${num}, '계산실수', this.checked)"> 🧮 계산실수</label>
+             <label style="cursor:pointer;"><input type="checkbox" onchange="updateMeta(${num}, '개념부족', this.checked)"> 📖 개념부족</label>
+             <label style="cursor:pointer;"><input type="checkbox" onchange="updateMeta(${num}, '문제잘못읽음', this.checked)"> 😵 문제잘못읽음</label>
+             <label style="cursor:pointer;"><input type="checkbox" onchange="updateMeta(${num}, '기타', this.checked)"> ❓ 기타</label>
+          </div>`;
+    } else {
+        mgData[num].correct = true; mgData[num].meta = []; box.style.background = 'rgba(46,204,138,.15)';
+        stat.innerHTML = `<span style="color:var(--green);">✅ 정답</span>`;
+    }
+}
+
+function updateMeta(num, reason, isChecked) {
+    if (isChecked) { if (!mgData[num].meta.includes(reason)) mgData[num].meta.push(reason); } 
+    else { mgData[num].meta = mgData[num].meta.filter(r => r !== reason); }
+}
+
+async function submitMg() {
+    const student = document.getElementById('mgStudent').value.trim();
+    const title = document.getElementById('mgTitle').value.trim();
+    const tot = parseInt(document.getElementById('mgTotal').value) || 20;
+    const testId = document.getElementById('mgSelectTest').value;
+    
+    if(!student || !title) { toast('⚠️ 학생 이름과 시험지 제목을 입력하세요!'); return; }
+    
+    const paper = (testId && testId !== 'manual' && localTestPapers[testId]) ? localTestPapers[testId] : null;
+    let correctCount = 0; const results = [];
+    
+    for(let i=1; i<=tot; i++) {
+        if(mgData[i].correct) correctCount++;
+        
+        // 🔥 핵심: Index와 연동된 시험지라면 이미지 주소(githubUrl)도 알아서 빼옵니다!
+        let gUrl = ''; let fName = '';
+        if (paper && paper.problems && paper.problems[i-1]) {
+            gUrl = paper.problems[i-1].githubUrl || '';
+            fName = paper.problems[i-1].filename || '';
+        }
+
+        results.push({
+            number: i, correct: mgData[i].correct, metaReason: mgData[i].meta.join(', '),
+            githubUrl: gUrl, filename: fName // 🛒 장바구니용 이미지 데이터!
+        });
+    }
+    
+    const score = Math.round((correctCount / tot) * 100);
+    const payload = { title: title, student: student, score: score, correct: correctCount, total: tot, gradedAt: new Date().toLocaleString('ko-KR'), results: results };
+    
+    const user = localStorage.getItem('db_gh_user'); const repo = localStorage.getItem('db_gh_repo'); const token = localStorage.getItem('db_gh_token');
+    if(!user || !token) { toast('⚠️ 우측 상단의 GitHub 설정을 먼저 완료해주세요.'); return; }
+    
+    document.getElementById('mgGrid').innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; font-weight:bold;">🚀 깃허브로 전송 중입니다. 잠시만 기다려주세요!</div>';
+    
+    try {
+        const fileId = "manual_" + Date.now().toString(36) + "_" + Math.floor(Math.random()*10000);
+        const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+        
+        await fetch(`https://api.github.com/repos/${user}/${repo}/contents/results/${fileId}_result.json`, {
+            method: 'PUT', headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: '초고속 수기 채점: ' + student, content })
+        });
+        
+        // 🔥 채점이 완료되었으니 Index의 대기 목록에서 지워줍니다 ('채점완료' 처리)
+        if (paper) {
+            localTestPapers[testId].status = '채점완료';
+            localStorage.setItem('testPapers', JSON.stringify(localTestPapers));
+        }
+
+        toast(`🎉 전송 완료! 점수: ${score}점`);
+        closeMg(); loadResults(); 
+    } catch(e) { toast('❌ 전송 실패: ' + e.message); }
+}
 </script>
 </body>
 </html>
