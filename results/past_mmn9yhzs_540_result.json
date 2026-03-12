@@ -1,0 +1,74 @@
+{
+  "title": "문나무 일일테스트 0128",
+  "student": "문나무",
+  "score": 88,
+  "correct": 7,
+  "total": 8,
+  "gradedAt": "2026. 1. 28. 오후 5:39:30",
+  "results": [
+    {
+      "number": 1,
+      "filename": "라이트쎈_4.유리수 계산-0564-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "라이트쎈_4.유리수 계산-0527-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "라이트쎈_3.정수와 유리수-0359-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "라이트쎈_3.정수와 유리수-0386-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "라이트쎈_3.정수와 유리수-0387-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "라이트쎈_4.유리수 계산-0530-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "라이트쎈_3.정수와 유리수-0377-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "라이트쎈_3.정수와 유리수-0396-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    }
+  ]
+}

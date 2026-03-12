@@ -1,0 +1,330 @@
+{
+  "title": "중3-1 유형확인 숙제 0227",
+  "student": "최준희",
+  "score": 75,
+  "correct": 30,
+  "total": 40,
+  "gradedAt": "2026. 3. 6. 오후 5:25:29",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0177-미분류.png",
+      "correctAnswer": "점 A, 점 B, 점 D",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0324-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0167-미분류.png",
+      "correctAnswer": "-a",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0179-미분류.png",
+      "correctAnswer": "2a",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0169-미분류.png",
+      "correctAnswer": "34",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0171-미분류.png",
+      "correctAnswer": "60",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0433-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0332-미분류.png",
+      "correctAnswer": "C<A<B",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 9,
+      "filename": "RPM(3-1)_4.인수분해-0602-미분류.png",
+      "correctAnswer": "(x-1)(x-5)",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 10,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0438-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 11,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0342-미분류.png",
+      "correctAnswer": "-1/18",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 12,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0170-미분류.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 13,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0323-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 14,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0447-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 15,
+      "filename": "RPM(3-1)_4.인수분해-0596-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 16,
+      "filename": "RPM(3-1)_4.인수분해-0601-미분류.png",
+      "correctAnswer": "12",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 17,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0446-미분류.png",
+      "correctAnswer": "39",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 18,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0168-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 19,
+      "filename": "RPM(3-1)_4.인수분해-0605-미분류.png",
+      "correctAnswer": "a",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 20,
+      "filename": "RPM(3-1)_4.인수분해-0600-미분류.png",
+      "correctAnswer": "x-y",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 21,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0436-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 22,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0440-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 23,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0340-미분류.png",
+      "correctAnswer": "2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 24,
+      "filename": "RPM(3-1)_4.인수분해-0597-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 25,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0166-미분류.png",
+      "correctAnswer": "③, ⑤",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 26,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0341-미분류.png",
+      "correctAnswer": "2√3",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 27,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0450-미분류.png",
+      "correctAnswer": "10",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 28,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0178-미분류.png",
+      "correctAnswer": "22",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 29,
+      "filename": "RPM(3-1)_4.인수분해-0590-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 30,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0174-미분류.png",
+      "correctAnswer": "③, ⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 31,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0334-미분류.png",
+      "correctAnswer": "15.23,0.04909",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 32,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0185-미분류.png",
+      "correctAnswer": "20",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 33,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0321-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 34,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0329-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 35,
+      "filename": "RPM(3-1)_4.인수분해-0606-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 36,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0322-미분류.png",
+      "correctAnswer": "10",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 37,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0445-미분류.png",
+      "correctAnswer": "-8",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 38,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0453-미분류.png",
+      "correctAnswer": "-10",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 39,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0331-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 40,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0336-미분류.png",
+      "correctAnswer": "-13+6√7",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}

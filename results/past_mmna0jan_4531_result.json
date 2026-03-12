@@ -1,0 +1,74 @@
+{
+  "title": "최준희 일일테스트 0204",
+  "student": "최준희",
+  "score": 63,
+  "correct": 5,
+  "total": 8,
+  "gradedAt": "2026. 2. 25. 오후 5:43:23",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(공통수학1)_1.다항식-0080-중.png",
+      "correctAnswer": "8",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(공통수학1)_3.인수분해-0259-중.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "RPM_고등-0400-중.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(공통수학1)_3.인수분해-0255-중.png",
+      "correctAnswer": "180",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(공통수학1)_3.인수분해-0230-중.png",
+      "correctAnswer": "4",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0163-중상.png",
+      "correctAnswer": "-6",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "RPM_고등-0433-중상.png",
+      "correctAnswer": "2",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0169-상.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "식세우기어려움"
+    }
+  ]
+}

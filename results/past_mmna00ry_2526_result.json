@@ -1,0 +1,330 @@
+{
+  "title": "최준희 쎈 오답 복습 과제(0209)",
+  "student": "최준희",
+  "score": 63,
+  "correct": 25,
+  "total": 40,
+  "gradedAt": "2026. 2. 20. 오후 5:25:54",
+  "results": [
+    {
+      "number": 1,
+      "filename": "쎈(공통수학)_4.이차방정식-0481-대표문제.png",
+      "correctAnswer": "-8",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "쎈(공통수학)_1.다항식-0078-상.png",
+      "correctAnswer": "6",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 3,
+      "filename": "쎈(공통수학)_3.복소수-0361-대표문제.png",
+      "correctAnswer": "2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "쎈(공통수학)_3.복소수-0365-상.png",
+      "correctAnswer": "-3",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0238-중.png",
+      "correctAnswer": "6",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 6,
+      "filename": "쎈(공통수학)_3.복소수-0377-하.png",
+      "correctAnswer": "1",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0245-대표문제.png",
+      "correctAnswer": "1",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "식세우기어려움"
+    },
+    {
+      "number": 8,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0200-중.png",
+      "correctAnswer": "-8",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 9,
+      "filename": "쎈(공통수학)_1.다항식-0043-중.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 10,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0204-상.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 11,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-91-상.png",
+      "correctAnswer": "90",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 12,
+      "filename": "쎈(공통수학)_4.이차방정식-0463-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 13,
+      "filename": "쎈(공통수학)_1.다항식-0051-상.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 14,
+      "filename": "쎈(공통수학)_3.복소수-0370-상.png",
+      "correctAnswer": "-16",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 15,
+      "filename": "쎈(공통수학)_3.복소수-0371-대표문제.png",
+      "correctAnswer": "1",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 16,
+      "filename": "쎈(공통수학)_4.이차방정식-0487-미분류.png",
+      "correctAnswer": "-13",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 17,
+      "filename": "쎈(공통수학)_4.이차방정식-0512-미분류.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 18,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0180-하.png",
+      "correctAnswer": "4",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 19,
+      "filename": "쎈(공통수학)_4.이차방정식-0446-미분류.png",
+      "correctAnswer": "2√2-1",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "식세우기어려움"
+    },
+    {
+      "number": 20,
+      "filename": "쎈(공통수학)_3.복소수-0375-상.png",
+      "correctAnswer": "3",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 21,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0211-중.png",
+      "correctAnswer": "3",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 22,
+      "filename": "쎈(공통수학)_4.이차방정식-0502-미분류.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 23,
+      "filename": "쎈(공통수학)_3.복소수-0384-상.png",
+      "correctAnswer": "i-1",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 24,
+      "filename": "쎈(공통수학)_4.이차방정식-0464-대표문제.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 25,
+      "filename": "쎈(공통수학)_4.이차방정식-0476-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 26,
+      "filename": "쎈(공통수학)_3.복소수-0380-상.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 27,
+      "filename": "쎈(공통수학)_4.이차방정식-0510-미분류.png",
+      "correctAnswer": "-7",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 28,
+      "filename": "쎈(공통수학)_4.이차방정식-478-미분류.png",
+      "correctAnswer": "2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 29,
+      "filename": "쎈(공통수학)_4.이차방정식-0503-미분류.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 30,
+      "filename": "쎈(공통수학)_4.이차방정식-0511-미분류.png",
+      "correctAnswer": "x²+2x+19=0",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 31,
+      "filename": "쎈(공통수학)_4.이차방정식-0443-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 32,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0174-상.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 33,
+      "filename": "쎈(공통수학)_1.다항식-0086-상.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 34,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0242-중.png",
+      "correctAnswer": "(x^2+x-1)(x^2-2x-1)",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 35,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0164-중.png",
+      "correctAnswer": "-15",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 36,
+      "filename": "쎈(공통수학)_3.복소수-0387-대표문제.png",
+      "correctAnswer": "2a-2c",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 37,
+      "filename": "쎈(공통수학)_1.다항식-0091-대표문제.png",
+      "correctAnswer": "90",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 38,
+      "filename": "쎈(공통수학)_4.이차방정식-0447-대표문제.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 39,
+      "filename": "쎈(공통수학)_3.복소수-0360-상.png",
+      "correctAnswer": "1",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 40,
+      "filename": "쎈(공통수학)_4.이차방정식-0457-미분류.png",
+      "correctAnswer": "-3≤x<-2",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    }
+  ]
+}

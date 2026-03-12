@@ -1,0 +1,74 @@
+{
+  "title": "최준희 일일테스트 0126",
+  "student": "최준희",
+  "score": 75,
+  "correct": 6,
+  "total": 8,
+  "gradedAt": "2026. 1. 26. 오후 6:57:06",
+  "results": [
+    {
+      "number": 1,
+      "filename": "쎈(공통수학)_3.복소수-0357-하.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "쎈(공통수학)_1.다항식-0049-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "쎈(공통수학)_1.다항식-0058-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0247-상.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "찍어서맞춤"
+    },
+    {
+      "number": 5,
+      "filename": "쎈(공통수학)_1.다항식-0050-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "쎈(공통수학)_3.복소수-0349-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "식세우기어려움"
+    },
+    {
+      "number": 7,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0249-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 8,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0200-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}

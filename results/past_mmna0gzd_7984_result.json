@@ -1,0 +1,138 @@
+{
+  "title": "문나무 오답 복습 테스트 0225",
+  "student": "문나무",
+  "score": 88,
+  "correct": 14,
+  "total": 16,
+  "gradedAt": "2026. 2. 25. 오후 5:42:29",
+  "results": [
+    {
+      "number": 1,
+      "filename": "라이트쎈_1.소인수분해-0103-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "라이트쎈_1.소인수분해-0126-미분류.png",
+      "correctAnswer": "2",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 3,
+      "filename": "라이트쎈_1.소인수분해-0101-미분류.png",
+      "correctAnswer": "(ㄷ), (ㄹ)",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0199-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "라이트쎈_1.소인수분해-0066-미분류.png",
+      "correctAnswer": "8",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0227-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "라이트쎈_1.소인수분해-0122-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "라이트쎈_1.소인수분해-0059-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 9,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0226-미분류.png",
+      "correctAnswer": "21",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 10,
+      "filename": "라이트쎈_3.정수와 유리수-0396-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 11,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0192-미분류.png",
+      "correctAnswer": "1, 2, 4",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 12,
+      "filename": "라이트쎈_3.정수와 유리수-0336-미분류.png",
+      "correctAnswer": "(1) 수직선 그림 참조 (-11/4, 8/3) (2) a=-3, b=3",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 13,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0260-미분류.png",
+      "correctAnswer": "45",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 14,
+      "filename": "라이트쎈_4.유리수 계산-0577-미분류.png",
+      "correctAnswer": "29/12",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 15,
+      "filename": "라이트쎈_4.유리수 계산-0555-미분류.png",
+      "correctAnswer": "20/3",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 16,
+      "filename": "라이트쎈_1.소인수분해-0061-미분류.png",
+      "correctAnswer": "10",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    }
+  ]
+}

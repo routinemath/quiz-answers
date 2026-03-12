@@ -1,0 +1,74 @@
+{
+  "title": "준희 일일테스트 0223",
+  "student": "최준희",
+  "score": 50,
+  "correct": 4,
+  "total": 8,
+  "gradedAt": "2026. 2. 24. 오후 3:06:56",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0155-중.png",
+      "correctAnswer": "-2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(공통수학1)_3.복소수-0338-중하.png",
+      "correctAnswer": "3",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(공통수학1)_3.인수분해-0269-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(공통수학1)_3.인수분해-0260-중.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(공통수학1)_3.인수분해-0232-중.png",
+      "correctAnswer": "1",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(공통수학1)_3.인수분해-0274-미분류.png",
+      "correctAnswer": "-220",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 7,
+      "filename": "RPM(공통수학1)_3.복소수-0310-하.png",
+      "correctAnswer": "3",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-171-하.png",
+      "correctAnswer": "97",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    }
+  ]
+}

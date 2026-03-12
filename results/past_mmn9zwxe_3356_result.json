@@ -1,0 +1,330 @@
+{
+  "title": "나무 복습과제 0211",
+  "student": "문나무",
+  "score": 83,
+  "correct": 33,
+  "total": 40,
+  "gradedAt": "2026. 2. 13. 오후 4:31:10",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(중1-1)_1.소인수분해-0081-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0189-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0208-미분류.png",
+      "correctAnswer": "56",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0203-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(중1-1)_1.소인수분해-0101-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "식세우기어려움"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(중1-1)_1.소인수분해-0091-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0211-미분류.png",
+      "correctAnswer": "오후8시4분",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(중1-1)_1.소인수분해-0094-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 9,
+      "filename": "RPM(중1-1)_1.소인수분해-0097-미분류.png",
+      "correctAnswer": "4",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 10,
+      "filename": "RPM(중1-1)_1.소인수분해-0102-미분류.png",
+      "correctAnswer": "15",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 11,
+      "filename": "RPM(중1-1)_1.소인수분해-0095-미분류.png",
+      "correctAnswer": "4",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 12,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0201-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 13,
+      "filename": "RPM(중1-1)_1.소인수분해-0093-미분류.png",
+      "correctAnswer": "84",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 14,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0207-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 15,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0213-미분류.png",
+      "correctAnswer": "20",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 16,
+      "filename": "RPM(중1-1)_1.소인수분해-0096-미분류.png",
+      "correctAnswer": "405",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 17,
+      "filename": "RPM(중1-1)_1.소인수분해-0082-미분류.png",
+      "correctAnswer": "②,⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 18,
+      "filename": "RPM(중1-1)_1.소인수분해-0089-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 19,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0191-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 20,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0204-미분류.png",
+      "correctAnswer": "122",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 21,
+      "filename": "RPM(중1-1)_1.소인수분해-0083-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 22,
+      "filename": "RPM(중1-1)_1.소인수분해-0098-미분류.png",
+      "correctAnswer": "6",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 23,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0210-미분류.png",
+      "correctAnswer": "60",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 24,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0209-미분류.png",
+      "correctAnswer": "①,③,②,9",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 25,
+      "filename": "RPM(중1-1)_1.소인수분해-0088-미분류.png",
+      "correctAnswer": "152",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 26,
+      "filename": "RPM(중1-1)_1.소인수분해-0099-미분류.png",
+      "correctAnswer": "2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 27,
+      "filename": "RPM(중1-1)_1.소인수분해-0100-미분류.png",
+      "correctAnswer": "22",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 28,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0206-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 29,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0196-미분류.png",
+      "correctAnswer": "②,⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 30,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0200-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 31,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0193-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 32,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0192-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 33,
+      "filename": "RPM(중1-1)_1.소인수분해-0086-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 34,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0188-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 35,
+      "filename": "RPM(중1-1)_1.소인수분해-0085-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 36,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0205-미분류.png",
+      "correctAnswer": "108/7",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 37,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0212-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 38,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0195-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 39,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0187-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 40,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0198-미분류.png",
+      "correctAnswer": "9",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "title": "김지우 일일테스트 0203",
+  "student": "김지우",
+  "score": 100,
+  "correct": 8,
+  "total": 8,
+  "gradedAt": "2026. 2. 3. 오후 4:42:03",
+  "results": [
+    {
+      "number": 1,
+      "filename": "라이트쎈_1.소인수분해-0061-미분류.png",
+      "correctAnswer": "10",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "라이트쎈_4.유리수 계산-0569-미분류.png",
+      "correctAnswer": "2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0230-미분류.png",
+      "correctAnswer": "7",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "라이트쎈_1.소인수분해-0096-미분류.png",
+      "correctAnswer": "248",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "라이트쎈_1.소인수분해-0069-미분류.png",
+      "correctAnswer": "a=5, b=6",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0255-미분류.png",
+      "correctAnswer": "63",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0241-미분류.png",
+      "correctAnswer": "2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0247-미분류.png",
+      "correctAnswer": "12",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}

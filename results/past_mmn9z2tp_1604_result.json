@@ -1,0 +1,74 @@
+{
+  "title": "최준희 일일테스트 0130",
+  "student": "최준희",
+  "score": 50,
+  "correct": 4,
+  "total": 8,
+  "gradedAt": "2026. 2. 4. 오후 5:48:31",
+  "results": [
+    {
+      "number": 1,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0204-상.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "쎈(공통수학)_1.다항식-0096-상.png",
+      "correctAnswer": "560-240√5",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 3,
+      "filename": "쎈(공통수학)_3.복소수-0353-중.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "쎈(공통수학)_4.이차방정식-0468-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "쎈(공통수학)_3.복소수-0356-대표.png",
+      "correctAnswer": "2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "쎈(공통수학)_3.복소수-0362-중.png",
+      "correctAnswer": "5-11i",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 7,
+      "filename": "쎈(공통수학)_3.복소수-0369-중.png",
+      "correctAnswer": "2",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 8,
+      "filename": "쎈(공통수학)_3.복소수-0365-상.png",
+      "correctAnswer": "-3",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    }
+  ]
+}

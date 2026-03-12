@@ -1,0 +1,74 @@
+{
+  "title": "이희원 학습점검 테스트 0129",
+  "student": "이희원",
+  "score": 75,
+  "correct": 6,
+  "total": 8,
+  "gradedAt": "2026. 1. 30. 오후 2:41:34",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0167-미분류.png",
+      "correctAnswer": "-a",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "찍어서맞춤"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0438-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0422-하.png",
+      "correctAnswer": "(1)11,(2)9",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0110-중.png",
+      "correctAnswer": "3개",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0098-중.png",
+      "correctAnswer": "-a+4",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0141-중.png",
+      "correctAnswer": "③, ⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "찍어서맞춤"
+    },
+    {
+      "number": 7,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0073-하.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0091-중.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}

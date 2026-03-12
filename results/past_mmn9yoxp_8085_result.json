@@ -1,0 +1,74 @@
+{
+  "title": "김지우 일일테스트 0129",
+  "student": "김지우",
+  "score": 88,
+  "correct": 7,
+  "total": 8,
+  "gradedAt": "2026. 1. 29. 오후 5:03:34",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(중1-1)_3.정수와 유리수-0329-미분류.png",
+      "correctAnswer": "①,⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0162-중.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(중1-1)_5.문자의 사용과 식의 계산-0616-중.png",
+      "correctAnswer": "(1)(2x+y)절;(2)13절",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(중1-1)_5.문자의 사용과 식의 계산-0643-미분류.png",
+      "correctAnswer": "19",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(중1-1)_1.소인수분해-0051-중하.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(중1-1)_3.정수와 유리수-0294-미분류.png",
+      "correctAnswer": "-4,-3,3,4",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "RPM(중1-1)_3.정수와 유리수-0282-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(중1-1)_5.문자의 사용과 식의 계산-0627-미분류.png",
+      "correctAnswer": "4",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}

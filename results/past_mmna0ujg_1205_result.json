@@ -1,0 +1,74 @@
+{
+  "title": "유림 복습테스트 0303",
+  "student": "김유림",
+  "score": 75,
+  "correct": 6,
+  "total": 8,
+  "gradedAt": "2026. 3. 5. 오후 5:00:42",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0184-미분류.png",
+      "correctAnswer": "17",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0373-하.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0311-중.png",
+      "correctAnswer": "658",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0375-중하.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0391-중상.png",
+      "correctAnswer": "41",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0335-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 7,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0147-중.png",
+      "correctAnswer": "C",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0245-중.png",
+      "correctAnswer": "7",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}

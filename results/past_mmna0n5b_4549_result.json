@@ -1,0 +1,74 @@
+{
+  "title": "지우 일일테스트 0226",
+  "student": "김지우",
+  "score": 88,
+  "correct": 7,
+  "total": 8,
+  "gradedAt": "2026. 2. 26. 오후 4:37:51",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0194-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0153-하.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(중1-1)_4.정수와 유리수의 계산-0466-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0145-중.png",
+      "correctAnswer": "10개,담하성:6병,약하성:5병",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0138-중.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(중1-1)_1.소인수분해-0068-중상.png",
+      "correctAnswer": "9",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 7,
+      "filename": "RPM(중1-1)_1.소인수분해-0076-상.png",
+      "correctAnswer": "60",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(중1-1)_4.정수와 유리수의 계산-0432-미분류.png",
+      "correctAnswer": "9",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}

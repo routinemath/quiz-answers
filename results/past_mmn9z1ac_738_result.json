@@ -1,0 +1,74 @@
+{
+  "title": "문나무 일일테스트 0204",
+  "student": "문나무",
+  "score": 50,
+  "correct": 4,
+  "total": 8,
+  "gradedAt": "2026. 2. 4. 오후 5:47:38",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0161-중.png",
+      "correctAnswer": "9",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(중1-1)_6.일차방정식의 풀이-0764-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(중1-1)_1.소인수분해-0047-중.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(중1-1)_6.일차방정식의 풀이-0729-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(중1-1)_6.일차방정식의 풀이-0783-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(중1-1)_1.소인수분해-0075-중상.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "RPM(중1-1)_2.최대공약수와 최소공배수-0170-중상.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(중1-1)_1.소인수분해-0079-상.png",
+      "correctAnswer": "4",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    }
+  ]
+}

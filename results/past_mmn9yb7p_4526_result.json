@@ -1,0 +1,330 @@
+{
+  "title": "최준희 복습 과제 0116",
+  "student": "최준희",
+  "score": 57,
+  "correct": 23,
+  "total": 40,
+  "gradedAt": "2026. 1. 26. 오후 6:56:24",
+  "results": [
+    {
+      "number": 1,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0164-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0166-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0168-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0169-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0170-상.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 6,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0173-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 7,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0174-상.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0178-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 9,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0186-상.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 10,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0188-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "식세우기어려움"
+    },
+    {
+      "number": 11,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0189-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 12,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0190-상.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 13,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0193-상.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 14,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0200-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 15,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0204-상.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 16,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0211-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 17,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0214-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 18,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0216-대표문제.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 19,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0220-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 20,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0231-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 21,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0238-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 22,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0242-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 23,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0244-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 24,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0245-대표문제.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 25,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0246-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 26,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0247-상.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "식세우기어려움"
+    },
+    {
+      "number": 27,
+      "filename": "쎈(공통수학)_3.복소수-0331-대표문제.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 28,
+      "filename": "쎈(공통수학)_3.복소수-0334-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 29,
+      "filename": "쎈(공통수학)_3.복소수-0335-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 30,
+      "filename": "쎈(공통수학)_3.복소수-0343-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 31,
+      "filename": "쎈(공통수학)_3.복소수-0345-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 32,
+      "filename": "쎈(공통수학)_3.복소수-0348-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 33,
+      "filename": "쎈(공통수학)_3.복소수-0349-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "식세우기어려움"
+    },
+    {
+      "number": 34,
+      "filename": "쎈(공통수학)_3.복소수-0350-상.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 35,
+      "filename": "쎈(공통수학)_3.복소수-0353-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 36,
+      "filename": "쎈(공통수학)_3.복소수-0360-상.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 37,
+      "filename": "쎈(공통수학)_3.복소수-0361-대표문제.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 38,
+      "filename": "쎈(공통수학)_3.복소수-0363-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 39,
+      "filename": "쎈(공통수학)_3.복소수-0365-상.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 40,
+      "filename": "쎈(공통수학)_3.복소수-0367-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}

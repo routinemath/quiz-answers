@@ -1,0 +1,74 @@
+{
+  "title": "윤우 일일테스트 0306",
+  "student": "최윤우",
+  "score": 50,
+  "correct": 4,
+  "total": 8,
+  "gradedAt": "2026. 3. 6. 오후 6:30:37",
+  "results": [
+    {
+      "number": 1,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0256-미분류.png",
+      "correctAnswer": "5, 55",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 2,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0194-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0189-미분류.png",
+      "correctAnswer": "2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0207-미분류.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0196-미분류.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0217-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 7,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0223-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 8,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0190-미분류.png",
+      "correctAnswer": "4",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    }
+  ]
+}

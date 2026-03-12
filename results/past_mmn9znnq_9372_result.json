@@ -1,0 +1,330 @@
+{
+  "title": "문나무 1-1 복습 과제(0209)",
+  "student": "문나무",
+  "score": 65,
+  "correct": 26,
+  "total": 40,
+  "gradedAt": "2026. 2. 11. 오후 4:30:10",
+  "results": [
+    {
+      "number": 1,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0870-대표문제.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0178-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "라이트쎈_4.유리수 계산-0507-미분류.png",
+      "correctAnswer": "(1) 8 (2) -13",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "라이트쎈_4.유리수 계산-0560-미분류.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "라이트쎈_4.유리수 계산-0497-미분류.png",
+      "correctAnswer": "-10",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "라이트쎈_4.유리수 계산-0487-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "라이트쎈_4.유리수 계산-0489-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "라이트쎈_4.유리수 계산-0496-미분류.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "집중력부족"
+    },
+    {
+      "number": 9,
+      "filename": "라이트쎈_4.유리수 계산-0498-미분류.png",
+      "correctAnswer": "11",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 10,
+      "filename": "라이트쎈_4.유리수 계산-0577-미분류.png",
+      "correctAnswer": "29/12",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 11,
+      "filename": "라이트쎈_4.유리수 계산-0561-미분류.png",
+      "correctAnswer": "-3/2",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 12,
+      "filename": "라이트쎈_4.유리수 계산-0537-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 13,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0187-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 14,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0190-미분류.png",
+      "correctAnswer": "4",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 15,
+      "filename": "라이트쎈_4.유리수 계산-0570-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 16,
+      "filename": "라이트쎈_4.유리수 계산-0494-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 17,
+      "filename": "라이트쎈_4.유리수 계산-0486-미분류.png",
+      "correctAnswer": "㉠ 덧셈의 교환법칙 ㉡ 덧셈의 결합법칙",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 18,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0183-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 19,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0882-중.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 20,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0857-중하.png",
+      "correctAnswer": "②, ⑤",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "집중력부족"
+    },
+    {
+      "number": 21,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0890-중상.png",
+      "correctAnswer": "x=-2",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 22,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0887-중상.png",
+      "correctAnswer": "-26",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 23,
+      "filename": "라이트쎈_4.유리수 계산-0556-미분류.png",
+      "correctAnswer": "4",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 24,
+      "filename": "라이트쎈_1.소인수분해-0077-미분류.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 25,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0192-미분류.png",
+      "correctAnswer": "1, 2, 4",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "집중력부족"
+    },
+    {
+      "number": 26,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0866-중하.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 27,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0194-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 28,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0881-대표문제.png",
+      "correctAnswer": "③, ④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 29,
+      "filename": "라이트쎈_4.유리수 계산-0484-미분류.png",
+      "correctAnswer": "-5/12",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 30,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0889-중하.png",
+      "correctAnswer": "x=3",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 31,
+      "filename": "라이트쎈_3.정수와 유리수-0372-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 32,
+      "filename": "라이트쎈_4.유리수 계산-0583-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 33,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0182-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 34,
+      "filename": "라이트쎈_3.정수와 유리수-0366-미분류.png",
+      "correctAnswer": "0.7",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 35,
+      "filename": "라이트쎈_1.소인수분해-0066-미분류.png",
+      "correctAnswer": "8",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 36,
+      "filename": "라이트쎈_4.유리수 계산-0511-미분류.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 37,
+      "filename": "라이트쎈_4.유리수 계산-0573-미분류.png",
+      "correctAnswer": "2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 38,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0218-미분류.png",
+      "correctAnswer": "27",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 39,
+      "filename": "라이트쎈_1.소인수분해-0060-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 40,
+      "filename": "라이트쎈_4.유리수 계산-0518-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}

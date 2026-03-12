@@ -1,0 +1,266 @@
+{
+  "title": "나무 복습 과제 0213",
+  "student": "문나무",
+  "score": 69,
+  "correct": 22,
+  "total": 32,
+  "gradedAt": "2026. 2. 20. 오후 4:53:34",
+  "results": [
+    {
+      "number": 1,
+      "filename": "라이트쎈_3.정수와 유리수-0392-미분류.png",
+      "correctAnswer": "-3",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0860-중하.png",
+      "correctAnswer": "2(x+8)+3=5x-8",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0875-중하.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 4,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0923-미분류.png",
+      "correctAnswer": "3",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 5,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0858-대표문제.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 6,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0895-대표문제.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0890-중상.png",
+      "correctAnswer": "x=-2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0888-대표문제.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 9,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0857-중하.png",
+      "correctAnswer": "②, ⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 10,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0878-대표문제.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 11,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0876-중하.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 12,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0886-중하.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 13,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0880-중하.png",
+      "correctAnswer": "4",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 14,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0887-중상.png",
+      "correctAnswer": "-26",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 15,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0894-중상.png",
+      "correctAnswer": "x=-5/4",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 16,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0870-대표문제.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 17,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0883-하.png",
+      "correctAnswer": "a≠-3",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 18,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0885-대표문제.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 19,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0863-중하.png",
+      "correctAnswer": "x=-1",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 20,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0877-중하.png",
+      "correctAnswer": "(가) -2x (나) 5 (다) 12 (라) 2 (마) 6",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 21,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0900-중하.png",
+      "correctAnswer": "-14",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 22,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0919-미분류.png",
+      "correctAnswer": "-9",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 23,
+      "filename": "라이트쎈_6.일차방정식의 풀이-920-미분류.png",
+      "correctAnswer": "6",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 24,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0871-중하.png",
+      "correctAnswer": "(ㄱ), (ㄴ), (ㄹ)",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 25,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0906-중상.png",
+      "correctAnswer": "24",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 26,
+      "filename": "라이트쎈_1.소인수분해-0060-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 27,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0892-중하.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 28,
+      "filename": "라이트쎈_1.소인수분해-0084-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 29,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0899-중하.png",
+      "correctAnswer": "-9",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 30,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0188-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 31,
+      "filename": "라이트쎈_1.소인수분해-0089-미분류.png",
+      "correctAnswer": "21",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 32,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0186-미분류.png",
+      "correctAnswer": "12",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    }
+  ]
+}

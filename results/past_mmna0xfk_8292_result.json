@@ -1,0 +1,138 @@
+{
+  "title": "오답 학습 문제지",
+  "student": "이희원",
+  "score": 50,
+  "correct": 8,
+  "total": 16,
+  "gradedAt": "2026. 3. 5. 오후 5:03:27",
+  "results": [
+    {
+      "number": 1,
+      "filename": "쎈_중등-0403-상.png",
+      "correctAnswer": "√5/2",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 2,
+      "filename": "쎈_중등-0182-상.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 3,
+      "filename": "쎈_중등-0359-상.png",
+      "correctAnswer": "-2+√6",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "쎈(중3-1)1.제곱근의 뜻과 성질-0150-C단계.png",
+      "correctAnswer": "3",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "쎈_중등-0266-하.png",
+      "correctAnswer": "42",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "쎈_중등-0372-하.png",
+      "correctAnswer": "-3√2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "쎈_중등-0391-중.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 8,
+      "filename": "쎈_중등-0314-중.png",
+      "correctAnswer": "4√3 cm",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 9,
+      "filename": "쎈_중등-0660-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 10,
+      "filename": "쎈_중등-0275-상.png",
+      "correctAnswer": "25",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 11,
+      "filename": "쎈_중등-0375-중.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "식세우기어려움"
+    },
+    {
+      "number": 12,
+      "filename": "쎈_중등-0332-C단계.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 13,
+      "filename": "쎈_중등-0219-C단계.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 14,
+      "filename": "쎈_중등-0695-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 15,
+      "filename": "쎈_중등-0664-대표문제.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 16,
+      "filename": "쎈_중등-0662-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}

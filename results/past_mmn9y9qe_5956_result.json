@@ -1,0 +1,170 @@
+{
+  "title": "최준희 오답복습 0121",
+  "student": "최준희",
+  "score": 45,
+  "correct": 9,
+  "total": 20,
+  "gradedAt": "2026. 1. 26. 오후 4:31:30",
+  "results": [
+    {
+      "number": 1,
+      "filename": "쎈(공통수학)_4.이차방정식-0444-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "-1",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 2,
+      "filename": "쎈(공통수학)_4.이차방정식-0453-대표문제.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "쎈(공통수학)_4.이차방정식-0454-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "쎈(공통수학)_4.이차방정식-0455-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 5,
+      "filename": "쎈(공통수학)_4.이차방정식-0456-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 6,
+      "filename": "쎈(공통수학)_4.이차방정식-0462-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 7,
+      "filename": "쎈(공통수학)_4.이차방정식-0463-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "식세우기어려움"
+    },
+    {
+      "number": 8,
+      "filename": "쎈(공통수학)_4.이차방정식-0468-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 9,
+      "filename": "쎈(공통수학)_4.이차방정식-0469-대표문제.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 10,
+      "filename": "쎈(공통수학)_4.이차방정식-0473-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 11,
+      "filename": "쎈(공통수학)_4.이차방정식-0474-대표문제.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "식세우기어려움"
+    },
+    {
+      "number": 12,
+      "filename": "쎈(공통수학)_4.이차방정식-0475-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 13,
+      "filename": "쎈(공통수학)_4.이차방정식-0476-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 14,
+      "filename": "쎈(공통수학)_4.이차방정식-0481-대표문제.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 15,
+      "filename": "쎈(공통수학)_4.이차방정식-0483-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 16,
+      "filename": "쎈(공통수학)_4.이차방정식-0484-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 17,
+      "filename": "쎈(공통수학)_4.이차방정식-0485-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 18,
+      "filename": "쎈(공통수학)_4.이차방정식-0486-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 19,
+      "filename": "쎈(공통수학)_4.이차방정식-0487-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 20,
+      "filename": "쎈(공통수학)_4.이차방정식-0489-미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    }
+  ]
+}

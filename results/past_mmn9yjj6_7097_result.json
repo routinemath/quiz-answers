@@ -1,0 +1,74 @@
+{
+  "title": "최준희 일일테스트 0128",
+  "student": "최준희",
+  "score": 63,
+  "correct": 5,
+  "total": 8,
+  "gradedAt": "2026. 1. 28. 오후 5:40:51",
+  "results": [
+    {
+      "number": 1,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0218-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 2,
+      "filename": "쎈(공통수학)_1.다항식-0092-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 3,
+      "filename": "쎈(공통수학)_3.복소수-0350-상.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-226-대표문제.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 5,
+      "filename": "쎈(공통수학)_3.복소수-0344-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "쎈(공통수학)_2.인수분해와 나머지정리-0183-하.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "쎈(공통수학)_1.다항식-0049-중.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "쎈(공통수학)_3.복소수-0333-대표문제.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}

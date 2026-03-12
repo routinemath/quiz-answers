@@ -1,0 +1,138 @@
+{
+  "title": "나무 일일테스트 0306",
+  "student": "문나무",
+  "score": 75,
+  "correct": 12,
+  "total": 16,
+  "gradedAt": "2026. 3. 6. 오후 6:32:12",
+  "results": [
+    {
+      "number": 1,
+      "filename": "라이트쎈_4.유리수 계산-0592-미분류.png",
+      "correctAnswer": "-7",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "라이트쎈_3.정수와 유리수-0333-미분류.png",
+      "correctAnswer": "②, ③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "라이트쎈_3.정수와 유리수-0359-미분류.png",
+      "correctAnswer": "10/3, -4",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "라이트쎈_4.유리수 계산-0535-미분류.png",
+      "correctAnswer": "1/6",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 5,
+      "filename": "라이트쎈_3.정수와 유리수-0394-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 6,
+      "filename": "라이트쎈_3.정수와 유리수-0388-미분류.png",
+      "correctAnswer": "6",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "라이트쎈_3.정수와 유리수-0322-미분류.png",
+      "correctAnswer": "3",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "라이트쎈_3.정수와 유리수-0385-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 9,
+      "filename": "라이트쎈_3.정수와 유리수-0343-미분류.png",
+      "correctAnswer": "2/9, -2/9",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 10,
+      "filename": "라이트쎈_4.유리수 계산-0531-미분류.png",
+      "correctAnswer": "(가) 교환 (나) 결합 (다) +12 (라) -24",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 11,
+      "filename": "라이트쎈_4.유리수 계산-0549-미분류.png",
+      "correctAnswer": "a=-5/3, b=10",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 12,
+      "filename": "라이트쎈_1.소인수분해-0107-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 13,
+      "filename": "라이트쎈_1.소인수분해-0101-미분류.png",
+      "correctAnswer": "(ㄷ), (ㄹ)",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 14,
+      "filename": "라이트쎈_4.유리수 계산-0511-미분류.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 15,
+      "filename": "라이트쎈_3.정수와 유리수-0344-미분류.png",
+      "correctAnswer": "a=3, b=-5",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 16,
+      "filename": "라이트쎈_1.소인수분해-0128-미분류.png",
+      "correctAnswer": "200",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    }
+  ]
+}
