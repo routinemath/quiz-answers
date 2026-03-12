@@ -1,0 +1,74 @@
+{
+  "title": "학습점검 테스트 0131",
+  "student": "한수연",
+  "score": 38,
+  "correct": 3,
+  "total": 8,
+  "gradedAt": "2026. 2. 3. 오후 5:40:17",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0185-미분류.png",
+      "correctAnswer": "20",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(3-1)_4.인수분해-0525-미분류.png",
+      "correctAnswer": "2a",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0427-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0414-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0308-중상.png",
+      "correctAnswer": "30√5 cm³",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0402-미분류.png",
+      "correctAnswer": "(1)x²-2xz+z²-y²,(2)x²+2xy+y²-2x-2y,(3)4x²+4xy+y²-4x-2y+1",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 7,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0254-대표문제.png",
+      "correctAnswer": "①,③",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "집중력부족"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0073-하.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}
