@@ -1,0 +1,330 @@
+{
+  "title": "준희 고등복습과제 0126",
+  "student": "최준희",
+  "score": 63,
+  "correct": 25,
+  "total": 40,
+  "gradedAt": "2026. 2. 9. 오후 4:00:32",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(공통수학1)_3.복소수-0359-중.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(공통수학1)_1.다항식-0094-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(공통수학1)_1.다항식-0056-중하.png",
+      "correctAnswer": "30√3",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(공통수학1)_1.다항식-0079-하.png",
+      "correctAnswer": "19",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(공통수학1)_1.다항식-0096-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(공통수학1)_1.다항식-0057-중.png",
+      "correctAnswer": "47",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "RPM(공통수학1)_3.복소수-0336-중.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(공통수학1)_3.복소수-0309-대표.png",
+      "correctAnswer": "③, ④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 9,
+      "filename": "RPM(공통수학1)_3.복소수-0314-중.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 10,
+      "filename": "RPM(공통수학1)_1.다항식-0102-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 11,
+      "filename": "RPM(공통수학1)_1.다항식-0062-중.png",
+      "correctAnswer": "49",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 12,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0165-중하.png",
+      "correctAnswer": "-4",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 13,
+      "filename": "RPM(공통수학1)_3.복소수-0326-중.png",
+      "correctAnswer": "1",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 14,
+      "filename": "RPM(공통수학1)_1.다항식-0105-미분류.png",
+      "correctAnswer": "6",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 15,
+      "filename": "RPM(공통수학1)_3.복소수-0349-중.png",
+      "correctAnswer": "0",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 16,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0192--미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 17,
+      "filename": "RPM(공통수학1)_1.다항식-0055-중.png",
+      "correctAnswer": "10",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 18,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0173-미분류.png",
+      "correctAnswer": "-1",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 19,
+      "filename": "RPM(공통수학1)_3.복소수-0360-중상.png",
+      "correctAnswer": "-i",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 20,
+      "filename": "RPM(공통수학1)_1.다항식-0089-중.png",
+      "correctAnswer": "150",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 21,
+      "filename": "RPM(공통수학1)_3.복소수-0344-하.png",
+      "correctAnswer": "0",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 22,
+      "filename": "RPM(공통수학1)_3.복소수-0333-중하.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 23,
+      "filename": "RPM(공통수학1)_3.복소수-0338-중하.png",
+      "correctAnswer": "3",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 24,
+      "filename": "RPM(공통수학1)_3.복소수-0334-중.png",
+      "correctAnswer": "-1",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 25,
+      "filename": "RPM(공통수학1)_1.다항식-0066-증.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 26,
+      "filename": "RPM(공통수학1)_1.다항식-0077-중.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 27,
+      "filename": "RPM(공통수학1)_3.복소수-0315-중하.png",
+      "correctAnswer": "21",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 28,
+      "filename": "RPM(공통수학1)_1.다항식-0106-미분류.png",
+      "correctAnswer": "60",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 29,
+      "filename": "RPM(공통수학1)_3.복소수-0316-대표.png",
+      "correctAnswer": "1",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 30,
+      "filename": "RPM(공통수학1)_3.복소수-0353-중하.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 31,
+      "filename": "RPM(공통수학1)_3.복소수-0357-대표.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 32,
+      "filename": "RPM(공통수학1)_1.다항식-0053-중하.png",
+      "correctAnswer": "108",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 33,
+      "filename": "RPM(공통수학1)_3.복소수-0348-중하.png",
+      "correctAnswer": "4",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 34,
+      "filename": "RPM(공통수학1)_1.다항식-0061-대표문제.png",
+      "correctAnswer": "-2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 35,
+      "filename": "RPM(공통수학1)_3.복소수-0329-중.png",
+      "correctAnswer": "-11",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 36,
+      "filename": "RPM(공통수학1)_1.다항식-0082-대표문제.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 37,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0174-미분류.png",
+      "correctAnswer": "3",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 38,
+      "filename": "RPM(공통수학1)_1.다항식-0047-중.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 39,
+      "filename": "RPM(공통수학1)_3.복소수-0313-중하.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 40,
+      "filename": "RPM(공통수학1)_1.다항식-0074-중하.png",
+      "correctAnswer": "x^2-4x+7",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}
