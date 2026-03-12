@@ -1,0 +1,74 @@
+{
+  "title": "김태완 일일테스트 0128",
+  "student": "김태완",
+  "score": 38,
+  "correct": 3,
+  "total": 8,
+  "gradedAt": "2026. 1. 28. 오후 5:42:07",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(공통수학1)_1.다항식-0089-중.png",
+      "correctAnswer": "150",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(공통수학1)_3.복소수-0333-중하.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(공통수학1)_3.복소수-0343-대표.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(공통수학1)_3.복소수-0353-중하.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(공통수학1)_3.복소수-0361-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(공통수학1)_3.복소수-0354-대표.png",
+      "correctAnswer": "ㄱ",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 7,
+      "filename": "RPM(공통수학1)_3.복소수-0314-중.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(공통수학1)_1.다항식-0104-미분류.png",
+      "correctAnswer": "21",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    }
+  ]
+}
