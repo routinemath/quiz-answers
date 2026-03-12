@@ -1,0 +1,34 @@
+{
+  "title": "test_1772776301039",
+  "student": "테스트",
+  "score": 0,
+  "correct": 0,
+  "total": 3,
+  "gradedAt": "2026. 3. 6. 오후 3:05:00",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0421-대표문제.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0415-중.png",
+      "correctAnswer": "-34+2√6",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0418-중.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}
