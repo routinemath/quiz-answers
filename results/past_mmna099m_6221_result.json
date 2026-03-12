@@ -1,0 +1,74 @@
+{
+  "title": "유림 복습 테스트 0221",
+  "student": "김유림",
+  "score": 75,
+  "correct": 6,
+  "total": 8,
+  "gradedAt": "2026. 2. 23. 오후 3:41:56",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0272-중.png",
+      "correctAnswer": "3√6 cm",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0453-미분류.png",
+      "correctAnswer": "-10",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0079-중.png",
+      "correctAnswer": "(-√3)²",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0077-하.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0110-중.png",
+      "correctAnswer": "3개",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0130-중.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0151-하.png",
+      "correctAnswer": "점 C",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0112-대표문제.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}
