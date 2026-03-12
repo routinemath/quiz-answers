@@ -1,0 +1,210 @@
+{
+  "title": "RPM 1.제곱근과 실수 대표문제",
+  "student": "최준희",
+  "score": 64,
+  "correct": 16,
+  "total": 25,
+  "gradedAt": "2026. 2. 24. 오후 3:08:28",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0064-대표문제.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0068-대표문제.png",
+      "correctAnswer": "6",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0072-대표문제.png",
+      "correctAnswer": "②, ④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0076-대표문제.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0080-대표문제.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0088-대표문제.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 7,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0092-대표문제.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0096-대표문제.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 9,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0100-대표문제.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 10,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0104-대표문제.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 11,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0108-대표문제.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 12,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0112-대표문제.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 13,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0115-대표문제.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 14,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0119-대표문제.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 15,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0123-대표문제.png",
+      "correctAnswer": "4",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 16,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0127-대표문제.png",
+      "correctAnswer": "2개",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 17,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0131-대표문제.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 18,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0134-대표문제.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 19,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0137-대표문제.png",
+      "correctAnswer": "ㄴ, ㄷ",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 20,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0140-대표문제.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 21,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0143-대표문제.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 22,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0146-대표문제.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 23,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0150-대표문제.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 24,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0154-대표문제.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 25,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0158-대표문제.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}
