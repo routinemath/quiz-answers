@@ -1,0 +1,202 @@
+{
+  "title": "오답 복습과제 0206",
+  "student": "문나무",
+  "score": 67,
+  "correct": 16,
+  "total": 24,
+  "gradedAt": "2026. 2. 9. 오후 3:50:19",
+  "results": [
+    {
+      "number": 1,
+      "filename": "라이트쎈_6.일차방정식의 풀이-0883-하.png",
+      "correctAnswer": "a≠-3",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0203-미분류.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "라이트쎈_1.소인수분해-0071-미분류.png",
+      "correctAnswer": "2⁷",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "라이트쎈_1.소인수분해-0101-미분류.png",
+      "correctAnswer": "(ㄷ), (ㄹ)",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "라이트쎈_1.소인수분해-0077-미분류.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "라이트쎈_1.소인수분해-0075-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "라이트쎈_1.소인수분해-0103-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 8,
+      "filename": "라이트쎈_3.정수와 유리수-0335-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 9,
+      "filename": "라이트쎈_3.정수와 유리수-0365-미분류.png",
+      "correctAnswer": "|-20/7|, -14/3",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 10,
+      "filename": "라이트쎈_3.정수와 유리수-0366-미분류.png",
+      "correctAnswer": "0.7",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 11,
+      "filename": "라이트쎈_3.정수와 유리수-0357-미분류.png",
+      "correctAnswer": "13/3",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 12,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0244-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 13,
+      "filename": "라이트쎈_3.정수와 유리수-0393-하.png",
+      "correctAnswer": "-7/4≤x≤0, 정수 x: -1, 0",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 14,
+      "filename": "라이트쎈_3.정수와 유리수-0382-미분류.png",
+      "correctAnswer": "10/3",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 15,
+      "filename": "라이트쎈_4.유리수 계산-0488-미분류.png",
+      "correctAnswer": "(가) 교환 (나) 결합 (다) +3/2 (라) -3/2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 16,
+      "filename": "라이트쎈_4.유리수 계산-0526-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 17,
+      "filename": "라이트쎈_4.유리수 계산-0502-미분류.png",
+      "correctAnswer": "1/12",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 18,
+      "filename": "라이트쎈_4.유리수 계산-0555-미분류.png",
+      "correctAnswer": "20/3",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 19,
+      "filename": "라이트쎈_4.유리수 계산-0494-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 20,
+      "filename": "라이트쎈_3.정수와 유리수-0374-미분류.png",
+      "correctAnswer": "-3",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 21,
+      "filename": "라이트쎈_3.정수와 유리수-0372-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 22,
+      "filename": "라이트쎈_1.소인수분해-0066-미분류.png",
+      "correctAnswer": "8",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 23,
+      "filename": "라이트쎈_3.정수와 유리수-0379-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 24,
+      "filename": "라이트쎈_1.소인수분해-0089-미분류.png",
+      "correctAnswer": "21",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}
