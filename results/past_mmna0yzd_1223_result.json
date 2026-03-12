@@ -1,0 +1,138 @@
+{
+  "title": "지우 일일테스트 0303",
+  "student": "김지우",
+  "score": 94,
+  "correct": 15,
+  "total": 16,
+  "gradedAt": "2026. 3. 5. 오후 5:50:31",
+  "results": [
+    {
+      "number": 1,
+      "filename": "라이트쎈_4.유리수 계산-0512-미분류.png",
+      "correctAnswer": "22",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "라이트쎈_3.정수와 유리수-0326-미분류.png",
+      "correctAnswer": "③, ④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "라이트쎈_3.정수와 유리수-0318-미분류.png",
+      "correctAnswer": "(ㄱ), (ㄹ)",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "라이트쎈_3.정수와 유리수-0343-미분류.png",
+      "correctAnswer": "2/9, -2/9",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "라이트쎈_3.정수와 유리수-0325-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0229-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0243-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "라이트쎈_3.정수와 유리수-0317-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 9,
+      "filename": "라이트쎈_3.정수와 유리수-0388-미분류.png",
+      "correctAnswer": "6",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 10,
+      "filename": "라이트쎈_4.유리수 계산-0500-미분류.png",
+      "correctAnswer": "10",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 11,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0257-미분류.png",
+      "correctAnswer": "3",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 12,
+      "filename": "라이트쎈_4.유리수 계산-0486-미분류.png",
+      "correctAnswer": "㉠ 덧셈의 교환법칙 ㉡ 덧셈의 결합법칙",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 13,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0245-미분류.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 14,
+      "filename": "라이트쎈_3.정수와 유리수-0375-미분류.png",
+      "correctAnswer": "12",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 15,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0225-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 16,
+      "filename": "라이트쎈_3.정수와 유리수-0380-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}
