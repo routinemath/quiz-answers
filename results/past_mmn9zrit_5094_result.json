@@ -1,0 +1,74 @@
+{
+  "title": "나무 일일테스트 0209",
+  "student": "문나무",
+  "score": 88,
+  "correct": 7,
+  "total": 8,
+  "gradedAt": "2026. 2. 11. 오후 4:34:37",
+  "results": [
+    {
+      "number": 1,
+      "filename": "라이트쎈_3.정수와 유리수-0375-미분류.png",
+      "correctAnswer": "12",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "라이트쎈_3.정수와 유리수-0332-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "라이트쎈_3.정수와 유리수-0355-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0259-미분류.png",
+      "correctAnswer": "(1) 70 cm (2) 70",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 5,
+      "filename": "라이트쎈_3.정수와 유리수-0344-미분류.png",
+      "correctAnswer": "a=3, b=-5",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "라이트쎈_3.정수와 유리수-0317-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "라이트쎈_3.정수와 유리수-0327-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "라이트쎈_3.정수와 유리수-0335-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}
