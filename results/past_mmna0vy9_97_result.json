@@ -1,0 +1,138 @@
+{
+  "title": "희원 복습테스트 0228",
+  "student": "이희원",
+  "score": 38,
+  "correct": 6,
+  "total": 16,
+  "gradedAt": "2026. 3. 5. 오후 5:01:45",
+  "results": [
+    {
+      "number": 1,
+      "filename": "쎈_중등-0812-상.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 2,
+      "filename": "쎈_중등-0661-중.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "쎈(중3-1)1.제곱근의 뜻과 성질-0109-중.png",
+      "correctAnswer": "(6,4),(24,2),(96,1)",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "쎈_중등-0311-상.png",
+      "correctAnswer": "135√15π cm³",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 5,
+      "filename": "쎈_중등-0293-상.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "쎈_중등-0393-대표문제.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "쎈(중3-1)1.제곱근의 뜻과 성질-0155-C단계.png",
+      "correctAnswer": "x+5",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 8,
+      "filename": "쎈(중3-1)1.제곱근의 뜻과 성질-0110-상.png",
+      "correctAnswer": "6",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 9,
+      "filename": "쎈_중등-0593-상.png",
+      "correctAnswer": "45",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 10,
+      "filename": "쎈_중등-0663-상.png",
+      "correctAnswer": "16/3",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 11,
+      "filename": "쎈_중등-0327-C단계.png",
+      "correctAnswer": "(2√3)/3 배",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 12,
+      "filename": "쎈_중등-0193-중.png",
+      "correctAnswer": "8,136",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 13,
+      "filename": "쎈_중등-0541-중.png",
+      "correctAnswer": "110",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 14,
+      "filename": "쎈_중등-0426-C단계.png",
+      "correctAnswer": "4",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 15,
+      "filename": "쎈_중등-0789-상.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "식세우기어려움"
+    },
+    {
+      "number": 16,
+      "filename": "쎈_중등-0665-중.png",
+      "correctAnswer": "11/2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}
