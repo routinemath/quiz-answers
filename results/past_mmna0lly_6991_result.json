@@ -1,0 +1,74 @@
+{
+  "title": "유림 복습 테스트 0224",
+  "student": "김유림",
+  "score": 63,
+  "correct": 5,
+  "total": 8,
+  "gradedAt": "2026. 2. 25. 오후 5:44:21",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0183-미분류.png",
+      "correctAnswer": "3, 12, 27",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0171-미분류.png",
+      "correctAnswer": "60",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(3-1)_4.인수분해-0599-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0342-미분류.png",
+      "correctAnswer": "-1/18",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(3-1)_4.인수분해-0588-미분류.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0174-미분류.png",
+      "correctAnswer": "③, ⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0444-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0330-미분류.png",
+      "correctAnswer": "0",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    }
+  ]
+}
