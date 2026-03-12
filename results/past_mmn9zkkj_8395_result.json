@@ -1,0 +1,330 @@
+{
+  "title": "최준희 고등복습과제 0202",
+  "student": "최준희",
+  "score": 43,
+  "correct": 17,
+  "total": 40,
+  "gradedAt": "2026. 2. 9. 오후 4:03:59",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(공통수학1)_1.다항식-0107-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(공통수학1)_1.다항식-0101-미분류.png",
+      "correctAnswer": "3",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(공통수학1)_3.복소수-0369-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(공통수학1)_3.인수분해-0267-미분류.png",
+      "correctAnswer": "8",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(공통수학1)_1.다항식-0109-미분류.png",
+      "correctAnswer": "6",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0173-미분류.png",
+      "correctAnswer": "-1",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0178-미분류.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0183-미분류.png",
+      "correctAnswer": "1",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 9,
+      "filename": "RPM(공통수학1)_3.복소수-0365-미분류.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 10,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0188-미분류.png",
+      "correctAnswer": "2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 11,
+      "filename": "RPM(공통수학1)_3.복소수-0374-미분류.png",
+      "correctAnswer": "100-i",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 12,
+      "filename": "RPM(공통수학1)_3.인수분해-0271-미분류.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 13,
+      "filename": "RPM(공통수학1)_1.다항식-0098-미분류.png",
+      "correctAnswer": "x^2+3x-1",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 14,
+      "filename": "RPM(공통수학1)_3.복소수-0361-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 15,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0179-미분류.png",
+      "correctAnswer": "-6",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 16,
+      "filename": "RPM(공통수학1)_1.다항식-0094-미분류.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 17,
+      "filename": "RPM(공통수학1)_3.복소수-0371-미분류.png",
+      "correctAnswer": "2",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 18,
+      "filename": "RPM(공통수학1)_3.인수분해-0274-미분류.png",
+      "correctAnswer": "-220",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 19,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0193--미분류.png",
+      "correctAnswer": "정답없음",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 20,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0189-미분류.png",
+      "correctAnswer": "2",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 21,
+      "filename": "RPM(공통수학1)_3.인수분해-0276-미분류.png",
+      "correctAnswer": "22",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 22,
+      "filename": "RPM(공통수학1)_3.인수분해-0270-미분류.png",
+      "correctAnswer": "3(x-y)(y-z)(z-x)",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 23,
+      "filename": "RPM(공통수학1)_1.다항식-0099-미분류.png",
+      "correctAnswer": "x+4",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 24,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0187-미분류.png",
+      "correctAnswer": "x+1",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 25,
+      "filename": "RPM(공통수학1)_3.인수분해-0264-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 26,
+      "filename": "RPM(공통수학1)_1.다항식-0096-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 27,
+      "filename": "RPM(공통수학1)_3.인수분해-0275-미분류.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 28,
+      "filename": "RPM(공통수학1)_1.다항식-0092-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 29,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0181-미분류.png",
+      "correctAnswer": "-11",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 30,
+      "filename": "RPM(공통수학1)_3.인수분해-0272-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 31,
+      "filename": "RPM(공통수학1)_3.인수분해-0279-미분류.png",
+      "correctAnswer": "√3",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "개념연결못함"
+    },
+    {
+      "number": 32,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0191-미분류.png",
+      "correctAnswer": "-27",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 33,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0195-미분류.png",
+      "correctAnswer": "-4",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함"
+    },
+    {
+      "number": 34,
+      "filename": "RPM(공통수학1)_1.다항식-0105-미분류.png",
+      "correctAnswer": "6",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 35,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0184-미분류.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 36,
+      "filename": "RPM(공통수학1)_3.인수분해-0269-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 37,
+      "filename": "RPM(공통수학1)_3.복소수-0368-미분류.png",
+      "correctAnswer": "12",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 38,
+      "filename": "RPM(공통수학1)_2.항등식과 나머지정리-0175-미분류.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 39,
+      "filename": "RPM(공통수학1)_3.복소수-0366-미분류.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 40,
+      "filename": "RPM(공통수학1)_3.복소수-0367-미분류.png",
+      "correctAnswer": "13",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}
