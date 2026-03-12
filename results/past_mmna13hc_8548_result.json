@@ -1,0 +1,298 @@
+{
+  "title": "준희 복습 과제-0304",
+  "student": "최준희",
+  "score": 83,
+  "correct": 30,
+  "total": 36,
+  "gradedAt": "2026. 3. 6. 오후 5:23:05",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0315-중.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 2,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0273-중.png",
+      "correctAnswer": "4√6",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 3,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0319-중.png",
+      "correctAnswer": "3",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 4,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0281-중.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 5,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0303-중.png",
+      "correctAnswer": "A<B<C",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 6,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0276-중.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 7,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0304-중.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 8,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0314-중.png",
+      "correctAnswer": "4",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 9,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0288-중.png",
+      "correctAnswer": "2+3√5",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 10,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0302-중.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 11,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0298-중.png",
+      "correctAnswer": "√10-2",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 12,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0085-중.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 13,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0295-중.png",
+      "correctAnswer": "-7+2√10",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 14,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0075-중.png",
+      "correctAnswer": "ㄱ, ㄴ",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 15,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0078-중.png",
+      "correctAnswer": "5",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 16,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0086-중.png",
+      "correctAnswer": "-6",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 17,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0299-중.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 18,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0090-중.png",
+      "correctAnswer": "2개",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 19,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0079-중.png",
+      "correctAnswer": "(-√3)²",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 20,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0318-중.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 21,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0067-중.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 22,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0310-중.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 23,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0272-중.png",
+      "correctAnswer": "3√6 cm",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 24,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0307-중.png",
+      "correctAnswer": "24√3",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 25,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0306-중.png",
+      "correctAnswer": "9√2 cm",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 26,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0311-중.png",
+      "correctAnswer": "658",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 27,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0291-중.png",
+      "correctAnswer": "-2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 28,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0287-중.png",
+      "correctAnswer": "4-2√2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 29,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0070-중.png",
+      "correctAnswer": "13",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 30,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0285-중.png",
+      "correctAnswer": "-2√2+2√3",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 31,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0294-중.png",
+      "correctAnswer": "①",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "계산실수"
+    },
+    {
+      "number": 32,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0280-중.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 33,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0074-중.png",
+      "correctAnswer": "4개",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 34,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0271-중.png",
+      "correctAnswer": "7√2 cm",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 35,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0284-중.png",
+      "correctAnswer": "⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    },
+    {
+      "number": 36,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0292-중.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이"
+    }
+  ]
+}
