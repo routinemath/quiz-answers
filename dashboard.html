@@ -25,7 +25,6 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 
 .main{padding:22px 24px;max-width:1300px;margin:0 auto;}
 
-/* 학생 카드 */
 .student-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; margin-top: 20px; }
 .student-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; cursor: pointer; transition: transform 0.2s, border-color 0.2s; position: relative; overflow: hidden; }
 .student-card::before { content:''; position:absolute; top:0; left:0; width:4px; height:100%; background:var(--accent); border-radius:var(--radius) 0 0 var(--radius); }
@@ -33,7 +32,6 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 .student-card .name { font-size: 20px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 .student-card .stat { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-bottom: 6px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
 
-/* 디테일 상단 */
 .detail-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
 .detail-header h2 { font-size: 24px; font-weight: 900; color: var(--accent); display: flex; align-items: center; gap: 10px; }
 
@@ -49,7 +47,6 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 .card-hd h2{font-size:14px;font-weight:700;}
 .card-bd{padding:14px 18px;}
 
-/* 테이블, 뱃지, 태그 등 (기존 유지) */
 .tbl{width:100%;border-collapse:collapse;}
 .tbl th{font-size:11px;color:var(--muted);padding:7px 10px;text-align:left;border-bottom:1px solid var(--border);}
 .tbl td{padding:10px 10px;font-size:13px;border-bottom:1px solid var(--border);}
@@ -64,8 +61,11 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 .btn{padding:7px 14px;border-radius:8px;border:none;font-size:12px;cursor:pointer;font-weight:600;}
 .btn-p{background:var(--accent);color:#fff;}
 .btn-g{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
+.btn-sm{padding:4px 9px;font-size:11px;}
 
-/* 모달, 토스트 (기존 유지) */
+.tab-btn { background:var(--surface2); color:var(--text); border:1px solid var(--border); padding:8px 16px; border-radius:20px; font-size:13px; cursor:pointer; font-weight:bold; transition:all 0.2s; }
+.tab-btn.active { background:var(--accent); color:white; border-color:var(--accent); }
+
 #modal, #manualModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:1000;align-items:center;justify-content:center;padding:20px;}
 #modal.open{display:flex;}
 .mbox{background:var(--surface);border:1px solid var(--border);border-radius:18px;width:100%;max-height:90vh;overflow-y:auto;padding:26px;}
@@ -77,7 +77,6 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 #toast{position:fixed;bottom:24px;right:24px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 16px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.4);transform:translateY(16px);opacity:0;transition:all .3s;z-index:999;}
 #toast.show{transform:translateY(0);opacity:1;}
 
-/* 🌱 잔디 심기 (학습 성실도) */
 .grass-grid { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 8px; }
 .grass-col { display: flex; flex-direction: column; gap: 4px; }
 .grass-cell { width: 14px; height: 14px; border-radius: 3px; background: var(--surface2); cursor: pointer; position: relative; }
@@ -129,30 +128,39 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 
   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px;">
     <div class="card" style="margin-bottom:0;">
-      <div class="card-hd"><h2>🕸️ 교재/단원별 정답률</h2></div>
-      <div class="card-bd" style="display:flex; justify-content:center; align-items:center; height:250px;">
-        <canvas id="radarChart"></canvas>
+      <div class="card-hd"><h2>📚 교재별 단원 정답률</h2></div>
+      <div class="card-bd">
+        <div id="bookTabs" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;"></div>
+        <div style="height:250px; position:relative;">
+          <canvas id="chapterChart"></canvas>
+        </div>
       </div>
     </div>
+    
     <div class="card" style="margin-bottom:0;">
-      <div class="card-hd"><h2>📊 난이도별 정답률</h2></div>
-      <div class="card-bd" id="difficultyChart" style="height:250px; overflow-y:auto;"></div>
+      <div class="card-hd"><h2>📈 난이도별 누적 정답률 성장 추이</h2><span style="font-size:11px;color:var(--muted);">시간에 따른 실력 변화</span></div>
+      <div class="card-bd" style="height:280px; position:relative;">
+        <canvas id="diffTrendChart"></canvas>
+      </div>
     </div>
   </div>
 
-  <div style="display: grid; grid-template-columns: 1fr 300px; gap: 18px;">
+  <div style="display: grid; grid-template-columns: 1fr; gap: 18px; margin-bottom: 18px;">
     <div class="card" style="margin-bottom:0;">
       <div class="card-hd"><h2>📉 점수 성장 타임라인</h2></div>
       <div style="overflow-x:auto;">
         <table class="tbl">
-          <thead><tr><th>시험지</th><th>점수 과정</th><th>최종 정답률</th><th>오답 문제</th><th>최근 제출</th><th>상세</th></tr></thead>
+          <thead><tr><th>시험지</th><th>점수 과정</th><th>최종 정답률</th><th>오답 문제</th><th>제출 일시</th><th>상세</th></tr></thead>
           <tbody id="detailTbody"></tbody>
         </table>
       </div>
     </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr; gap: 18px; margin-bottom: 18px;">
     <div class="card" style="margin-bottom:0;">
       <div class="card-hd"><h2>🧠 주관적 오답 원인</h2></div>
-      <div class="card-bd" id="detailMetaChart"></div>
+      <div class="card-bd" id="detailMetaChart" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:16px;"></div>
     </div>
   </div>
 </div>
@@ -172,9 +180,7 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
       <h3 style="font-size:18px; color:var(--accent); margin-bottom:15px;">📝 초고속 수기 채점</h3>
       <div style="background:var(--surface2); padding:15px; border-radius:8px; margin-bottom:15px;">
          <label style="font-size:12px; color:var(--muted); display:block; margin-bottom:5px;">1. 채점할 시험지 선택 (Index 연동)</label>
-         <select id="mgSelectTest" class="cfg-field" onchange="selectMgTest()" style="margin-bottom:10px;">
-            <option value="">-- 시험지를 선택하세요 --</option>
-         </select>
+         <select id="mgSelectTest" class="cfg-field" onchange="selectMgTest()" style="margin-bottom:10px;"></select>
          <div style="display:flex; gap:10px;">
             <input id="mgStudent" placeholder="학생 이름" class="cfg-field" readonly>
             <input id="mgTitle" placeholder="시험지 제목" class="cfg-field" readonly>
@@ -193,10 +199,16 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 <div id="toast"></div>
 
 <script>
+// Chart.js 전역 테마 설정 (어두운 테마용 흰색 글씨)
+Chart.defaults.color = '#e8eaf6';
+Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+
 let allResults = [];
 let filteredResults = [];
 let currentDetailStudent = '';
-let myRadarChart = null; // 레이더 차트 인스턴스
+let chapterChartInst = null;
+let diffTrendInst = null;
+let globalBookData = {}; 
 
 window.onload = function() { loadResults(); };
 
@@ -210,7 +222,6 @@ async function loadResults() {
     if (fetchedData.status === "error") throw new Error(fetchedData.message);
     allResults = fetchedData;
     
-    // 🔥 [핵심 추가] 전체 데이터를 불러온 직후, 모든 학생의 localStorage(오답 누적 시스템)를 완벽하게 재구축합니다!
     syncAllStudentsToLocalStorage();
     
     document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString('ko-KR') + ' 동기화 완료';
@@ -219,60 +230,36 @@ async function loadResults() {
   } catch(e) { toast('❌ 실패: ' + e.message); }
 }
 
-// 🔥 학생/선생님 양쪽의 모든 채점 데이터를 모아 Index용 localStorage를 100% 최신으로 갱신하는 함수
 function syncAllStudentsToLocalStorage() {
     const studentMap = {};
-    
-    // 1. 과거순으로 정렬 (성장이 누적되어야 하므로)
     const timeSorted = [...allResults].sort((a,b) => new Date(a.gradedAt) - new Date(b.gradedAt));
-    
     timeSorted.forEach(test => {
         const sName = test.student || '이름 없음';
-        if (!studentMap[sName]) studentMap[sName] = {}; // 학생별 데이터 공간 초기화
-        
+        if (!studentMap[sName]) studentMap[sName] = {}; 
         (test.results || []).forEach(r => {
-            if(!r.filename) return; // 파일명(이미지이름)이 있어야만 누적 가능
-            
-            if(!studentMap[sName][r.filename]) {
-                studentMap[sName][r.filename] = { level: '취약문제', correctStreak: 0, totalCorrect: 0, totalWrong: 0, history: [] };
-            }
-            
+            if(!r.filename) return; 
+            if(!studentMap[sName][r.filename]) { studentMap[sName][r.filename] = { level: '취약문제', correctStreak: 0, totalCorrect: 0, totalWrong: 0, history: [] }; }
             const prob = studentMap[sName][r.filename];
             if(r.correct) {
-                prob.correctStreak++;
-                prob.totalCorrect++;
-                if(prob.correctStreak >= 3) prob.level = '완전정복';
-                else if(prob.correctStreak >= 1) prob.level = '복습필요';
-            } else {
-                prob.correctStreak = 0;
-                prob.totalWrong++;
-                prob.level = '취약문제';
-            }
+                prob.correctStreak++; prob.totalCorrect++;
+                if(prob.correctStreak >= 3) prob.level = '완전정복'; else if(prob.correctStreak >= 1) prob.level = '복습필요';
+            } else { prob.correctStreak = 0; prob.totalWrong++; prob.level = '취약문제'; }
             prob.history.push({ date: test.gradedAt, result: r.correct ? 'correct' : 'wrong' });
         });
     });
-    
-    // 2. 완성된 100% 최신 데이터를 선생님 컴퓨터(PC)의 localStorage에 각각 덮어쓰기
-    Object.keys(studentMap).forEach(sName => {
-        localStorage.setItem(`student_${sName}`, JSON.stringify(studentMap[sName]));
-    });
-    console.log('✅ Index 오답 시스템 완벽 동기화 완료!');
+    Object.keys(studentMap).forEach(sName => { localStorage.setItem(`student_${sName}`, JSON.stringify(studentMap[sName])); });
 }
-
 
 function renderMainView() {
   const grid = document.getElementById('studentGrid');
   if (allResults.length === 0) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);">데이터가 없습니다.</div>'; return; }
-
   const studentMap = {};
   allResults.forEach(r => {
     const s = r.student || '이름 없음';
     if (!studentMap[s]) studentMap[s] = { scores: [], count: 0, lastDate: '' };
-    studentMap[s].scores.push(r.score || 0);
-    studentMap[s].count++;
+    studentMap[s].scores.push(r.score || 0); studentMap[s].count++;
     if (!studentMap[s].lastDate || r.gradedAt > studentMap[s].lastDate) studentMap[s].lastDate = r.gradedAt;
   });
-
   let html = '';
   Object.keys(studentMap).sort().forEach(name => {
     const data = studentMap[name];
@@ -283,7 +270,7 @@ function renderMainView() {
         <div class="name">👤 ${esc(name)}</div>
         <div class="stat"><span>총 제출</span> <span class="val" style="color:var(--text);">${data.count}회</span></div>
         <div class="stat"><span>평균 점수</span> <span class="val" style="color:${col};">${avg}점</span></div>
-        <div class="stat"><span>최근 제출</span> <span class="val" style="font-size:11px; color:var(--muted);">${esc(data.lastDate)}</span></div>
+        <div class="stat"><span>최근 제출</span> <span class="val" style="font-size:11px; color:var(--muted);">${esc(data.lastDate).split(' ')[0]}</span></div>
       </div>`;
   });
   grid.innerHTML = html;
@@ -298,11 +285,12 @@ function openStudentDetail(studentName) {
   
   const sData = allResults.filter(r => (r.student || '이름 없음') === studentName);
   renderStudentDetail(sData);
-  renderGrassChart(sData);        // 🌱 잔디 심기
-  renderDifficultyChart(sData);   // 📊 난이도 분석
-  renderRadarChart(sData);        // 🕸️ 교재 레이더
+  renderGrassChart(sData);        
+  renderBookTabs(sData);          
+  renderDifficultyTrend(sData);   
 }
 
+// 🔥 수정 3: 최초 오답 추적 + 시간 표시가 적용된 학생 상세 화면
 function renderStudentDetail(data) {
   const scores = data.map(r => r.score || 0);
   document.getElementById('dTot').textContent = data.length + '회';
@@ -314,10 +302,33 @@ function renderStudentDetail(data) {
   const groups = {};
   const timeSorted = [...data].sort((a, b) => (a._fname||'').localeCompare(b._fname||''));
   timeSorted.forEach(r => { const key = r.title; if (!groups[key]) groups[key] = { title: r.title, attempts: [] }; groups[key].attempts.push(r); });
-
   const groupArray = Object.values(groups).reverse();
   const tb = document.getElementById('detailTbody');
-  filteredResults = groupArray.map(g => g.attempts[g.attempts.length - 1]);
+
+  // [최초 오답 추적 마술]
+  filteredResults = groupArray.map(g => {
+      const latest = g.attempts[g.attempts.length - 1];
+      const merged = JSON.parse(JSON.stringify(latest)); 
+      const everWrongMap = {};
+      
+      g.attempts.forEach(a => {
+          (a.results || []).forEach(p => {
+              if (!p.correct && !everWrongMap[p.number]) {
+                  everWrongMap[p.number] = { ...p };
+              }
+          });
+      });
+
+      merged.results.forEach(p => {
+          if (everWrongMap[p.number]) {
+              p.everWrong = true;
+              p.wrongInstance = everWrongMap[p.number];
+          } else {
+              p.everWrong = false;
+          }
+      });
+      return merged;
+  });
 
   if (groupArray.length === 0) { tb.innerHTML = ''; return; }
 
@@ -327,48 +338,37 @@ function renderStudentDetail(data) {
     let everWrong = new Set(); g.attempts.forEach(a => { (a.results||[]).forEach(p => { if (!p.correct) everWrong.add(p.number); }); });
     const wrongs = Array.from(everWrong).sort((a,b)=>a-b).map(x=>x+'번');
     const wrongHtml = wrongs.length ? wrongs.map(w=>`<span class="wtag">${w}</span>`).join('') : '<span style="color:var(--green);font-size:12px;">처음부터 100점! 🎉</span>';
+    
+    const fullDate = esc(latest.gradedAt||'–'); // 시간까지 모두 표시
 
     return `<tr>
       <td style="font-weight:bold;">${esc(g.title)} <span style="font-size:11px; color:var(--accent); font-weight:normal;">[${g.attempts.length}회]</span></td>
       <td><div style="font-weight:bold; color:var(--yellow); font-size:12px;">${timeline}</div></td>
       <td><span class="badge ${cls}">${pct}%</span></td>
       <td><div class="wtags">${wrongHtml}</div></td>
-      <td class="ts">${esc(latest.gradedAt||'–').split(' ')[0]}</td>
+      <td class="ts" style="font-size:12px;">${fullDate}</td>
       <td><button class="btn btn-g btn-sm" onclick="showDetail(${idx})">상세</button></td>
     </tr>`;
   }).join('');
 }
 
-// 🌱 1. 학습 성실도 (잔디 심기)
 function renderGrassChart(data) {
-    const grid = document.getElementById('grassGrid');
-    const today = new Date();
-    const dateCounts = {};
-    
-    // 데이터 날짜별 푼 문제 수 계산
+    const grid = document.getElementById('grassGrid'); const today = new Date(); const dateCounts = {};
     data.forEach(test => {
-        const dStr = new Date(test.gradedAt).toLocaleDateString('en-CA'); // YYYY-MM-DD 형식 보장
+        const dStr = new Date(test.gradedAt).toLocaleDateString('en-CA'); 
         const probCount = test.total || (test.results ? test.results.length : 0);
         dateCounts[dStr] = (dateCounts[dStr] || 0) + probCount;
     });
-
     let html = '';
-    // 최근 30일을 5일씩 6열로 (가로 스크롤)
     for(let col = 0; col < 6; col++) {
         html += `<div class="grass-col">`;
         for(let row = 0; row < 5; row++) {
             const daysAgo = 29 - (col * 5 + row);
-            const d = new Date(today);
-            d.setDate(today.getDate() - daysAgo);
+            const d = new Date(today); d.setDate(today.getDate() - daysAgo);
             const dStr = d.toLocaleDateString('en-CA');
             const displayDate = d.toLocaleDateString('ko-KR', {month:'short', day:'numeric'});
-            
-            const count = dateCounts[dStr] || 0;
-            let levelClass = '';
-            if(count > 20) levelClass = 'l3';
-            else if(count > 10) levelClass = 'l2';
-            else if(count > 0) levelClass = 'l1';
-            
+            const count = dateCounts[dStr] || 0; let levelClass = '';
+            if(count > 20) levelClass = 'l3'; else if(count > 10) levelClass = 'l2'; else if(count > 0) levelClass = 'l1';
             html += `<div class="grass-cell ${levelClass}" title="${displayDate}: ${count}문제 풀음"></div>`;
         }
         html += `</div>`;
@@ -376,139 +376,201 @@ function renderGrassChart(data) {
     grid.innerHTML = html;
 }
 
-// 📊 2. 난이도별 정답률 바 차트
-function renderDifficultyChart(data) {
-    const diffMap = {};
-    // 난이도 패턴 추출 헬퍼 (Index와 동일 로직)
-    const extractDiff = (fname) => {
-        const match = fname.match(/-(대표문제|하|중하|중|중상|상)\.png$/i);
-        if(match) return match[1];
-        if(fname.includes('C단계')||fname.includes('c.png')) return 'C단계';
-        if(fname.includes('3점')) return '3점';
-        if(fname.includes('4점')) return '4점';
-        return '미분류';
-    };
-    
-    // 정렬 순서
-    const diffOrder = ['대표문제','하','중하','중','중상','상','C단계','3점','4점','미분류'];
-    
+function renderBookTabs(data) {
+    globalBookData = {};
     data.forEach(test => {
         (test.results || []).forEach(r => {
-            if(!r.filename) return;
-            const d = extractDiff(r.filename);
-            if(!diffMap[d]) diffMap[d] = { correct: 0, total: 0 };
-            diffMap[d].total++;
-            if(r.correct) diffMap[d].correct++;
+            if(!r.filename || !r.filename.includes('_')) return; 
+            const parts = r.filename.split('_');
+            let book = parts[0].replace(/^RPM(\d)-/, 'RPM중$1-'); 
+            let rest = parts.slice(1).join('_');
+            let chapter = rest.split('-')[0].replace(/\.[^/.]+$/, ""); 
+            
+            if(!globalBookData[book]) globalBookData[book] = {};
+            if(!globalBookData[book][chapter]) globalBookData[book][chapter] = { correct: 0, total: 0 };
+            
+            globalBookData[book][chapter].total++;
+            if(r.correct) globalBookData[book][chapter].correct++;
         });
     });
 
-    let html = '';
-    diffOrder.forEach(d => {
-        if(!diffMap[d]) return;
-        const stat = diffMap[d];
-        const pct = Math.round((stat.correct / stat.total) * 100);
-        const col = pct >= 80 ? 'var(--green)' : pct >= 50 ? 'var(--yellow)' : 'var(--red)';
-        
-        html += `
-        <div style="margin-bottom:12px;">
-            <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; font-weight:bold;">
-                <span>${d}</span>
-                <span style="color:${col};">${pct}% <span style="color:var(--muted);font-weight:normal;font-size:11px;">(${stat.correct}/${stat.total})</span></span>
-            </div>
-            <div class="bar" style="height:12px; background:var(--surface2);">
-                <div class="bar-fill" style="width:${pct}%; background:${col}"></div>
-            </div>
-        </div>`;
-    });
+    const tabsContainer = document.getElementById('bookTabs');
+    const books = Object.keys(globalBookData);
     
-    if(html === '') html = '<div class="empty"><div class="ico">📊</div><div>분석 가능한 난이도 데이터가 없습니다.</div></div>';
-    document.getElementById('difficultyChart').innerHTML = html;
+    if(books.length === 0) {
+        tabsContainer.innerHTML = '';
+        document.getElementById('chapterChart').style.display = 'none';
+        if(chapterChartInst) chapterChartInst.destroy();
+        return;
+    }
+
+    tabsContainer.innerHTML = books.map((b, i) => 
+        `<button class="tab-btn ${i===0?'active':''}" id="tabBtn_${i}" onclick="selectBookTab('${b}', ${i}, ${books.length})">${b}</button>`
+    ).join('');
+    
+    selectBookTab(books[0], 0, books.length);
 }
 
-// 🕸️ 3. 교재/단원별 레이더 차트 (Chart.js)
-function renderRadarChart(data) {
-    const ctx = document.getElementById('radarChart');
-    if (!ctx) return;
-    
-    const bookMap = {};
-    const extractBook = (fname) => {
-        const match = fname.match(/^([^_]+)/);
-        if(match) return match[1].replace(/^RPM(\d)-/, 'RPM중$1-');
-        return '기타';
-    };
+function selectBookTab(bookName, index, totalTabs) {
+    for(let i=0; i<totalTabs; i++) {
+        const btn = document.getElementById(`tabBtn_${i}`);
+        if(btn) btn.classList.remove('active');
+    }
+    const activeBtn = document.getElementById(`tabBtn_${index}`);
+    if(activeBtn) activeBtn.classList.add('active');
 
-    data.forEach(test => {
-        (test.results || []).forEach(r => {
-            if(!r.filename) return;
-            const b = extractBook(r.filename);
-            if(!bookMap[b]) bookMap[b] = { correct: 0, total: 0 };
-            bookMap[b].total++;
-            if(r.correct) bookMap[b].correct++;
-        });
-    });
-
+    const chData = globalBookData[bookName];
     const labels = [];
     const pcts = [];
     
-    // 교재별 10문제 이상 푼 데이터만 추출 (유의미한 데이터)
-    Object.keys(bookMap).forEach(b => {
-        if(bookMap[b].total >= 5) {
-            labels.push(b.length > 8 ? b.substring(0,7)+'..' : b); // 이름 길면 자름
-            pcts.push(Math.round((bookMap[b].correct / bookMap[b].total) * 100));
+    Object.keys(chData).forEach(ch => {
+        if(chData[ch].total >= 2) { 
+            let labelText = ch;
+            if(ch.length > 7) labelText = [ch.substring(0,7), ch.substring(7,14) + (ch.length>14?'..':'')];
+            labels.push(labelText);
+            pcts.push(Math.round((chData[ch].correct / chData[ch].total) * 100));
         }
     });
 
-    // 기존 차트 파괴
-    if (myRadarChart) myRadarChart.destroy();
+    const ctx = document.getElementById('chapterChart');
+    if(chapterChartInst) chapterChartInst.destroy();
     
-    if(labels.length < 3) {
-        // 차트를 그리기엔 데이터 항목 종류가 너무 적음
-        document.getElementById('radarChart').style.display = 'none';
-        ctx.parentElement.innerHTML = '<div class="empty"><div class="ico">🕸️</div><div>아직 다양한 교재를 풀지 않았습니다. (최소 3개 교재/단원 필요)</div><canvas id="radarChart" style="display:none;"></canvas></div>';
-        return;
+    if(labels.length === 0) {
+        ctx.style.display = 'none'; return;
     }
     
-    document.getElementById('radarChart').style.display = 'block';
+    ctx.style.display = 'block';
+    const chartType = labels.length >= 3 ? 'radar' : 'bar';
 
-    myRadarChart = new Chart(ctx, {
-        type: 'radar',
+    chapterChartInst = new Chart(ctx, {
+        type: chartType,
         data: {
             labels: labels,
             datasets: [{
-                label: '정답률(%)',
+                label: '단원별 정답률(%)',
                 data: pcts,
-                backgroundColor: 'rgba(79, 138, 255, 0.2)',
+                backgroundColor: 'rgba(79, 138, 255, 0.4)',
                 borderColor: 'rgba(79, 138, 255, 1)',
-                pointBackgroundColor: 'rgba(79, 138, 255, 1)',
+                pointBackgroundColor: 'rgba(79, 138, 255, 1)', 
                 pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgba(79, 138, 255, 1)',
                 borderWidth: 2,
+                borderRadius: chartType === 'bar' ? 6 : 0
             }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.1)' }, pointLabels: { color: '#e8eaf6', font: { size: 11, family: 'Noto Sans KR' } }, ticks: { display: false, min: 0, max: 100 } } },
-            plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(context) { return context.raw + '%'; } } } }
+            responsive: true, maintainAspectRatio: false,
+            scales: chartType === 'radar' 
+              ? { r: { angleLines: {color:'rgba(255,255,255,0.1)'}, grid: {color:'rgba(255,255,255,0.1)'}, pointLabels: {color:'#e8eaf6', font:{size:11, family:'Noto Sans KR', weight:'bold'}}, ticks:{display:false, min:0, max:100} } }
+              : { y: { min:0, max:100, grid: {color:'rgba(255,255,255,0.05)'}, ticks:{color:'#e8eaf6'} }, x: { grid: {display:false}, ticks:{color:'#e8eaf6', font:{weight:'bold'}} } },
+            plugins: { legend: {display:false}, tooltip: {callbacks: {label: (ctx) => ctx.raw + '%'}} }
+        }
+    });
+}
+
+function renderDifficultyTrend(data) {
+    const timeSorted = [...data].sort((a,b) => new Date(a.gradedAt) - new Date(b.gradedAt));
+    const timeline = [];
+    const diffsSet = new Set();
+    const cumulativeStats = {}; 
+    
+    timeSorted.forEach(test => {
+        const dateStr = new Date(test.gradedAt).toLocaleDateString('ko-KR', {month:'short', day:'numeric'});
+        const titleShort = test.title.length > 8 ? test.title.substring(0,8)+'..' : test.title;
+        
+        let hasValidData = false;
+        const currentTestDiffs = new Set();
+
+        (test.results || []).forEach(r => {
+            if(!r.filename) return;
+            const match = r.filename.match(/-(하|중하|중|중상|상|4점)\.png$/i);
+            if(!match) return;
+            const d = match[1];
+            
+            diffsSet.add(d);
+            currentTestDiffs.add(d); 
+            hasValidData = true;
+
+            if(!cumulativeStats[d]) cumulativeStats[d] = { correct:0, total:0 };
+            cumulativeStats[d].total++;
+            if(r.correct) cumulativeStats[d].correct++;
+        });
+        
+        if(hasValidData) {
+            const stepValues = {};
+            currentTestDiffs.forEach(d => {
+                stepValues[d] = Math.round((cumulativeStats[d].correct / cumulativeStats[d].total) * 100);
+            });
+            timeline.push({ label: `${dateStr}\n${titleShort}`, values: stepValues });
+        }
+    });
+
+    const targetDiffs = ['하', '중하', '중', '중상', '상', '4점'];
+    const actualDiffs = targetDiffs.filter(d => diffsSet.has(d)); 
+    const colors = {'하':'#2ecc8a', '중하':'#4f8aff', '중':'#a259ff', '중상':'#f5c842', '상':'#ff5e5e', '4점':'#ff0000'};
+
+    const datasets = actualDiffs.map(d => ({
+        label: d + ' 누적 정답률',
+        data: timeline.map(t => t.values[d] !== undefined ? t.values[d] : null), 
+        borderColor: colors[d],
+        backgroundColor: colors[d],
+        tension: 0.3, 
+        spanGaps: true 
+    }));
+
+    const ctx = document.getElementById('diffTrendChart');
+    if(diffTrendInst) diffTrendInst.destroy();
+    
+    if(datasets.length === 0) {
+        ctx.parentElement.innerHTML = '<div class="empty"><div class="ico">📈</div><div>분석 가능한 난이도 추이 데이터가 없습니다.</div><canvas id="diffTrendChart" style="display:none;"></canvas></div>';
+        return;
+    }
+    
+    diffTrendInst = new Chart(ctx, {
+        type: 'line',
+        data: { labels: timeline.map(t => t.label.split('\n')[0]), datasets: datasets }, 
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false }, 
+            scales: {
+                y: { min: 0, max: 100, grid: {color:'rgba(255,255,255,0.05)'}, ticks: {color:'#e8eaf6'} },
+                x: { grid: {color:'rgba(255,255,255,0.05)'}, ticks: {color:'#e8eaf6', font:{size:11}} }
+            },
+            plugins: {
+                legend: { position: 'bottom', labels: { color: '#e8eaf6', usePointStyle: true, padding: 20 } },
+                tooltip: { 
+                    callbacks: { 
+                        title: (ctx) => timeline[ctx[0].dataIndex].label.replace('\n', ' - '),
+                        label: (ctx) => `${ctx.dataset.label}: ${ctx.raw}%` 
+                    } 
+                }
+            }
         }
     });
 }
 
 function renderMetaChart(data) {
-  const counts = {}; 
-  const keywords = ['계산실수', '집중력부족', '조건활용못함', '식세우기어려움', '개념연결못함', '개념부족', '문제잘못읽음', '정답오류의심', '기타'];
+  const counts = {}; const keywords = ['계산실수', '집중력부족', '조건활용못함', '식세우기어려움', '개념연결못함', '개념부족', '문제잘못읽음', '정답오류의심', '기타'];
   data.forEach(r => { (r.results||[]).forEach(p => { if (!p.metaReason) return; keywords.forEach(k => { if(p.metaReason.includes(k)) counts[k] = (counts[k] || 0) + 1; }); }); });
   const entries = Object.entries(counts).sort((a,b) => b[1] - a[1]);
-  if (entries.length === 0) { document.getElementById('detailMetaChart').innerHTML = '<div class="empty"><div class="ico">🧐</div><div>데이터 없음</div></div>'; return; }
+  if (entries.length === 0) { document.getElementById('detailMetaChart').innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="ico">🧐</div><div>데이터 없음</div></div>'; return; }
   const max = entries[0][1];
+  
+  // 가로형 카드 디자인 적용
   document.getElementById('detailMetaChart').innerHTML = entries.map(([key, cnt]) => {
-    const pct = Math.round(cnt / max * 100);
-    const col = key === '정답오류의심' ? 'var(--yellow)' : 'var(--accent2)';
-    return `<div style="margin-bottom:12px;"><div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; font-weight:bold;"><span>${key === '정답오류의심' ? '🙋‍♂️ 정답오류의심' : key}</span><span style="color:${col};">${cnt}번</span></div><div class="bar"><div class="bar-fill" style="width:${pct}%; background:${col}"></div></div></div>`;
+    const pct = Math.round(cnt / max * 100); const col = key === '정답오류의심' ? 'var(--yellow)' : 'var(--accent2)';
+    return `<div style="background:var(--surface2); padding:16px; border-radius:10px; border:1px solid var(--border);">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:10px;">
+            <span style="font-size:14px; font-weight:bold; color:var(--text);">${key === '정답오류의심' ? '🙋‍♂️ 정답오류의심' : key}</span>
+            <span style="font-size:16px; font-weight:900; color:${col};">${cnt}번</span>
+        </div>
+        <div class="bar" style="height:8px; background:rgba(255,255,255,0.05);">
+            <div class="bar-fill" style="width:${pct}%; background:${col}"></div>
+        </div>
+    </div>`;
   }).join('');
 }
 
+// 🔥 수정 4: 상세창 표시 (갱신정답 표시 + 장바구니 버튼 유지)
 function showDetail(idx) {
   const r = filteredResults[idx]; if (!r) return;
   document.getElementById('mTitle').textContent = `📋 ${r.title} 상세 기록`;
@@ -518,34 +580,54 @@ function showDetail(idx) {
     <div class="mrow"><span class="lbl">최종 점수</span><span class="badge ${cls}">${pct}%</span></div>
     <div class="mrow"><span class="lbl">최종 정답</span><span style="font-weight:bold;">${r.correct||0} / ${r.total||0} 문제</span></div>
     <div style="margin:20px 0 10px;font-size:12px;font-weight:bold;color:var(--muted);">문제별 결과 및 장바구니</div>`;
+    
   (r.results||[]).forEach(p => {
-    let meta = '';
-    if(p.metaReason) {
-        const isSpecial = p.metaReason.includes('정답오류');
-        meta = `<span class="meta-tag ${isSpecial ? 'special' : ''}">${esc(p.metaReason)}</span>`;
+    const targetP = p.everWrong ? (p.wrongInstance || p) : p;
+    let meta = ''; 
+    if(targetP.metaReason) { 
+        const isSpecial = targetP.metaReason.includes('정답오류'); 
+        meta = `<span class="meta-tag ${isSpecial ? 'special' : ''}">${esc(targetP.metaReason)}</span>`; 
     }
-    const imgThumb = p.githubUrl ? `<img src="${p.githubUrl}" style="height:45px; border-radius:4px; border:1px solid #ddd; cursor:pointer;" onclick="window.open('${p.githubUrl}')">` : '';
-    const cartBtn = p.githubUrl && !p.correct ? `<button class="btn btn-sm" style="background:var(--accent);color:white;border:none;margin-left:8px;" onclick="addToCart('${p.githubUrl}', '${p.filename||''}', '${p.correctAnswer||p.answer||''}', '${p.number}', '${esc(r.student)}')">+ 담기</button>` : '';
-    html += `<div class="mrow" style="align-items:center;"><span class="lbl" style="width:40px; font-weight:bold;">${p.number}번</span><div style="flex:1; display:flex; align-items:center;">${imgThumb}</div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;"><span style="font-weight:bold; color:${p.correct ? 'var(--green)' : 'var(--red)'}">${p.correct?'✅ 정답':'❌ 오답'}</span>${meta} ${cartBtn}</div></div>`;
+    const imgThumb = targetP.githubUrl ? `<img src="${targetP.githubUrl}" style="height:45px; border-radius:4px; border:1px solid #ddd; cursor:pointer;" onclick="window.open('${targetP.githubUrl}')">` : '';
+    
+    // 장바구니 담기
+    const cartBtn = (targetP.githubUrl && p.everWrong) ? `<button class="btn btn-sm" style="background:var(--accent);color:white;border:none;margin-left:8px;" onclick="addToCart('${targetP.githubUrl}', '${targetP.filename||''}', '${targetP.correctAnswer||targetP.answer||''}', '${targetP.number}', '${esc(r.student)}')">+ 담기</button>` : '';
+    
+    let statusHtml = '';
+    if (p.correct && p.everWrong) {
+        statusHtml = `<span style="font-weight:bold; color:var(--accent);">🔄 갱신정답</span><span style="font-size:11px; color:var(--red); margin-left:4px;">(최초오답)</span>`;
+    } else if (p.correct) {
+        statusHtml = `<span style="font-weight:bold; color:var(--green);">✅ 정답</span>`;
+    } else {
+        statusHtml = `<span style="font-weight:bold; color:var(--red);">❌ 오답</span>`;
+    }
+
+    html += `<div class="mrow" style="align-items:center;">
+        <span class="lbl" style="width:40px; font-weight:bold;">${targetP.number}번</span>
+        <div style="flex:1; display:flex; align-items:center;">${imgThumb}</div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+            ${statusHtml} ${meta} ${cartBtn}
+        </div>
+    </div>`;
   });
   document.getElementById('mBody').innerHTML = html; document.getElementById('modal').classList.add('open');
 }
 
+// 🔥 수정 5: 다시 인쇄하기 에러 해결 (v8 ➔ v9로 변경)
 function reprintQuiz(idx) {
     const r = filteredResults[idx]; if (!r || !r.results) return;
     const reprintItems = r.results.map(p => ({ githubUrl: p.githubUrl, name: p.filename || `문제_${p.number}번.png`, answer: p.correctAnswer || p.answer || '', number: p.number })).filter(item => item.githubUrl);
     if (reprintItems.length === 0) { toast('⚠️ 이미지 데이터가 없습니다.'); return; }
     localStorage.setItem('mathReprintQuiz', JSON.stringify({ title: r.title, student: r.student, items: reprintItems }));
-    if (confirm(`[${r.title}] 시험지를 다시 인쇄하시겠습니까?`)) window.open('index_고등수정v8.html', '_blank');
+    if (confirm(`[${r.title}] 시험지를 다시 인쇄하시겠습니까?`)) window.open('index_고등수정v9.html', '_blank');
 }
 
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 document.getElementById('modal').addEventListener('click', e => { if(e.target===document.getElementById('modal')) closeModal(); });
-
 function toast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(window.toastTimer); window.toastTimer = setTimeout(() => el.classList.remove('show'), 3000); }
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-// 🛒 장바구니
+// 🔥 수정 6: 장바구니 복습지 에러 해결 (v8 ➔ v9로 변경)
 let wrongCart = JSON.parse(localStorage.getItem('mathWrongCart') || '[]');
 function updateCartUI() {
   let panel = document.getElementById('cartPanel');
@@ -553,7 +635,7 @@ function updateCartUI() {
     panel = document.createElement('div'); panel.id = 'cartPanel';
     panel.innerHTML = `<span>🛒 장바구니</span> <span id="cartCount" style="background:white;color:var(--accent);padding:2px 8px;border-radius:12px;margin:0 8px;">0</span> <span style="font-size:12px;">복습지 인쇄➔</span>`;
     panel.style.cssText = 'position:fixed;bottom:24px;left:24px;background:var(--accent);color:white;padding:12px 20px;border-radius:30px;box-shadow:0 4px 12px rgba(0,0,0,0.3);display:none;align-items:center;z-index:900;cursor:pointer;font-weight:bold;';
-    panel.onclick = () => { if(confirm('장바구니 문제로 복습지를 만드시겠습니까?')) window.open('index_고등수정v8.html', '_blank'); };
+    panel.onclick = () => { if(confirm('장바구니 문제로 복습지를 만드시겠습니까?')) window.open('index_고등수정v9.html', '_blank'); };
     document.body.appendChild(panel);
   }
   if (wrongCart.length > 0) { panel.style.display = 'flex'; document.getElementById('cartCount').textContent = wrongCart.length; } else { panel.style.display = 'none'; }
@@ -561,9 +643,7 @@ function updateCartUI() {
 function addToCart(url, fname, ans, num, stu) { if (wrongCart.some(i => i.githubUrl === url)) { toast('이미 담겼습니다.'); return; } wrongCart.push({ githubUrl: url, name: fname || `오답_${stu}_${num}번.png`, answer: ans }); localStorage.setItem('mathWrongCart', JSON.stringify(wrongCart)); updateCartUI(); toast('🛒 담았습니다!'); }
 setTimeout(updateCartUI, 500);
 
-// 🔥 수기 채점
-let mgData = {};
-let localTestPapers = {};
+let mgData = {}; let localTestPapers = {};
 function openManualGrade() {
     document.getElementById('manualModal').style.display = 'flex';
     const savedPapers = localStorage.getItem('testPapers');
@@ -583,7 +663,6 @@ function openManualGrade() {
     document.getElementById('mgStudent').readOnly = true; document.getElementById('mgTitle').readOnly = true;
     document.getElementById('mgGrid').innerHTML = '<div style="text-align:center; padding:20px; color:var(--muted); grid-column:1/-1;">👆 시험지를 먼저 선택하세요.</div>';
 }
-
 function selectMgTest() {
     const val = document.getElementById('mgSelectTest').value;
     const stuInput = document.getElementById('mgStudent'), titleInput = document.getElementById('mgTitle'), totInput = document.getElementById('mgTotal');
@@ -624,15 +703,15 @@ function toggleMg(num) {
 }
 function updateMeta(n, r, c) { if(c) { if(!mgData[n].meta.includes(r)) mgData[n].meta.push(r); } else { mgData[n].meta = mgData[n].meta.filter(x=>x!==r); } }
 
+// 🔥 수정 7: 수기 채점 결과 화면 즉시 렌더링 마술 복구
 async function submitMg() {
-    const student = document.getElementById('mgStudent').value.trim();
-    const title = document.getElementById('mgTitle').value.trim();
-    const tot = parseInt(document.getElementById('mgTotal').value) || 20;
-    const testId = document.getElementById('mgSelectTest').value;
+    const student = document.getElementById('mgStudent').value.trim(); const title = document.getElementById('mgTitle').value.trim();
+    const tot = parseInt(document.getElementById('mgTotal').value) || 20; const testId = document.getElementById('mgSelectTest').value;
     if(!student || !title) { toast('⚠️ 항목을 입력하세요!'); return; }
     
     const paper = (testId && testId !== 'manual' && localTestPapers[testId]) ? localTestPapers[testId] : null;
     let correctCount = 0; const results = [];
+    
     for(let i=1; i<=tot; i++) {
         if(mgData[i].correct) correctCount++;
         let gUrl = ''; let fName = '';
@@ -650,35 +729,36 @@ async function submitMg() {
     try {
         const fileId = "manual_" + Date.now().toString(36) + "_" + Math.floor(Math.random()*10000);
         const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+        
         await fetch(`https://api.github.com/repos/${user}/${repo}/contents/results/${fileId}_result.json`, {
             method: 'PUT', headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: '수기 채점: ' + student, content })
         });
         
-        // 1. 대기 목록에서 삭제
         if (paper) { localTestPapers[testId].status = '채점완료'; localStorage.setItem('testPapers', JSON.stringify(localTestPapers)); }
         
-        // 2. 🔥 [핵심] Index의 오답 누적 시스템에 완벽 동기화
-        const studentKey = `student_${student}`;
-        let studentData = JSON.parse(localStorage.getItem(studentKey) || '{}');
+        const studentKey = `student_${student}`; let studentData = JSON.parse(localStorage.getItem(studentKey) || '{}');
         results.forEach(r => {
             if(!r.filename) return;
             if(!studentData[r.filename]) { studentData[r.filename] = { level: '취약문제', correctStreak: 0, totalCorrect: 0, totalWrong: 0, history: [] }; }
-            if(r.correct) {
-                studentData[r.filename].correctStreak++;
-                studentData[r.filename].totalCorrect++;
+            if(r.correct) { studentData[r.filename].correctStreak++; studentData[r.filename].totalCorrect++;
                 if(studentData[r.filename].correctStreak >= 3) studentData[r.filename].level = '완전정복';
                 else if(studentData[r.filename].correctStreak >= 1) studentData[r.filename].level = '복습필요';
-            } else {
-                studentData[r.filename].correctStreak = 0;
-                studentData[r.filename].totalWrong++;
-                studentData[r.filename].level = '취약문제';
-            }
+            } else { studentData[r.filename].correctStreak = 0; studentData[r.filename].totalWrong++; studentData[r.filename].level = '취약문제'; }
             studentData[r.filename].history.push({ date: new Date().toLocaleDateString('ko-KR'), result: r.correct ? 'correct' : 'wrong' });
         });
         localStorage.setItem(studentKey, JSON.stringify(studentData));
 
-        toast(`🎉 전송 완료!`); closeMg(); loadResults(); 
+        // 화면 0.1초 즉시 반영 (마술)
+        payload._fname = fileId + "_result.json";
+        allResults.push(payload);
+        
+        toast(`🎉 전송 완료! 점수: ${score}점 (즉시 반영됨)`); closeMg(); 
+        
+        renderMainView();
+        if (currentDetailStudent === student) {
+            openStudentDetail(student);
+        }
     } catch(e) { toast('❌ 실패: ' + e.message); }
 }
 </script>
