@@ -276,7 +276,12 @@ function renderMainView() {
   grid.innerHTML = html;
 }
 
-function showMainView() { document.getElementById('detailView').style.display = 'none'; document.getElementById('mainView').style.display = 'block'; currentDetailStudent = ''; }
+function showMainView() { 
+  document.getElementById('detailView').style.display = 'none'; 
+  document.getElementById('mainView').style.display = 'block'; 
+  currentDetailStudent = ''; 
+  updateCartUI(); 
+}
 
 function openStudentDetail(studentName) {
   currentDetailStudent = studentName;
@@ -288,9 +293,10 @@ function openStudentDetail(studentName) {
   renderGrassChart(sData);        
   renderBookTabs(sData);          
   renderDifficultyTrend(sData);   
+  updateCartUI(); 
 }
 
-// 🔥 수정 3: 최초 오답 추적 + 시간 표시가 적용된 학생 상세 화면
+// 최초 오답 추적 기능 포함
 function renderStudentDetail(data) {
   const scores = data.map(r => r.score || 0);
   document.getElementById('dTot').textContent = data.length + '회';
@@ -305,7 +311,6 @@ function renderStudentDetail(data) {
   const groupArray = Object.values(groups).reverse();
   const tb = document.getElementById('detailTbody');
 
-  // [최초 오답 추적 마술]
   filteredResults = groupArray.map(g => {
       const latest = g.attempts[g.attempts.length - 1];
       const merged = JSON.parse(JSON.stringify(latest)); 
@@ -339,7 +344,7 @@ function renderStudentDetail(data) {
     const wrongs = Array.from(everWrong).sort((a,b)=>a-b).map(x=>x+'번');
     const wrongHtml = wrongs.length ? wrongs.map(w=>`<span class="wtag">${w}</span>`).join('') : '<span style="color:var(--green);font-size:12px;">처음부터 100점! 🎉</span>';
     
-    const fullDate = esc(latest.gradedAt||'–'); // 시간까지 모두 표시
+    const fullDate = esc(latest.gradedAt||'–'); 
 
     return `<tr>
       <td style="font-weight:bold;">${esc(g.title)} <span style="font-size:11px; color:var(--accent); font-weight:normal;">[${g.attempts.length}회]</span></td>
@@ -555,7 +560,6 @@ function renderMetaChart(data) {
   if (entries.length === 0) { document.getElementById('detailMetaChart').innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="ico">🧐</div><div>데이터 없음</div></div>'; return; }
   const max = entries[0][1];
   
-  // 가로형 카드 디자인 적용
   document.getElementById('detailMetaChart').innerHTML = entries.map(([key, cnt]) => {
     const pct = Math.round(cnt / max * 100); const col = key === '정답오류의심' ? 'var(--yellow)' : 'var(--accent2)';
     return `<div style="background:var(--surface2); padding:16px; border-radius:10px; border:1px solid var(--border);">
@@ -570,7 +574,7 @@ function renderMetaChart(data) {
   }).join('');
 }
 
-// 🔥 수정 4: 상세창 표시 (갱신정답 표시 + 장바구니 버튼 유지)
+// 최초 오답 정보 포함 상세 보기
 function showDetail(idx) {
   const r = filteredResults[idx]; if (!r) return;
   document.getElementById('mTitle').textContent = `📋 ${r.title} 상세 기록`;
@@ -590,7 +594,6 @@ function showDetail(idx) {
     }
     const imgThumb = targetP.githubUrl ? `<img src="${targetP.githubUrl}" style="height:45px; border-radius:4px; border:1px solid #ddd; cursor:pointer;" onclick="window.open('${targetP.githubUrl}')">` : '';
     
-    // 장바구니 담기
     const cartBtn = (targetP.githubUrl && p.everWrong) ? `<button class="btn btn-sm" style="background:var(--accent);color:white;border:none;margin-left:8px;" onclick="addToCart('${targetP.githubUrl}', '${targetP.filename||''}', '${targetP.correctAnswer||targetP.answer||''}', '${targetP.number}', '${esc(r.student)}')">+ 담기</button>` : '';
     
     let statusHtml = '';
@@ -613,7 +616,7 @@ function showDetail(idx) {
   document.getElementById('mBody').innerHTML = html; document.getElementById('modal').classList.add('open');
 }
 
-// 🔥 수정 5: 다시 인쇄하기 에러 해결 (v8 ➔ v9로 변경)
+// v9 파일로 재인쇄
 function reprintQuiz(idx) {
     const r = filteredResults[idx]; if (!r || !r.results) return;
     const reprintItems = r.results.map(p => ({ githubUrl: p.githubUrl, name: p.filename || `문제_${p.number}번.png`, answer: p.correctAnswer || p.answer || '', number: p.number })).filter(item => item.githubUrl);
@@ -627,22 +630,50 @@ document.getElementById('modal').addEventListener('click', e => { if(e.target===
 function toast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(window.toastTimer); window.toastTimer = setTimeout(() => el.classList.remove('show'), 3000); }
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-// 🔥 수정 6: 장바구니 복습지 에러 해결 (v8 ➔ v9로 변경)
-let wrongCart = JSON.parse(localStorage.getItem('mathWrongCart') || '[]');
+// 학생별 장바구니 시스템 + v9 파일 연결
+function getCart() {
+    if(!currentDetailStudent) return [];
+    return JSON.parse(localStorage.getItem('mathWrongCart_' + currentDetailStudent) || '[]');
+}
+
 function updateCartUI() {
   let panel = document.getElementById('cartPanel');
   if (!panel) {
     panel = document.createElement('div'); panel.id = 'cartPanel';
-    panel.innerHTML = `<span>🛒 장바구니</span> <span id="cartCount" style="background:white;color:var(--accent);padding:2px 8px;border-radius:12px;margin:0 8px;">0</span> <span style="font-size:12px;">복습지 인쇄➔</span>`;
     panel.style.cssText = 'position:fixed;bottom:24px;left:24px;background:var(--accent);color:white;padding:12px 20px;border-radius:30px;box-shadow:0 4px 12px rgba(0,0,0,0.3);display:none;align-items:center;z-index:900;cursor:pointer;font-weight:bold;';
-    panel.onclick = () => { if(confirm('장바구니 문제로 복습지를 만드시겠습니까?')) window.open('index_고등수정v9.html', '_blank'); };
     document.body.appendChild(panel);
   }
-  if (wrongCart.length > 0) { panel.style.display = 'flex'; document.getElementById('cartCount').textContent = wrongCart.length; } else { panel.style.display = 'none'; }
+  
+  if(!currentDetailStudent) { panel.style.display = 'none'; return; }
+
+  let cart = getCart();
+  if (cart.length > 0) { 
+    panel.innerHTML = `<span>🛒 ${esc(currentDetailStudent)} 학생 전용 장바구니</span> <span id="cartCount" style="background:white;color:var(--accent);padding:2px 8px;border-radius:12px;margin:0 8px;">${cart.length}</span> <span style="font-size:12px;">복습지 인쇄➔</span>`;
+    panel.style.display = 'flex'; 
+    panel.onclick = () => { 
+        if(confirm(`[${currentDetailStudent}] 학생의 장바구니 문제(${cart.length}개)로 복습지를 만드시겠습니까?`)) {
+            localStorage.setItem('mathWrongCart', JSON.stringify(cart));
+            localStorage.setItem('mathWrongStudent', currentDetailStudent); 
+            window.open('index_고등수정v9.html', '_blank');
+            localStorage.removeItem('mathWrongCart_' + currentDetailStudent);
+            updateCartUI();
+        }
+    };
+  } else { panel.style.display = 'none'; }
 }
-function addToCart(url, fname, ans, num, stu) { if (wrongCart.some(i => i.githubUrl === url)) { toast('이미 담겼습니다.'); return; } wrongCart.push({ githubUrl: url, name: fname || `오답_${stu}_${num}번.png`, answer: ans }); localStorage.setItem('mathWrongCart', JSON.stringify(wrongCart)); updateCartUI(); toast('🛒 담았습니다!'); }
+
+function addToCart(url, fname, ans, num, stu) { 
+    if(!currentDetailStudent) return;
+    let cart = getCart();
+    if (cart.some(i => i.githubUrl === url)) { toast('이미 담겼습니다.'); return; } 
+    cart.push({ githubUrl: url, name: fname || `오답_${stu}_${num}번.png`, answer: ans }); 
+    localStorage.setItem('mathWrongCart_' + currentDetailStudent, JSON.stringify(cart)); 
+    updateCartUI(); 
+    toast(`🛒 ${stu} 학생 장바구니에 담았습니다!`); 
+}
 setTimeout(updateCartUI, 500);
 
+// 🔥 잘려나갔던 수기 채점 마법 코드 완벽 복구
 let mgData = {}; let localTestPapers = {};
 function openManualGrade() {
     document.getElementById('manualModal').style.display = 'flex';
@@ -703,7 +734,6 @@ function toggleMg(num) {
 }
 function updateMeta(n, r, c) { if(c) { if(!mgData[n].meta.includes(r)) mgData[n].meta.push(r); } else { mgData[n].meta = mgData[n].meta.filter(x=>x!==r); } }
 
-// 🔥 수정 7: 수기 채점 결과 화면 즉시 렌더링 마술 복구
 async function submitMg() {
     const student = document.getElementById('mgStudent').value.trim(); const title = document.getElementById('mgTitle').value.trim();
     const tot = parseInt(document.getElementById('mgTotal').value) || 20; const testId = document.getElementById('mgSelectTest').value;
