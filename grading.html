@@ -420,6 +420,32 @@ async function uploadResultToGitHub(correct, total, pct) {
     document.getElementById('btn-send').disabled = false;
   }
 }
+// 🛡️ 꼼수 방지: 우클릭, 드래그, F12 개발자도구 원천 차단!
+document.addEventListener('contextmenu', e => {
+    e.preventDefault();
+    alert('👀 우클릭은 사용할 수 없습니다!');
+});
+
+document.addEventListener('keydown', e => {
+    // F12 키, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U (소스보기) 차단
+    if (e.key === 'F12' || 
+       (e.ctrlKey && e.shiftKey && e.key === 'I') || 
+       (e.ctrlKey && e.shiftKey && e.key === 'J') || 
+       (e.ctrlKey && e.key === 'U')) {
+        e.preventDefault();
+        alert('👮‍♂️ 선생님이 지켜보고 있습니다! 정정당당하게 푸세요!');
+    }
+});
+
+// 혹시라도 개발자 도구를 열었을 때 화면을 하얗게 날려버리는 함정
+setInterval(() => {
+    const before = new Date().getTime();
+    debugger; // 개발자 도구가 열려있으면 여기서 멈춤
+    const after = new Date().getTime();
+    if (after - before > 100) {
+        document.body.innerHTML = '<h1 style="color:red; text-align:center; margin-top:50px;">🚨 부정행위 감지! 채점 창이 차단되었습니다.</h1>';
+    }
+}, 1000);
 </script>
 </body>
 </html>
