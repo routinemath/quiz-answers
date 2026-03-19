@@ -5307,6 +5307,8 @@ function downloadStudentData() {
 
 <script>
 let qrParsedData = null;
+let currentAutoSaveKey = ''; // 💡 임시저장용 금고 열쇠
+
 function openQRModal() {
     document.getElementById('qrGradingModal').style.display = 'flex';
     resetQRModal();
@@ -5320,7 +5322,9 @@ function resetQRModal() {
     document.getElementById('qrStep3').style.display = 'none';
     document.getElementById('qrCodeInput').value = '';
     qrParsedData = null;
+    currentAutoSaveKey = '';
 }
+
 async function startQRGrading() {
     const code = document.getElementById('qrCodeInput').value.trim();
     if (!code) { alert('코드를 입력해주세요.'); return; }
@@ -5331,18 +5335,16 @@ async function startQRGrading() {
         return;
     }
 
-    // GitHub URL 모드: API로 정답 데이터 가져오기
     if (qrParsedData._mode === 'github') {
         const { fileId, username, repo } = qrParsedData;
-        // GitHub raw API로 answers/fileId.json 읽기 (token 불필요 — public repo)
         const rawUrl = `https://raw.githubusercontent.com/${username}/${repo}/main/answers/${fileId}.json`;
         try {
             const res = await fetch(rawUrl);
             if (!res.ok) throw new Error('정답 파일을 찾을 수 없습니다. (' + res.status + ')');
             const data = await res.json();
-            // data = { title, student, date, problems: [{number, answer}] }
             qrParsedData.title   = data.title   || '';
             qrParsedData.student = data.student || '';
+            qrParsedData.fileId  = fileId; // ID 저장
             qrParsedData.problems = (data.problems || []).map(p => ({
                 number: p.number,
                 answer: p.answer || ''
@@ -5358,22 +5360,60 @@ async function startQRGrading() {
         return;
     }
 
+    // 💡 [핵심 1] 임시저장 금고 열쇠 만들기 및 기존 데이터 불러오기
+    currentAutoSaveKey = 'autosave_' + (qrParsedData.fileId || (qrParsedData.title + '_' + qrParsedData.student));
+    const savedAnswers = JSON.parse(localStorage.getItem(currentAutoSaveKey) || '{}');
+
     document.getElementById('qrGradeTitle').textContent = '📝 ' + qrParsedData.title;
     document.getElementById('qrGradeStudent').textContent = '학생: ' + qrParsedData.student;
+    
     let html = '';
+    let restoredCount = 0;
+
     qrParsedData.problems.forEach(p => {
+        const myAns = savedAnswers[p.number] || '';
+        if (myAns) restoredCount++;
+        
+        // oninput 이벤트로 한 글자 칠 때마다 즉시 저장 발동!
         html += `<div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
             <span style="font-weight:bold; min-width:40px; color:#555;">${p.number}번</span>
-            <input id="qa_${p.number}" type="text" placeholder="답 입력" style="flex:1; padding:9px; font-size:15px; border:2px solid #ddd; border-radius:6px;">
+            <input id="qa_${p.number}" type="text" placeholder="답 입력" value="${myAns}" 
+                   oninput="saveAutoSave()" 
+                   style="flex:1; padding:9px; font-size:15px; border:2px solid #ddd; border-radius:6px;">
             <span id="qr_${p.number}" style="font-size:18px; min-width:24px;"></span>
         </div>`;
     });
+    
     document.getElementById('qrProblemList').innerHTML = html;
     document.getElementById('qrStep1').style.display = 'none';
     document.getElementById('qrStep2').style.display = 'block';
+    
+    // 💡 [핵심 2] 복구된 데이터가 있으면 학생에게 기분 좋게 알림!
+    if (restoredCount > 0) {
+        const toastEl = document.createElement('div');
+        toastEl.textContent = `💡 이전에 풀던 답안 ${restoredCount}개를 복구했습니다!`;
+        toastEl.style.cssText = 'position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#4CAF50; color:white; padding:10px 20px; border-radius:20px; font-size:14px; z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.2);';
+        document.body.appendChild(toastEl);
+        setTimeout(() => toastEl.remove(), 3000);
+    }
+
     const first = document.getElementById('qa_' + qrParsedData.problems[0].number);
-    if (first) setTimeout(() => first.focus(), 100);
+    if (first && restoredCount === 0) setTimeout(() => first.focus(), 100);
 }
+
+// 💡 [핵심 3] 입력할 때마다 0.1초만에 몰래 저장하는 함수
+function saveAutoSave() {
+    if (!qrParsedData || !currentAutoSaveKey) return;
+    const currentData = {};
+    qrParsedData.problems.forEach(p => {
+        const inp = document.getElementById('qa_' + p.number);
+        if (inp && inp.value.trim() !== '') {
+            currentData[p.number] = inp.value.trim();
+        }
+    });
+    localStorage.setItem(currentAutoSaveKey, JSON.stringify(currentData));
+}
+
 async function submitQRGrading() {
     if (!qrParsedData) return;
     let correct = 0, detailHTML = '';
@@ -5383,7 +5423,7 @@ async function submitQRGrading() {
         const inp = document.getElementById('qa_' + p.number);
         const userAns = inp ? inp.value.trim() : '';
         const correctAns = p.answer && p.answer !== '?' ? p.answer : '';
-        const norm = s => s.toLowerCase().replace(/\s/g, '');
+        const norm = s => String(s).toLowerCase().replace(/\s/g, '');
         const ok = correctAns && norm(userAns) === norm(correctAns);
         if (ok) correct++;
         const resEl = document.getElementById('qr_' + p.number);
@@ -5395,6 +5435,11 @@ async function submitQRGrading() {
             <span style="font-weight:bold; color:${ok ? '#4CAF50' : '#f44336'}">${ok ? '✅ 정답' : '❌ ' + (correctAns || '정답없음')}</span>
         </div>`;
     });
+
+    // 💡 [핵심 4] 채점이 완전히 끝났으므로 임시저장 금고를 폭파!
+    if (currentAutoSaveKey) {
+        localStorage.removeItem(currentAutoSaveKey);
+    }
 
     const total = qrParsedData.problems.length;
     const pct = Math.round(correct / total * 100);
@@ -5408,12 +5453,10 @@ async function submitQRGrading() {
     const studentName = qrParsedData.student;
     const gradedAt = new Date().toISOString();
 
-    // ── ① 로컬 기록 저장 (학습 분석·채점 대기 목록 반영) ──
     try {
         loadTestPapers();
         loadGradingResults();
 
-        // 제목+학생명으로 testPapers에서 매칭
         const matchedPaper = Object.values(testPapers).find(t =>
             t.studentName === studentName &&
             t.title === qrParsedData.title &&
@@ -5437,13 +5480,11 @@ async function submitQRGrading() {
         };
         localStorage.setItem('gradingResults', JSON.stringify(gradingResultsDB));
 
-        // testPapers 상태 업데이트
         if (matchedPaper) {
             testPapers[matchedPaper.id].status = '채점완료';
             localStorage.setItem('testPapers', JSON.stringify(testPapers));
         }
 
-        // 학생 문제별 레벨 업데이트 (취약→복습필요→완전정복)
         if (matchedPaper) {
             const studentResults = results.map((r, idx) => ({
                 filename: matchedPaper.problems?.[idx]?.filename || '',
@@ -5451,11 +5492,8 @@ async function submitQRGrading() {
             })).filter(r => r.filename);
             if (studentResults.length > 0) updateStudentData(studentName, studentResults, resolvedTestId);
         }
-    } catch(e) {
-        console.warn('로컬 기록 저장 오류:', e);
-    }
+    } catch(e) { console.warn('로컬 기록 저장 오류:', e); }
 
-    // ── ② GitHub results/ 업로드 ──
     const username = localStorage.getItem('gh_username');
     const repo     = localStorage.getItem('gh_repo');
     const token    = localStorage.getItem('gh_token');
@@ -5474,11 +5512,10 @@ async function submitQRGrading() {
                 headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: '채점 결과: ' + studentName + ' — ' + qrParsedData.title, content })
             });
-        } catch(e) {
-            console.warn('GitHub 결과 업로드 실패:', e);
-        }
+        } catch(e) { console.warn('GitHub 결과 업로드 실패:', e); }
     }
 }
+
 function retryQRGrading() {
     if (!qrParsedData) return;
     qrParsedData.problems.forEach(p => {
@@ -5487,6 +5524,8 @@ function retryQRGrading() {
         if (inp) { inp.value = ''; inp.disabled = false; }
         if (res) res.textContent = '';
     });
+    // 재시도 시에도 금고 비워주기
+    if (currentAutoSaveKey) localStorage.removeItem(currentAutoSaveKey);
     document.getElementById('qrStep3').style.display = 'none';
     document.getElementById('qrStep2').style.display = 'block';
 }

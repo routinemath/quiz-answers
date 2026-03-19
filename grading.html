@@ -151,21 +151,24 @@ body {
 
 <script>
 let examData = null;
+let autoSaveKey = ''; // 💡 학생 폰 임시저장용 금고 열쇠
+
 const ROW1 = [['①','①'], ['②','②'], ['③','③'], ['④','④'], ['⑤','⑤']];
 const ROW2 = [['√','√'], ['²','²'], ['³','³'], ['분수(/)','/'], ['π','π']];
 
-// 오답 원인 리스트 (선생님 요청사항 반영!)
+// 오답 원인 리스트
 const META_REASONS = [
   { id: '계산실수', text: '🧮 아차! 단순 계산 실수' },
   { id: '집중력부족', text: '😵 아뿔싸! 문제를 잘못 읽음' },
   { id: '조건활용못함', text: '⚙️ 주어진 조건(힌트)을 못 씀' },
   { id: '식세우기어려움', text: '🧩 식 세우기가 어려움' },
   { id: '개념연결못함', text: '📖 어떻게 푸는지 아예 모르겠음' },
-  { id: '정답오류의심', text: '🙋‍♂️ 제 답이 맞아요! (정답 확인 요망)', isSpecial: true } // 🔥 새롭게 추가된 버튼!
+  { id: '정답오류의심', text: '🙋‍♂️ 제 답이 맞아요! (정답 확인 요망)', isSpecial: true }
 ];
 
 (async function init() {
   const id = new URLSearchParams(location.search).get('id');
+  autoSaveKey = 'autosave_student_grading_' + id; // 💡 각 시험지마다 고유한 금고 생성
   const base = location.href.replace(/\/grading\.html.*$/, '');
   try {
     const res = await fetch(base + '/answers/' + id + '.json');
@@ -184,23 +187,30 @@ function renderProblems() {
   const wrap = document.getElementById('problemWrap');
   let html = '';
 
+  // 💡 [임시저장 1단계] 금고에서 이전 답안 꺼내오기
+  const savedAnswers = JSON.parse(localStorage.getItem(autoSaveKey) || '{}');
+  let restoredCount = 0;
+
   const genRow = (arr, pNum) => arr.map(([label, val]) =>
     `<button type="button" class="qb" onmousedown="event.preventDefault();" onclick="insertQuick('inp_${pNum}','${val}')">${label}</button>`
   ).join('');
 
   examData.problems.forEach(p => {
-    // 인라인 메타버튼 생성
+    const myAns = savedAnswers[p.number] || '';
+    if (myAns) restoredCount++;
+
     let metaBtnsHtml = META_REASONS.map(r => 
       `<button class="meta-btn ${r.isSpecial ? 'special' : ''}" id="mb_${p.number}_${r.id}" onclick="selectMeta(${p.number}, '${r.id}', '${r.text}')">${r.text}</button>`
     ).join('');
 
+    // 💡 [임시저장 2단계] input에 value="${myAns}"와 oninput="saveAutoSave()" 장착!
     html += `
       <div class="card" id="card_${p.number}">
         <div class="card-header">
           <div class="card-num">${p.number}번</div>
           <div class="result-icon" id="icon_${p.number}"></div>
         </div>
-        <input class="ans-input" id="inp_${p.number}" type="text" placeholder="정답 입력" autocomplete="off" spellcheck="false">
+        <input class="ans-input" id="inp_${p.number}" type="text" placeholder="정답 입력" autocomplete="off" spellcheck="false" value="${myAns}" oninput="saveAutoSave()">
         <div class="quick-rows" id="qb_${p.number}">
           <div class="quick-row">${genRow(ROW1, p.number)}</div>
           <div class="quick-row">${genRow(ROW2, p.number)}</div>
@@ -215,6 +225,28 @@ function renderProblems() {
 
   wrap.innerHTML = html;
   document.getElementById('main').style.display = 'block';
+
+  // 💡 [임시저장 3단계] 복구된 답이 있으면 기분 좋게 알림!
+  if (restoredCount > 0) {
+    const toast = document.createElement('div');
+    toast.textContent = `💡 작성 중이던 답안 ${restoredCount}개를 복구했습니다!`;
+    toast.style.cssText = 'position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#10B981; color:white; padding:10px 20px; border-radius:20px; font-size:14px; z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.2);';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+}
+
+// 💡 [임시저장 엔진] 글자를 입력할 때마다 0.1초만에 몰래 저장
+function saveAutoSave() {
+  if (!examData || !autoSaveKey) return;
+  const currentData = {};
+  examData.problems.forEach(p => {
+    const inp = document.getElementById('inp_' + p.number);
+    if (inp && inp.value.trim() !== '') {
+      currentData[p.number] = inp.value.trim();
+    }
+  });
+  localStorage.setItem(autoSaveKey, JSON.stringify(currentData));
 }
 
 function insertQuick(inputId, val) {
@@ -226,6 +258,7 @@ function insertQuick(inputId, val) {
   el.value = v.slice(0, start) + val + v.slice(end);
   el.setSelectionRange(start + val.length, start + val.length);
   el.focus();
+  saveAutoSave(); // 💡 퀵버튼을 눌렀을 때도 바로 저장!
 }
 
 function norm(s) {
@@ -238,7 +271,6 @@ function norm(s) {
     .replace(/[①]/g,'1').replace(/[②]/g,'2').replace(/[③]/g,'3').replace(/[④]/g,'4').replace(/[⑤]/g,'5');
 }
 
-// 💡 1단계: 채점 후 즉시 결과 보여주기
 function gradeExam() {
   if (!examData) return;
   
@@ -259,23 +291,21 @@ function gradeExam() {
     const qb = document.getElementById('qb_' + p.number);
     const metaBox = document.getElementById('meta_box_' + p.number);
 
-    // 디자인 변경
     card.className = 'card ' + (ok ? 'correct' : 'wrong');
     icon.textContent = ok ? '✅' : '❌';
     icon.style.color = ok ? '#10B981' : '#EF4444';
-    if (inp) inp.disabled = true; // 입력창 잠금
-    if (qb) qb.style.display = 'none'; // 퀵버튼 숨김
+    if (inp) inp.disabled = true; 
+    if (qb) qb.style.display = 'none'; 
 
     if (ok) {
       correct++;
       metaBox.style.display = 'none';
     } else {
       wrongCount++;
-      metaBox.style.display = 'block'; // 틀린 문제는 오답 원인 박스 펼치기
+      metaBox.style.display = 'block'; 
     }
   });
 
-  // 점수판 세팅
   const total = examData.problems.length;
   const pct = Math.round(correct / total * 100);
   
@@ -290,26 +320,20 @@ function gradeExam() {
     guide.style.display = 'none';
   }
 
-  // 화면 전환 애니메이션
   document.getElementById('score-summary').style.display = 'block';
   window.scrollTo({top:0, behavior:'smooth'});
 
-  // 하단 버튼 교체
   document.getElementById('btn-grade').style.display = 'none';
   if (wrongCount > 0) document.getElementById('btn-retry').style.display = 'block';
   document.getElementById('btn-send').style.display = 'block';
 }
 
-// 💡 2단계: 학생이 오답 원인 클릭할 때 작동
 function selectMeta(pNum, reasonId, reasonText) {
   const p = examData.problems.find(x => x.number === pNum);
   if (!p) return;
-  
-  // 데이터 저장
   p.metaReasonId = reasonId;
   p.metaReasonText = reasonText;
 
-  // 버튼 UI 업데이트 (해당 문제 내의 모든 버튼 초기화 후 선택된 것만 강조)
   META_REASONS.forEach(r => {
     const btn = document.getElementById(`mb_${pNum}_${r.id}`);
     if (btn) btn.classList.remove('selected');
@@ -317,20 +341,15 @@ function selectMeta(pNum, reasonId, reasonText) {
   document.getElementById(`mb_${pNum}_${reasonId}`).classList.add('selected');
 }
 
-// 💡 3단계: 최종 전송 버튼 누를 때
 function finalizeAndSend() {
-  // 검증: 틀린 문제 중 오답 원인을 체크 안 한 게 있는지 확인
   const unselected = examData.problems.filter(p => p.ok === false && !p.metaReasonId);
   if (unselected.length > 0) {
     alert(`앗! 아직 오답 원인을 체크하지 않은 문제가 ${unselected.length}개 있어요.\n모두 체크해야 선생님께 보낼 수 있습니다!`);
-    
-    // 첫 번째 안 한 곳으로 자동 스크롤
     const firstMissed = document.getElementById('card_' + unselected[0].number);
     if(firstMissed) firstMissed.scrollIntoView({behavior: 'smooth', block: 'center'});
     return;
   }
 
-  // 모두 체크했으면 전송 시작!
   document.getElementById('btn-send').textContent = '전송 중... ⏳';
   document.getElementById('btn-send').disabled = true;
 
@@ -341,7 +360,6 @@ function finalizeAndSend() {
   uploadResultToGitHub(correct, total, pct);
 }
 
-// 다시 풀기 버튼
 function retryWrong() {
   examData.problems.forEach(p => {
     if (!p.ok) {
@@ -355,9 +373,8 @@ function retryWrong() {
       icon.textContent = '';
       if (inp) { inp.value = ''; inp.disabled = false; }
       if (qb) qb.style.display = 'flex';
-      metaBox.style.display = 'none'; // 메타 박스 다시 숨기기
+      metaBox.style.display = 'none'; 
       
-      // 저장된 메타 데이터도 초기화
       p.metaReasonId = null;
       p.metaReasonText = null;
       META_REASONS.forEach(r => {
@@ -367,19 +384,18 @@ function retryWrong() {
     }
   });
 
-  // UI 원상복구
+  saveAutoSave(); // 💡 다시 풀기로 지운 내용도 임시저장에 반영!
+
   document.getElementById('score-summary').style.display = 'none';
   document.getElementById('btn-grade').style.display = 'block';
   document.getElementById('btn-retry').style.display = 'none';
   document.getElementById('btn-send').style.display = 'none';
 }
 
-// ── 구글 앱스 스크립트로 결과 전송 ──
 async function uploadResultToGitHub(correct, total, pct) {
   try {
     const googleScriptUrl = "https://script.google.com/macros/s/AKfycbyneXMqQ_HozdzHSO6qCo7IOsVo7bz9zM2v_dQbgStcejSAh3z-OP3pH2uCT2TCFlUItA/exec";
 
-    // 🔥 '정답오류의심'을 선택한 경우를 위해 원래 정답 데이터도 전송 페이로드에 잘 담겨 갑니다!
     const payload = {
       title:   examData.title,
       student: examData.student,
@@ -393,7 +409,7 @@ async function uploadResultToGitHub(correct, total, pct) {
         userAnswer:    p.userAns   || '',
         correctAnswer: p.answer    || '',
         correct:       p.ok        || false,
-        metaReason:    p.metaReasonId || '' // 단축 ID로 전송
+        metaReason:    p.metaReasonId || '' 
       }))
     };
 
@@ -404,7 +420,8 @@ async function uploadResultToGitHub(correct, total, pct) {
     });
 
     if (res.ok) {
-      // 전송 성공 시 축하 화면으로 싹 전환!
+      if (autoSaveKey) localStorage.removeItem(autoSaveKey); // 💡 전송 성공 시 임시 금고 폭파!
+      
       document.getElementById('main').style.display = 'none';
       document.getElementById('submit-bar').style.display = 'none';
       document.getElementById('success-screen').style.display = 'block';
@@ -420,6 +437,7 @@ async function uploadResultToGitHub(correct, total, pct) {
     document.getElementById('btn-send').disabled = false;
   }
 }
+
 // 🛡️ 꼼수 방지: 우클릭, 드래그, F12 개발자도구 원천 차단!
 document.addEventListener('contextmenu', e => {
     e.preventDefault();
@@ -427,7 +445,6 @@ document.addEventListener('contextmenu', e => {
 });
 
 document.addEventListener('keydown', e => {
-    // F12 키, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U (소스보기) 차단
     if (e.key === 'F12' || 
        (e.ctrlKey && e.shiftKey && e.key === 'I') || 
        (e.ctrlKey && e.shiftKey && e.key === 'J') || 
@@ -437,10 +454,9 @@ document.addEventListener('keydown', e => {
     }
 });
 
-// 혹시라도 개발자 도구를 열었을 때 화면을 하얗게 날려버리는 함정
 setInterval(() => {
     const before = new Date().getTime();
-    debugger; // 개발자 도구가 열려있으면 여기서 멈춤
+    debugger; 
     const after = new Date().getTime();
     if (after - before > 100) {
         document.body.innerHTML = '<h1 style="color:red; text-align:center; margin-top:50px;">🚨 부정행위 감지! 채점 창이 차단되었습니다.</h1>';
