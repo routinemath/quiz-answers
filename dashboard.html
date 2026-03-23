@@ -574,7 +574,7 @@ function renderMetaChart(data) {
   }).join('');
 }
 
-// 최초 오답 정보 포함 상세 보기
+// 🔥 수정 1: 최초 오답 정보 포함 상세 보기 (+ 정답 구제 UI 추가)
 function showDetail(idx) {
   const r = filteredResults[idx]; if (!r) return;
   document.getElementById('mTitle').textContent = `📋 ${r.title} 상세 기록`;
@@ -588,8 +588,8 @@ function showDetail(idx) {
   (r.results||[]).forEach(p => {
     const targetP = p.everWrong ? (p.wrongInstance || p) : p;
     let meta = ''; 
+    const isSpecial = targetP.metaReason && targetP.metaReason.includes('정답오류');
     if(targetP.metaReason) { 
-        const isSpecial = targetP.metaReason.includes('정답오류'); 
         meta = `<span class="meta-tag ${isSpecial ? 'special' : ''}">${esc(targetP.metaReason)}</span>`; 
     }
     const imgThumb = targetP.githubUrl ? `<img src="${targetP.githubUrl}" style="height:45px; border-radius:4px; border:1px solid #ddd; cursor:pointer;" onclick="window.open('${targetP.githubUrl}')">` : '';
@@ -612,8 +612,163 @@ function showDetail(idx) {
             ${statusHtml} ${meta} ${cartBtn}
         </div>
     </div>`;
+
+    // 💡 [핵심] 학생이 '정답오류의심'을 체크한 경우 원장님 전용 구제 패널 띄우기
+    if (!p.correct && isSpecial) {
+        const orgAns = targetP.correctAnswer || '없음';
+        const stuAns = targetP.userAnswer || '입력안함';
+        
+        html += `
+        <div style="width:100%; margin-top:-5px; margin-bottom:15px; padding:15px; background:#fffbe6; border-radius:8px; border:2px dashed #ffe082;">
+            <div style="font-size:14px; margin-bottom:12px; color:#333; display:flex; justify-content:center; align-items:center; gap:15px; background:white; padding:10px; border-radius:6px;">
+                <div style="text-align:center;">
+                    <span style="font-size:12px; color:#888; display:block;">시스템 정답</span>
+                    <b style="color:#1976D2; font-size:16px;">${esc(orgAns)}</b>
+                </div>
+                <div style="font-size:20px; color:#ccc;">VS</div>
+                <div style="text-align:center;">
+                    <span style="font-size:12px; color:#888; display:block;">학생 제출답</span>
+                    <b style="color:#d32f2f; font-size:16px;">${esc(stuAns)}</b>
+                </div>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <button class="btn" style="flex:1; background:#4CAF50; color:white; border:none; font-weight:bold; padding:10px;" onclick="handleAnswerCorrection(${idx}, ${targetP.number}, 'alt')">🤝 복수 정답으로 인정</button>
+                <button class="btn" style="flex:1; background:#2196F3; color:white; border:none; font-weight:bold; padding:10px;" onclick="handleAnswerCorrection(${idx}, ${targetP.number}, 'fix')">🛠️ 아예 정답을 수정</button>
+            </div>
+        </div>`;
+    }
   });
   document.getElementById('mBody').innerHTML = html; document.getElementById('modal').classList.add('open');
+}
+
+// 🔥 수정 2: 원장님의 판결을 처리하고 시스템을 진화시키는 마법 엔진
+async function handleAnswerCorrection(testIdx, probNum, mode) {
+    const r = filteredResults[testIdx];
+    const pIndex = r.results.findIndex(x => x.number === probNum);
+    if (pIndex === -1) return;
+    
+    const p = r.results[pIndex];
+    const targetP = p.everWrong ? (p.wrongInstance || p) : p;
+    
+    const orgAns = targetP.correctAnswer || '';
+    const stuAns = targetP.userAnswer || '';
+    let newCorrectAnswer = orgAns;
+    
+    // [1단계] 사전에 데이터 등록
+    if (mode === 'fix') {
+        const input = prompt(`[${probNum}번 문제 정답 수정]\n\n현재 시스템 정답: ${orgAns}\n학생이 제출한 답: ${stuAns}\n\n시스템에 새롭게 등록할 '진짜 정답'을 적어주세요:`, stuAns);
+        if (input === null || input.trim() === '') return; 
+        newCorrectAnswer = input.trim();
+        
+        // 🛠️ 진짜 정답 덮어쓰기 DB 저장
+        let overrideDB = JSON.parse(localStorage.getItem('mathAnswerOverrides') || '{}');
+        if (targetP.filename) {
+            overrideDB[targetP.filename] = newCorrectAnswer;
+            localStorage.setItem('mathAnswerOverrides', JSON.stringify(overrideDB));
+        }
+        alert(`🛠️ 이 문제의 정답이 [ ${newCorrectAnswer} ](으)로 덮어써졌습니다!\n(앞으로 출제 시 이 정답이 우선 적용됩니다.)`);
+        
+    } else if (mode === 'alt') {
+        if (!confirm(`학생의 답안 [ ${stuAns} ] 을(를) 정답으로 인정하시겠습니까?\n(기존 정답인 [ ${orgAns} ] 도 계속 정답으로 유지됩니다)`)) return;
+        
+        // 🤝 복수 정답 허용 DB 저장
+        let altDB = JSON.parse(localStorage.getItem('mathAltAnswers') || '{}');
+        if (targetP.filename) {
+            if (!altDB[targetP.filename]) altDB[targetP.filename] = [];
+            if (!altDB[targetP.filename].includes(stuAns)) {
+                altDB[targetP.filename].push(stuAns);
+            }
+            localStorage.setItem('mathAltAnswers', JSON.stringify(altDB));
+        }
+        alert(`🤝 [ ${stuAns} ] 답안이 복수 정답 사전에 추가되었습니다!`);
+        newCorrectAnswer = orgAns; // 원래 답은 유지
+    }
+    
+    // [2단계] 현재 학생의 성적표 즉시 세탁 (구제 처리)
+    document.getElementById('mTitle').innerHTML = `📋 ${r.title} 상세 기록 <span style="font-size:12px;color:#FF9800;animation:blink 1s infinite;">(데이터 수정 및 깃허브 동기화 중...)</span>`;
+    
+    p.correct = true; // 정답 처리!
+    if (mode === 'fix') {
+        p.correctAnswer = newCorrectAnswer;
+        if (p.wrongInstance) p.wrongInstance.correctAnswer = newCorrectAnswer;
+    }
+    
+    // 구제되었으므로 꼬리표(최초오답, 정답오류의심 등) 완벽 제거
+    p.everWrong = false;
+    p.metaReason = '';
+    delete p.wrongInstance;
+    
+    // 점수 재계산
+    let correctCount = r.results.filter(x => x.correct).length;
+    r.correct = correctCount;
+    r.score = Math.round((correctCount / r.total) * 100);
+    
+    // 학생 누적 그래프(성실도, 정답률 등)에서 오답 1개 빼고 정답 1개 더해주기
+    const studentKey = `student_${r.student}`;
+    let studentData = JSON.parse(localStorage.getItem(studentKey) || '{}');
+    if (targetP.filename && studentData[targetP.filename]) {
+        studentData[targetP.filename].totalWrong = Math.max(0, studentData[targetP.filename].totalWrong - 1);
+        studentData[targetP.filename].totalCorrect++;
+        studentData[targetP.filename].correctStreak++;
+        if(studentData[targetP.filename].correctStreak >= 3) studentData[targetP.filename].level = '완전정복';
+        else if(studentData[targetP.filename].correctStreak >= 1) studentData[targetP.filename].level = '복습필요';
+        localStorage.setItem(studentKey, JSON.stringify(studentData));
+    }
+    
+    // 장바구니에서 문제 압수
+    let cart = JSON.parse(localStorage.getItem('mathWrongCart_' + r.student) || '[]');
+    cart = cart.filter(item => item.githubUrl !== targetP.githubUrl);
+    localStorage.setItem('mathWrongCart_' + r.student, JSON.stringify(cart));
+    updateCartUI();
+    
+    // [3단계] 깃허브 원본 파일 덮어쓰기 (점수 조작 영구 보존)
+    if (r._fname) {
+        const user = localStorage.getItem('db_gh_user') || localStorage.getItem('gh_username');
+        const repo = localStorage.getItem('db_gh_repo') || localStorage.getItem('gh_repo');
+        const token = localStorage.getItem('db_gh_token') || localStorage.getItem('gh_token');
+        
+        if (user && repo && token) {
+            try {
+                // 기존 파일의 고유값(SHA) 확인
+                const fileInfoRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/results/${r._fname}`, {
+                    headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' }
+                });
+                
+                if (fileInfoRes.ok) {
+                    const fileInfo = await fileInfoRes.json();
+                    
+                    // 전송용 깨끗한 페이로드 (쓸데없는 속성 제거)
+                    const payload = {
+                        title: r.title, student: r.student, score: r.score, correct: r.correct, total: r.total, gradedAt: r.gradedAt,
+                        results: r.results.map(x => ({
+                            number: x.number, filename: x.filename, githubUrl: x.githubUrl,
+                            userAnswer: x.userAnswer || '', correctAnswer: x.correctAnswer || '',
+                            correct: x.correct, metaReason: x.metaReason || ''
+                        }))
+                    };
+                    
+                    const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+                    
+                    // 수정된 정보로 깃허브 덮어쓰기
+                    await fetch(`https://api.github.com/repos/${user}/${repo}/contents/results/${r._fname}`, {
+                        method: 'PUT',
+                        headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            message: `👨‍🏫 원장님 정답 구제: ${r.student} - ${probNum}번`, 
+                            content: content,
+                            sha: fileInfo.sha 
+                        })
+                    });
+                }
+            } catch(e) { console.warn("깃허브 덮어쓰기 에러:", e); toast("⚠️ 서버 통신 지연 (로컬에는 반영됨)"); }
+        }
+    }
+    
+    // [4단계] 화면 새로고침
+    toast(`🎉 구제 완료! 점수가 ${r.score}점으로 올랐습니다!`);
+    renderMainView();
+    openStudentDetail(r.student);
+    showDetail(testIdx); // 모달창 즉시 갱신
 }
 
 // v9 파일로 재인쇄
@@ -622,7 +777,7 @@ function reprintQuiz(idx) {
     const reprintItems = r.results.map(p => ({ githubUrl: p.githubUrl, name: p.filename || `문제_${p.number}번.png`, answer: p.correctAnswer || p.answer || '', number: p.number })).filter(item => item.githubUrl);
     if (reprintItems.length === 0) { toast('⚠️ 이미지 데이터가 없습니다.'); return; }
     localStorage.setItem('mathReprintQuiz', JSON.stringify({ title: r.title, student: r.student, items: reprintItems }));
-    if (confirm(`[${r.title}] 시험지를 다시 인쇄하시겠습니까?`)) window.open('index_고등수정v9.html', '_blank');
+    if (confirm(`[${r.title}] 시험지를 다시 인쇄하시겠습니까?`)) window.open('index.html', '_blank');
 }
 
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
@@ -654,7 +809,7 @@ function updateCartUI() {
         if(confirm(`[${currentDetailStudent}] 학생의 장바구니 문제(${cart.length}개)로 복습지를 만드시겠습니까?`)) {
             localStorage.setItem('mathWrongCart', JSON.stringify(cart));
             localStorage.setItem('mathWrongStudent', currentDetailStudent); 
-            window.open('index_고등수정v9.html', '_blank');
+            window.open('index.html', '_blank');
             localStorage.removeItem('mathWrongCart_' + currentDetailStudent);
             updateCartUI();
         }
