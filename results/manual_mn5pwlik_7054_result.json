@@ -1,0 +1,87 @@
+{
+  "title": "🔥 김유림 맞춤형 오답 복습지",
+  "student": "김유림",
+  "score": 55,
+  "correct": 6,
+  "total": 11,
+  "gradedAt": "2026. 3. 25. 오후 4:24:05",
+  "results": [
+    {
+      "number": 1,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "장바구니오답_8.png"
+    },
+    {
+      "number": 2,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "장바구니오답_9.png"
+    },
+    {
+      "number": 3,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "장바구니오답_6.png"
+    },
+    {
+      "number": 4,
+      "correct": false,
+      "metaReason": "계산실수, 문제잘못읽음",
+      "githubUrl": "",
+      "filename": "장바구니오답_3.png"
+    },
+    {
+      "number": 5,
+      "correct": false,
+      "metaReason": "기타, 계산실수",
+      "githubUrl": "",
+      "filename": "장바구니오답_10.png"
+    },
+    {
+      "number": 6,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "장바구니오답_4.png"
+    },
+    {
+      "number": 7,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "장바구니오답_1.png"
+    },
+    {
+      "number": 8,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "장바구니오답_7.png"
+    },
+    {
+      "number": 9,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "장바구니오답_11.png"
+    },
+    {
+      "number": 10,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "장바구니오답_5.png"
+    },
+    {
+      "number": 11,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "장바구니오답_2.png"
+    }
+  ]
+}
