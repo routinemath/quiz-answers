@@ -1735,7 +1735,8 @@ async function generateSetQuiz() {
     // ── 폴더 비율 + 난이도 교차 쿼터제 ──────────────────────────────
     const paths = Array.from(selectedFolderPaths);
     const totalPct = paths.reduce((sum, p) => sum + (folderPercentMap[p] || 0), 0);
-    const hasValidPercent = paths.length > 0 && Math.abs(totalPct - 100) < 1;
+    const bypassPercent = filter.trim().length > 0;
+    const hasValidPercent = !bypassPercent && paths.length > 0 && Math.abs(totalPct - 100) < 1;
 
     if (hasValidPercent && useDifficultyFilter) {
         // 난이도별 설정 수량 파악
@@ -2435,7 +2436,9 @@ function matchDifficulty(img, diff) {
 const difficulties = ['대표문제', '하', '중하', '중', '중상', '상', 'C단계', '3점', '4점', '미분류'];
 const paths = Array.from(selectedFolderPaths);
 const totalPct = paths.reduce((sum, p) => sum + (folderPercentMap[p] || 0), 0);
-const hasValidPercent = paths.length > 0 && Math.abs(totalPct - 100) < 1;
+// 파일명 필터가 입력된 경우 비중 설정을 우회하여 바로 출제
+const bypassPercent = filter.trim().length > 0;
+const hasValidPercent = !bypassPercent && paths.length > 0 && Math.abs(totalPct - 100) < 1;
 
 if (useDifficultyFilter && hasValidPercent) {
     // ── ★ 폴더 비율 × 난이도 교차 쿼터제 (라지스트 리마인더 알고리즘) ──
@@ -2574,7 +2577,8 @@ if (useDifficultyFilter && hasValidPercent) {
         }
     } else {
         // 비율 미설정: 기존 방식
-        if (selectedFolderPaths.size > 0 && paths.length > 0 && totalPct > 0) {
+        // 파일명 필터가 적용된 경우엔 비중 경고를 생략하고 필터 결과로 바로 출제
+        if (!bypassPercent && selectedFolderPaths.size > 0 && paths.length > 0 && totalPct > 0) {
             showStatus(`⚠️ 폴더 비율 합계가 ${totalPct.toFixed(0)}%입니다. 100%로 설정해야 비율 출제가 적용됩니다. 현재는 전체 랜덤으로 출제합니다.`, true);
         }
         if (sortMode === 'sorted') {
@@ -5500,11 +5504,24 @@ async function submitQRGrading() {
     if (username && repo && token) {
         try {
             const fileId = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+            // 🔥 누락되었던 filename 강제 매칭 및 추가 로직
+            const payloadResults = results.map((r, idx) => {
+                let fName = '';
+                try {
+                    const savedPapers = JSON.parse(localStorage.getItem('testPapers') || '{}');
+                    const matched = Object.values(savedPapers).find(t => t.studentName === studentName && t.title === qrParsedData.title);
+                    if (matched && matched.problems && matched.problems[idx]) {
+                        fName = matched.problems[idx].filename;
+                    }
+                } catch(e) {}
+                return { ...r, filename: fName };
+            });
+
             const payload = {
                 title: qrParsedData.title, student: studentName,
                 score: pct, correct, total,
                 gradedAt: new Date().toLocaleString('ko-KR'),
-                results
+                results: payloadResults
             };
             const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
             await fetch(`https://api.github.com/repos/${username}/${repo}/contents/results/${fileId}_result.json`, {

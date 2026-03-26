@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔬 통합 정밀 분석 & 리포트</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  :root { --primary-blue: #0284c7; --light-blue: #e0f2fe; --primary-green: #10b981; --light-green: #d1fae5; --bg-color: #f8fafc; --border: #e2e8f0; --text-main: #334155; --text-muted: #64748b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Malgun Gothic', sans-serif; background: var(--bg-color); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+  
+  .header { background: linear-gradient(135deg, var(--primary-blue), var(--primary-green)); color: white; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 20; }
+  .header h1 { font-size: 20px; font-weight: 900; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+  .filter-bar { display: flex; gap: 8px; align-items: center; }
+  .filter-input { padding: 8px 12px; border-radius: 6px; border: none; font-size: 13px; font-weight: bold; outline: none; }
+  .btn-search { background: #0f172a; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+  .btn-search:hover { background: #1e293b; }
+  .btn-sync { background: white; color: var(--primary-blue); border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+
+  .app-container { display: flex; flex: 1; overflow: hidden; }
+  
+  .sidebar { width: 420px; background: white; border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; z-index: 10; }
+  .sidebar-header { padding: 16px; background: #f1f5f9; border-bottom: 1px solid var(--border); font-weight: bold; font-size: 14px; color: var(--text-muted); display:flex; justify-content:space-between; align-items:center;}
+  
+  .list-group { margin-bottom: 8px; }
+  /* 🔥 리스트 타이틀 아코디언 설정 */
+  .list-title { padding: 12px 16px; font-size: 14px; font-weight: bold; border-bottom: 1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; cursor: pointer; user-select: none; transition: background 0.2s; }
+  .list-title:hover { filter: brightness(0.95); }
+  .list-title.concept { background: #fef2f2; color: #b91c1c; border-color: #fee2e2; }
+  .list-title.mistake { background: #fffbeb; color: #b45309; border-color: #fef3c7; }
+  .list-title.etc { background: var(--light-blue); color: var(--primary-blue); border-color: #bae6fd; }
+  .list-title.master { background: var(--light-green); color: #065f46; border-color: #a7f3d0; }
+  
+  .acc-icon { display: inline-block; width: 16px; transition: transform 0.2s; font-size: 12px; }
+  .list-group.open .acc-icon { transform: rotate(90deg); }
+  .list-content { display: none; background: #fdfdfd; }
+  .list-group.open .list-content { display: block; }
+
+  .btn-bulk-cart { background: white; border: 1px solid currentColor; color: inherit; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+  .btn-bulk-cart:hover { background: rgba(0,0,0,0.05); }
+
+  .list-item { padding: 14px 16px; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s;}
+  .list-item:hover { background: #f1f5f9; }
+  .list-item.active { background: var(--light-blue); border-left: 4px solid var(--primary-blue); }
+  
+  .item-name { font-size: 14px; font-weight: bold; display: block; margin-bottom: 6px; word-break: break-all; }
+  .item-meta { font-size: 11px; color: var(--text-muted); }
+  .badge-danger { padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; background: #fee2e2; color: #ef4444; }
+  .badge-success { padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; background: #d1fae5; color: #10b981; }
+  
+  .diff-badge { padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; margin-right: 4px; border: 1px solid currentColor; }
+  .diff-hard { color: #ef4444; background: #fef2f2; }
+  .diff-mid { color: #f59e0b; background: #fffbeb; }
+  .diff-easy { color: #10b981; background: #ecfdf5; }
+  .diff-etc { color: #64748b; background: #f1f5f9; }
+
+  .main-view { flex: 1; background: var(--bg-color); position: relative; overflow-y: auto; padding: 40px; }
+  
+  .view-dashboard { display: block; width: 100%; max-width: 900px; margin: 0 auto; }
+  .dashboard-card { background: white; border-radius: 16px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid var(--border); margin-bottom: 20px; }
+  .card-title { font-size: 20px; font-weight: 900; margin-bottom: 8px; color: var(--primary-blue); }
+  .chart-container { width: 100%; height: 400px; margin-top: 20px; }
+
+  .view-focus { display: none; flex-direction: column; align-items: center; width: 100%; }
+  .btn-back { align-self: flex-start; margin-bottom: 20px; background: white; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.02); color: var(--text-main); transition: all 0.2s; }
+  .btn-back:hover { background: #f1f5f9; color: var(--primary-blue); }
+  
+  .focus-card { background: white; width: 100%; max-width: 800px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid var(--border); overflow: hidden; }
+  .problem-img-area { background: #e2e8f0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 250px; border-bottom: 1px solid var(--border); }
+  .problem-img-area img { max-width: 100%; max-height: 400px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .history-area { padding: 30px; }
+  .history-title { font-size: 20px; font-weight: 900; margin-bottom: 20px; color: var(--text-main); display: flex; justify-content: space-between; align-items: center; }
+  
+  .timeline { position: relative; padding-left: 20px; margin-bottom: 10px; }
+  .timeline::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 0; width: 2px; background: #cbd5e1; }
+  .tl-item { position: relative; margin-bottom: 15px; }
+  .tl-item::before { content: ''; position: absolute; left: -20px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: white; border: 2px solid #cbd5e1; }
+  .tl-item.fail::before { border-color: #ef4444; background: #fee2e2; }
+  .tl-item.success::before { border-color: var(--primary-green); background: var(--light-green); }
+  .tl-date { font-size: 12px; font-weight: bold; color: var(--text-muted); margin-bottom: 4px; }
+  .tl-content { background: #f8fafc; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border); font-size: 14px; }
+  
+  .action-bar { display: flex; gap: 12px; padding: 20px 30px; background: #f8fafc; border-top: 1px solid var(--border); }
+  .btn { flex: 1; padding: 14px; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+  .btn-diag { background: #0f172a; color: white; }
+  .btn-cart { background: var(--primary-blue); color: white; }
+
+  .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+  .modal-overlay.active { display: flex; }
+  .modal-content { background: white; width: 90%; max-width: 550px; border-radius: 16px; padding: 30px; box-shadow: 0 15px 30px rgba(0,0,0,0.2); animation: popIn 0.3s ease-out; }
+  @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .modal-header { font-size: 20px; font-weight: 900; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--bg-color); padding-bottom: 15px; }
+  .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .input-group { margin-bottom: 16px; }
+  .input-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 8px; color: var(--primary-blue); }
+  .modal-input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none; background: #f8fafc; transition: background 0.2s; }
+  .modal-input:focus { background: white; border-color: var(--primary-blue); }
+  .modal-footer { display: flex; justify-content: flex-end; gap: 10px; margin-top: 30px; }
+  .btn-modal { padding: 12px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+  .btn-modal-cancel { background: #e2e8f0; color: var(--text-muted); }
+  .btn-modal-save { background: var(--primary-blue); color: white; }
+  
+  #toast { position: fixed; bottom: 24px; right: 24px; background: #334155; color: white; padding: 12px 24px; border-radius: 8px; font-size: 14px; opacity: 0; transition: opacity 0.3s; z-index: 999; pointer-events: none; }
+</style>
+</head>
+<body>
+
+  <header class="header">
+    <h1>🔬 오답 X-Ray 정밀 분석 센터</h1>
+    <div class="filter-bar">
+      <select id="studentSelector" class="filter-input" onchange="processStudentData()"><option value="">👤 학생을 선택하세요</option></select>
+      <input type="date" id="startDate" class="filter-input">
+      <span style="color:white; font-weight:bold; font-size:12px;">~</span>
+      <input type="date" id="endDate" class="filter-input">
+      <button class="btn-search" onclick="processStudentData()">🔍 통계 조회</button>
+      <button class="btn-sync" onclick="fetchGoogleData()">🔄 데이터 동기화</button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span id="sideTotalCount">분석 대기 중...</span>
+        <button class="btn-bulk-cart" style="background:var(--primary-blue); color:white; border:none;" onclick="bulkAddUnresolvedToCart()">전체 담기 🛒</button>
+      </div>
+      <div id="sidebarList"></div>
+    </aside>
+
+    <main class="main-view">
+      <div id="view-dashboard" class="view-dashboard">
+        <div class="dashboard-card">
+          <div class="card-title" id="chartTitle">📊 난이도별 오답 해결률 성장 추이</div>
+          <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">
+            학생을 선택하고 조회 버튼을 누르시면 시계열 통계가 표시됩니다.
+          </p>
+          <div class="chart-container">
+            <canvas id="resolutionChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div id="view-focus" class="view-focus">
+        <button class="btn-back" onclick="showDashboard()">🔙 전체 성장 통계 보기</button>
+        <div class="focus-card">
+          <div class="problem-img-area">
+            <img id="focusImg" src="" alt="수학문제 이미지">
+          </div>
+          <div class="history-area">
+            <div class="history-title">
+              <span id="focusTitle">문제 이름</span>
+              <span id="focusBadge"></span>
+            </div>
+            <div id="focusMetaArea" style="margin-bottom:20px; display:none; background:#f0f9ff; padding:15px; border-radius:8px; border:1px solid #bae6fd;">
+              <div id="focusTags" style="margin-bottom:8px; display:flex; gap:6px; flex-wrap:wrap;"></div>
+              <div id="focusMemo" style="font-size:13px; color:#0369a1; font-weight:bold;"></div>
+            </div>
+            <div class="timeline" id="focusTimeline"></div>
+          </div>
+          <div class="action-bar" id="focusActionBar"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="diagModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span id="modalTitle">🔍 정밀 진단 및 코멘트</span>
+        <span style="cursor:pointer; color:var(--text-muted);" onclick="closeDiagModal()">✖</span>
+      </div>
+      <div class="input-grid">
+        <div class="input-group">
+          <label>🏷️ 핵심 태그 (쉼표로 구분)</label>
+          <input type="text" id="modalTags" class="modal-input" placeholder="예: #보조선, #계산주의">
+        </div>
+        <div class="input-group">
+          <label>🔄 오답 원인 변경</label>
+          <select id="modalReasonSelect" class="modal-input" onchange="handleReasonChange()"></select>
+          <input type="text" id="modalNewReasonInput" class="modal-input" style="display:none; margin-top:8px; border-color:var(--primary-blue);" placeholder="새 원인 입력">
+        </div>
+      </div>
+      <div class="input-group">
+        <label>📝 원장님의 메모 / 코멘트</label>
+        <textarea id="modalMemo" class="modal-input" rows="3" placeholder="예) 개념 다시 설명함. 다음 주 백지 테스트."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-modal btn-modal-cancel" onclick="closeDiagModal()">취소</button>
+        <button class="btn-modal btn-modal-save" onclick="saveDiagInfo()">저장 및 뷰어 업데이트</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+<script>
+  const googleScriptUrl = "https://script.google.com/macros/s/AKfycbyneXMqQ_HozdzHSO6qCo7IOsVo7bz9zM2v_dQbgStcejSAh3z-OP3pH2uCT2TCFlUItA/exec";
+  let allResults = [];
+  let currentStudentData = []; 
+  let currentFocusProblem = null;
+  let resolutionChartInstance = null;
+  const defaultReasons = ['계산실수', '집중력부족', '조건활용못함', '식세우기어려움', '개념연결못함', '정답오류의심'];
+
+  window.onload = function() { 
+    const today = new Date();
+    const lastSixMonths = new Date();
+    // 🔥 기본 조회 기간을 '1개월'에서 '6개월'로 넉넉하게 늘립니다! (과거 문제 추적용)
+    lastSixMonths.setMonth(today.getMonth() - 6); 
+    document.getElementById('endDate').value = today.toISOString().split('T')[0];
+    document.getElementById('startDate').value = lastSixMonths.toISOString().split('T')[0];
+    
+    // 🔥 구글 서버 응답 대기 전에, 내 PC에 있는 학생 목록부터 무조건 드롭다운에 띄우기!
+    const localStudents = JSON.parse(localStorage.getItem('students') || '[]');
+    const sel = document.getElementById('studentSelector');
+    sel.innerHTML = '<option value="">👤 학생을 선택하세요</option>' + 
+                    localStudents.map(s => `<option value="${s}">${s}</option>`).join('');
+
+    fetchGoogleData(); 
+  };
+
+  async function fetchGoogleData() {
+    showToast("🔄 구글 드라이브 동기화 중...");
+    allResults = [];
+    try {
+      const res = await fetch(googleScriptUrl);
+      if (res.ok) {
+          const data = await res.json();
+          if(Array.isArray(data)) allResults = data;
+      }
+    } catch (e) { console.warn("구글 연동 지연, 로컬 데이터 위주로 분석합니다."); }
+
+    // 🔥 [초강력 기능] 내 PC(대시보드)에 남은 채점 기록을 강제로 끌어와 합치기! 
+    // (깃허브/구글 연동이 지연되거나 실패해도 무조건 화면에 뜹니다)
+    try {
+        const localGrading = JSON.parse(localStorage.getItem('gradingResults') || '{}');
+        const localTestPapers = JSON.parse(localStorage.getItem('testPapers') || '{}');
+        
+        Object.values(localGrading).forEach(localTest => {
+            if (localTest.status === '임시저장') return;
+            
+            let title = '로컬 채점 기록';
+            if (localTestPapers[localTest.testId]) { title = localTestPapers[localTest.testId].title; }
+
+            const converted = {
+                title: title, student: localTest.studentName,
+                gradedAt: localTest.gradedAt || new Date().toISOString(),
+                results: (localTest.results || []).map(r => ({
+                    number: r.problemNumber, filename: r.filename,
+                    correctAnswer: r.correctAnswer, userAnswer: r.studentAnswer,
+                    correct: r.result === '정답', metaReason: r.detailCategory
+                }))
+            };
+            allResults.push(converted);
+        });
+    } catch(e) { console.warn("로컬 채점 데이터 병합 중 오류:", e); }
+
+    // 🔥 데이터 심폐소생술 (이름 잃어버린 과거 문제 복원)
+    try {
+        const localTestPapers = JSON.parse(localStorage.getItem('testPapers') || '{}');
+        allResults.forEach(test => {
+            (test.results || []).forEach((r, idx) => {
+                if (!r.filename) {
+                    const matchedPaper = Object.values(localTestPapers).find(p => p.studentName === test.student && p.title === test.title);
+                    if (matchedPaper && matchedPaper.problems && matchedPaper.problems[idx]) {
+                        r.filename = matchedPaper.problems[idx].filename;
+                    }
+                }
+                if (!r.filename) {
+                    r.filename = `[이름유실]_${test.title}_${r.number||idx+1}번.png`;
+                }
+            });
+        });
+    } catch(err) { console.warn("데이터 복구 중 오류 방어:", err); }
+
+    // 드롭다운 학생 목록 최종 업데이트 (PC 학생 + 구글 옛날 학생 싹 다 모으기)
+    const localStudents = JSON.parse(localStorage.getItem('students') || '[]');
+    const googleStudents = allResults.map(r => r.student).filter(Boolean);
+    const combinedStudents = [...new Set([...localStudents, ...googleStudents])].sort();
+    
+    const sel = document.getElementById('studentSelector');
+    const currentVal = sel.value; // 기존에 선택해둔 학생 유지
+    sel.innerHTML = '<option value="">👤 학생을 선택하세요</option>' + 
+                    combinedStudents.map(s => `<option value="${s}" ${s===currentVal?'selected':''}>${s}</option>`).join('');
+    
+    showToast("✅ 데이터 로드 및 로컬 기록 복구 완료!");
+    if (sel.value) processStudentData(); // 이미 학생이 선택되어 있다면 화면 즉시 갱신
+  }
+
+  function getDifficulty(name) {
+    if (name.includes('C단계') || (name.includes('상') && !name.includes('중상'))) return { label: '[상] 영역', class: 'diff-hard', type: 'hard' };
+    if (name.includes('중상') || (name.includes('중') && !name.includes('중하') && !name.includes('중상'))) return { label: '[중] 영역', class: 'diff-mid', type: 'mid' };
+    if (name.includes('중하') || name.includes('하') || name.includes('대표유형')) return { label: '[하] 영역', class: 'diff-easy', type: 'easy' };
+    return { label: '[기타]', class: 'diff-etc', type: 'etc' };
+  }
+
+  function getRealImageUrl(githubUrl, filename) {
+    if (githubUrl && githubUrl.startsWith('http')) return githubUrl; 
+    const user = localStorage.getItem('db_gh_user') || localStorage.getItem('gh_username');
+    const repo = localStorage.getItem('db_gh_repo') || localStorage.getItem('gh_repo');
+    // 이름유실 파일은 더미 이미지로 강제 처리
+    if (filename.includes('[이름유실]')) return `https://dummyimage.com/600x250/e2e8f0/ef4444.png&text=${filename}`;
+    if (user && repo && filename) return `https://raw.githubusercontent.com/${user}/${repo}/main/${filename}`;
+    return `https://dummyimage.com/600x250/e2e8f0/334155.png&text=[+${filename}+]`;
+  }
+
+  function processStudentData() {
+    const student = document.getElementById('studentSelector').value;
+    const sDate = document.getElementById('startDate').value;
+    const eDate = document.getElementById('endDate').value;
+    if(!student || !sDate || !eDate) return;
+
+    document.getElementById('chartTitle').innerText = `📊 ${student} 학생의 난이도별 오답 극복 추이`;
+    const start = new Date(sDate); start.setHours(0, 0, 0, 0);
+    const end = new Date(eDate); end.setHours(23, 59, 59, 999);
+
+    const dashboardOverrides = JSON.parse(localStorage.getItem('mathAnswerOverrides') || '{}');
+    const dashboardAltAnswers = JSON.parse(localStorage.getItem('mathAltAnswers') || '{}');
+
+    const sData = allResults.filter(r => {
+      if (r.student !== student) return false;
+      let timeValue = 0;
+      if (r.gradedAt) {
+          const nums = r.gradedAt.match(/(\d+)/g); 
+          if (nums && nums.length >= 3) {
+              timeValue = new Date(nums[0], nums[1]-1, nums[2], nums[3]||0, nums[4]||0, nums[5]||0).getTime();
+          } else { timeValue = new Date(r.gradedAt).getTime(); }
+      }
+      r._parsedTime = timeValue; 
+      return timeValue >= start.getTime() && timeValue <= end.getTime();
+    }).sort((a,b) => a._parsedTime - b._parsedTime);
+
+    const problemMap = {};
+    sData.forEach(test => {
+      (test.results || []).forEach(r => {
+        if(!r.filename) return; // 위에서 방어코드를 짰으므로 이제 여길 무사히 통과합니다!
+        
+        if (!r.correct && r.userAnswer) {
+            const uAns = r.userAnswer.toString().trim().toLowerCase().replace(/\s+/g, '');
+            const oAns = (dashboardOverrides[r.filename]||'').toString().trim().toLowerCase().replace(/\s+/g, '');
+            const aAns = (dashboardAltAnswers[r.filename]||[]).map(a => a.toString().trim().toLowerCase().replace(/\s+/g, ''));
+            if ((oAns && uAns === oAns) || aAns.includes(uAns)) {
+                r.correct = true; r.metaReason = '대시보드 구제 처리됨';
+            }
+        }
+        if(!problemMap[r.filename]) {
+          problemMap[r.filename] = { filename: r.filename, githubUrl: r.githubUrl, history: [], isMastered: false };
+        }
+        problemMap[r.filename].history.push({ date: test.gradedAt, timeValue: test._parsedTime, correct: r.correct, reason: r.metaReason || '', testTitle: test.title });
+        problemMap[r.filename].isMastered = r.correct; 
+      });
+    });
+
+    const localMeta = JSON.parse(localStorage.getItem('xray_meta_' + student) || '{}');
+    currentStudentData = Object.values(problemMap).map(p => {
+      const meta = localMeta[p.filename] || {};
+      if(meta.forceMastered) p.isMastered = true;
+      p.tags = meta.tags || '';
+      p.memo = meta.memo || '';
+      p.wrongCount = p.history.filter(h => !h.correct).length;
+      
+      let originalReason = p.history.length > 0 ? (p.history[p.history.length-1].reason || '분류없음') : '분류없음';
+      p.lastReason = meta.customReason ? meta.customReason : originalReason;
+      
+      p.diff = getDifficulty(p.filename);
+      p.realImgSrc = getRealImageUrl(p.githubUrl, p.filename);
+      return p;
+    }).filter(p => p.wrongCount > 0 || p.isMastered);
+
+    renderSidebar();
+    drawResolutionChart(); 
+    showDashboard(); 
+  }
+
+  // 아코디언 토글 기능
+  function toggleGroup(groupId) {
+    const groupEl = document.getElementById(groupId);
+    groupEl.classList.toggle('open');
+  }
+
+  function renderSidebar() {
+    const unresolved = currentStudentData.filter(p => !p.isMastered);
+    const mastered = currentStudentData.filter(p => p.isMastered);
+    document.getElementById('sideTotalCount').innerText = `미해결 오답 ${unresolved.length}건`;
+    
+    const groups = {};
+    unresolved.forEach(p => {
+      const g = p.lastReason;
+      if(!groups[g]) groups[g] = [];
+      groups[g].push(p);
+    });
+
+    let html = '';
+    for(let [reason, probs] of Object.entries(groups)) {
+      let titleClass = reason.includes('계산') ? 'mistake' : (reason.includes('개념') ? 'concept' : 'etc');
+      let groupId = `grp_${reason.replace(/[\s\[\]]/g,'')}`;
+      
+      // 처음엔 닫혀있도록 'open' 클래스 제외
+      html += `<div class="list-group" id="${groupId}">
+        <div class="list-title ${titleClass}" onclick="toggleGroup('${groupId}')">
+          <span><span class="acc-icon">▶</span> 🚨 ${reason} (${probs.length})</span>
+          <button class="btn-bulk-cart" onclick="event.stopPropagation(); bulkAddCategoryToCart('${reason}')">🛒 일괄담기</button>
+        </div>
+        <div class="list-content">`;
+      probs.forEach(p => { html += generateListItemHTML(p, false); });
+      html += `</div></div>`;
+    }
+
+    if(mastered.length > 0) {
+      html += `<div class="list-group" id="grp_mastered">
+        <div class="list-title master" onclick="toggleGroup('grp_mastered')">
+          <span><span class="acc-icon">▶</span> 🎉 약점 극복 완료 (${mastered.length})</span>
+        </div>
+        <div class="list-content">`;
+      mastered.forEach(p => { html += generateListItemHTML(p, true); });
+      html += `</div></div>`;
+    }
+
+    document.getElementById('sidebarList').innerHTML = html;
+  }
+
+  function generateListItemHTML(p, isMastered) {
+    const d = p.history[p.history.length-1].date.split(' ')[0];
+    const statusBadge = isMastered ? `<span class="badge-success">마스터</span>` : `<span class="badge-danger">${p.wrongCount}회 오답</span>`;
+    return `
+      <div class="list-item" onclick="openFocusView('${p.filename}')" id="list_${p.filename}">
+        <div>
+          <span class="item-name">${p.filename}</span>
+          <span class="diff-badge ${p.diff.class}">${p.diff.label}</span>
+          <span class="item-meta">최근: ${d}</span>
+        </div>
+        ${statusBadge}
+      </div>`;
+  }
+
+  function showDashboard() {
+    document.getElementById('view-focus').style.display = 'none';
+    document.getElementById('view-dashboard').style.display = 'block';
+  }
+
+  function openFocusView(filename) {
+    document.querySelectorAll('.list-item').forEach(el => el.classList.remove('active'));
+    const targetEl = document.getElementById('list_' + filename);
+    if(targetEl) targetEl.classList.add('active');
+
+    const p = currentStudentData.find(x => x.filename === filename);
+    if(!p) return;
+    currentFocusProblem = p;
+
+    document.getElementById('view-dashboard').style.display = 'none';
+    document.getElementById('view-focus').style.display = 'flex';
+    
+    document.getElementById('focusImg').src = p.realImgSrc;
+    document.getElementById('focusTitle').innerText = p.filename;
+    
+    let bHtml = `<span class="diff-badge ${p.diff.class}" style="font-size:14px;">${p.diff.label}</span>`;
+    bHtml += p.isMastered ? `<span style="font-size:14px; color:#10b981; background:#d1fae5; padding:4px 10px; border-radius:20px; font-weight:bold; margin-left:8px;">🎉 마스터 완료</span>` 
+                          : `<span style="font-size:14px; color:#ef4444; background:#fee2e2; padding:4px 10px; border-radius:20px; font-weight:bold; margin-left:8px;">🚨 ${p.wrongCount}회 오답</span>`;
+    document.getElementById('focusBadge').innerHTML = bHtml;
+
+    const metaArea = document.getElementById('focusMetaArea');
+    if (p.tags || p.memo) {
+        metaArea.style.display = 'block';
+        document.getElementById('focusTags').innerHTML = p.tags ? p.tags.split(',').map(t=>`<span style="background:var(--primary-blue); color:white; padding:3px 8px; border-radius:12px; font-size:11px;">${t.trim()}</span>`).join('') : '';
+        document.getElementById('focusMemo').innerText = p.memo ? `📝 ${p.memo}` : '';
+    } else { metaArea.style.display = 'none'; }
+
+    let tHtml = '';
+    const localMeta = JSON.parse(localStorage.getItem('xray_meta_' + document.getElementById('studentSelector').value) || '{}')[filename] || {};
+    p.history.forEach((h, idx) => {
+      const isFail = !h.correct;
+      const tClass = isFail ? 'fail' : 'success';
+      let rText = isFail ? `❌ 오답 (${h.reason})` : `✅ 정답`;
+      if (idx === p.history.length - 1 && localMeta.customReason && isFail) {
+          rText = `❌ 오답 <br><span style="color:var(--primary-blue); font-size:13px; font-weight:bold;">👉 원장님 판결: ${localMeta.customReason} (학생: ${h.reason})</span>`;
+      }
+      tHtml += `<div class="tl-item ${tClass}">
+        <div class="tl-date">📅 ${h.date} (${idx === 0 ? '최초 테스트' : idx+'차 복습'})</div>
+        <div class="tl-content">결과: <strong style="color:${isFail?'#ef4444':'#10b981'}">${rText}</strong><br><span style="font-size:12px;color:#64748b;">출처: ${h.testTitle}</span></div>
+      </div>`;
+    });
+    document.getElementById('focusTimeline').innerHTML = tHtml;
+
+    const ab = document.getElementById('focusActionBar');
+    if (p.isMastered) {
+        ab.innerHTML = `<button class="btn btn-diag" onclick="openDiagModal()">🔍 진단 및 코멘트 수정</button>`;
+    } else {
+        ab.innerHTML = `
+          <button class="btn btn-diag" onclick="openDiagModal()">🔍 정밀 진단 (태그/메모)</button>
+          <button class="btn btn-cart" onclick="addCurrentToCart()">🛒 이 문제 장바구니 담기</button>
+          <button class="btn btn-master" style="background:var(--primary-green); color:white;" onclick="markAsMastered()">🗣️ 강제 마스터 처리</button>
+        `;
+    }
+  }
+
+  function drawResolutionChart() {
+    const datesSet = new Set();
+    currentStudentData.forEach(p => { p.history.forEach(h => { datesSet.add(new Date(h.timeValue).toISOString().split('T')[0]); }); });
+    const sortedDates = Array.from(datesSet).sort();
+    
+    let labels = [], easyData = [], midData = [], hardData = [];
+    sortedDates.forEach(dateStr => {
+        const currentTs = new Date(dateStr + "T23:59:59").getTime();
+        let stats = { easy: {total:0, solved:0}, mid: {total:0, solved:0}, hard: {total:0, solved:0} };
+        currentStudentData.forEach(p => {
+            let historyUpToNow = p.history.filter(h => h.timeValue <= currentTs);
+            if (historyUpToNow.length > 0) {
+                const diffType = p.diff.type; 
+                if (stats[diffType]) {
+                    stats[diffType].total++;
+                    if (historyUpToNow[historyUpToNow.length - 1].correct) stats[diffType].solved++;
+                }
+            }
+        });
+        labels.push(dateStr.substring(5).replace('-','/')); 
+        easyData.push(stats.easy.total > 0 ? Math.round((stats.easy.solved / stats.easy.total)*100) : null);
+        midData.push(stats.mid.total > 0 ? Math.round((stats.mid.solved / stats.mid.total)*100) : null);
+        hardData.push(stats.hard.total > 0 ? Math.round((stats.hard.solved / stats.hard.total)*100) : null);
+    });
+
+    const ctx = document.getElementById('resolutionChart').getContext('2d');
+    if (resolutionChartInstance) resolutionChartInstance.destroy(); 
+    resolutionChartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          { label: '[하] 영역 해결률 (%)', data: easyData, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', tension: 0.3, fill: true, borderWidth: 3, spanGaps: true },
+          { label: '[중] 영역 해결률 (%)', data: midData, borderColor: '#f59e0b', backgroundColor: 'transparent', tension: 0.3, borderWidth: 3, spanGaps: true },
+          { label: '[상] 영역 해결률 (%)', data: hardData, borderColor: '#ef4444', backgroundColor: 'transparent', tension: 0.3, borderWidth: 3, spanGaps: true }
+        ]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, tooltip: { mode: 'index', intersect: false } }, scales: { y: { beginAtZero: true, max: 100, ticks: { callback: function(value) { return value + '%'; } } } } }
+    });
+  }
+
+  function bulkAddToCart(stu, probArray) {
+    let cart = JSON.parse(localStorage.getItem('mathWrongCart_' + stu) || '[]');
+    let added = 0;
+    probArray.forEach(p => {
+      // 장바구니로 넘어갈 땐 반드시 원본 이미지 주소를 넘깁니다.
+      const targetUrl = (p.filename.includes('[이름유실]')) ? p.filename : p.realImgSrc;
+      if(!cart.some(i => i.githubUrl === targetUrl || i.name === p.filename)) {
+        cart.push({ githubUrl: targetUrl, name: p.filename, answer: '재채점요망' });
+        added++;
+      }
+    });
+    localStorage.setItem('mathWrongCart_' + stu, JSON.stringify(cart));
+    showToast(`🛒 ${added}문제가 장바구니에 담겼습니다!`);
+  }
+
+  function addCurrentToCart() { if(currentFocusProblem) bulkAddToCart(document.getElementById('studentSelector').value, [currentFocusProblem]); }
+  function bulkAddCategoryToCart(reason) {
+    const probs = currentStudentData.filter(p => !p.isMastered && p.lastReason === reason);
+    if(confirm(`[${reason}] 오답 ${probs.length}문제를 일괄 장바구니에 담으시겠습니까?`)) bulkAddToCart(document.getElementById('studentSelector').value, probs);
+  }
+  function bulkAddUnresolvedToCart() {
+    const probs = currentStudentData.filter(p => !p.isMastered);
+    if(probs.length > 0 && confirm(`미해결 오답 전체(${probs.length}문제)를 장바구니에 담으시겠습니까?`)) bulkAddToCart(document.getElementById('studentSelector').value, probs);
+  }
+
+  function markAsMastered() {
+    if(!currentFocusProblem) return;
+    const stu = document.getElementById('studentSelector').value;
+    let meta = JSON.parse(localStorage.getItem('xray_meta_' + stu) || '{}');
+    if(!meta[currentFocusProblem.filename]) meta[currentFocusProblem.filename] = {};
+    meta[currentFocusProblem.filename].forceMastered = true;
+    localStorage.setItem('xray_meta_' + stu, JSON.stringify(meta));
+    showToast("🗣️ 마스터 처리되었습니다!");
+    processStudentData(); 
+  }
+
+  function handleReasonChange() {
+    if(document.getElementById('modalReasonSelect').value === '_new_') {
+        document.getElementById('modalNewReasonInput').style.display = 'block'; document.getElementById('modalNewReasonInput').focus();
+    } else { document.getElementById('modalNewReasonInput').style.display = 'none'; }
+  }
+
+  function openDiagModal() {
+    if(!currentFocusProblem) return;
+    const stu = document.getElementById('studentSelector').value;
+    
+    document.getElementById('modalTitle').innerText = `🔍 ${currentFocusProblem.filename}`;
+    
+    const meta = JSON.parse(localStorage.getItem('xray_meta_' + stu) || '{}')[currentFocusProblem.filename] || {};
+    document.getElementById('modalTags').value = meta.tags || '';
+    document.getElementById('modalMemo').value = meta.memo || '';
+    
+    let customGlobalReasons = JSON.parse(localStorage.getItem('global_error_reasons') || '[]');
+    let allReasons = [...new Set([...defaultReasons, ...customGlobalReasons])];
+    
+    let optHtml = `<option value="">변경 안 함 (현재: ${currentFocusProblem.lastReason})</option>`;
+    allReasons.forEach(r => optHtml += `<option value="${r}">${r}</option>`);
+    optHtml += `<option value="_new_" style="font-weight:bold; color:var(--primary-blue);">➕ 직접 새 원인 만들기...</option>`;
+    
+    document.getElementById('modalReasonSelect').innerHTML = optHtml;
+    document.getElementById('modalReasonSelect').value = '';
+    document.getElementById('modalNewReasonInput').style.display = 'none';
+    document.getElementById('modalNewReasonInput').value = '';
+    
+    document.getElementById('diagModal').classList.add('active');
+  }
+
+  function closeDiagModal() { document.getElementById('diagModal').classList.remove('active'); }
+
+  function saveDiagInfo() {
+    const stu = document.getElementById('studentSelector').value;
+    let metaAll = JSON.parse(localStorage.getItem('xray_meta_' + stu) || '{}');
+    const fname = currentFocusProblem.filename;
+    if(!metaAll[fname]) metaAll[fname] = {};
+    
+    metaAll[fname].tags = document.getElementById('modalTags').value;
+    metaAll[fname].memo = document.getElementById('modalMemo').value;
+    
+    let selReason = document.getElementById('modalReasonSelect').value;
+    if(selReason === '_new_') {
+        const newReason = document.getElementById('modalNewReasonInput').value.trim();
+        if(newReason) {
+            let customGlobalReasons = JSON.parse(localStorage.getItem('global_error_reasons') || '[]');
+            if(!customGlobalReasons.includes(newReason) && !defaultReasons.includes(newReason)) {
+                customGlobalReasons.push(newReason);
+                localStorage.setItem('global_error_reasons', JSON.stringify(customGlobalReasons));
+            }
+            metaAll[fname].customReason = newReason;
+        }
+    } else if (selReason !== '') { metaAll[fname].customReason = selReason; }
+
+    localStorage.setItem('xray_meta_' + stu, JSON.stringify(metaAll));
+    showToast("💾 진단 정보가 완벽하게 저장되었습니다.");
+    closeDiagModal();
+    processStudentData(); 
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.innerText = msg; t.style.opacity = '1';
+    setTimeout(() => t.style.opacity = '0', 3000);
+  }
+</script>
+</body>
+</html>
