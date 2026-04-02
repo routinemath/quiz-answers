@@ -1,0 +1,66 @@
+{
+  "title": "윤우 일일테스트 0401",
+  "student": "최윤우",
+  "score": 63,
+  "correct": 5,
+  "total": 8,
+  "gradedAt": "2026. 4. 2. 오후 4:30:35",
+  "results": [
+    {
+      "number": 1,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0204-미분류.png"
+    },
+    {
+      "number": 2,
+      "correct": false,
+      "metaReason": "개념부족",
+      "githubUrl": "",
+      "filename": "라이트쎈_1.소인수분해-0128-미분류.png"
+    },
+    {
+      "number": 3,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_1.소인수분해-0103-미분류.png"
+    },
+    {
+      "number": 4,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0186-미분류.png"
+    },
+    {
+      "number": 5,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_1.소인수분해-0115-미분류.png"
+    },
+    {
+      "number": 6,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_1.소인수분해-0122-미분류.png"
+    },
+    {
+      "number": 7,
+      "correct": false,
+      "metaReason": "개념부족",
+      "githubUrl": "",
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0216-미분류.png"
+    },
+    {
+      "number": 8,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0253-미분류.png"
+    }
+  ]
+}
