@@ -3866,7 +3866,7 @@ function saveTempGrading() {
     showStatus('💾 임시 저장되었습니다.', true);
 }
 
-// ── 선생님 직접 채점 결과를 대시보드(GitHub)로 전송하는 마법의 코드 ──
+// ── 선생님 직접 채점 결과를 대시보드(GitHub) 및 구글 드라이브로 전송 ──
 async function completeGrading() {
     if (!confirm(`채점을 완료하시겠습니까?\n\n총 ${currentGradingTest.problems.length}문제 중 ${gradingResults.length}문제 채점됨`)) {
         return;
@@ -3907,17 +3907,15 @@ async function completeGrading() {
     localStorage.setItem('testPapers', JSON.stringify(testPapers));
     updateStudentData(currentGradingTest.studentName, gradingResults, testId);
 
-    // ── 🔥 4. 핵심 추가: 대시보드(GitHub)로 결과 쏘기! ──
+    // ── 4. 깃허브 및 구글 드라이브 실시간 전송 ──
     const username = localStorage.getItem('gh_username');
     const repo     = localStorage.getItem('gh_repo');
     const token    = localStorage.getItem('gh_token');
 
     if (username && repo && token) {
-        showStatus('☁️ 대시보드(GitHub)로 채점 결과를 전송하고 있습니다...', true);
+        showStatus('☁️ 대시보드 및 구글 드라이브로 채점 결과를 전송하고 있습니다...', true);
         try {
-            // 대시보드가 알아먹을 수 있는 형태로 데이터 변환
             const dashboardResults = gradingResults.map(r => {
-                // 현재 불러와진 이미지 목록에서 주소(githubUrl) 찾기 (장바구니 기능용!)
                 const imgObj = allImages.find(img => img.name === r.filename);
                 const githubUrl = (imgObj && typeof imgObj.base64Data === 'string' && imgObj.base64Data.startsWith('http')) ? imgObj.base64Data : '';
 
@@ -3926,9 +3924,9 @@ async function completeGrading() {
                     filename: r.filename,
                     correctAnswer: r.correctAnswer,
                     userAnswer: r.studentAnswer || '',
-                    correct: r.result === '정답',    // 대시보드는 이 형태를 원합니다
-                    metaReason: r.detailCategory,  // 🧠 대시보드 오답 원인 차트로 들어갑니다!
-                    githubUrl: githubUrl,          // 🛒 장바구니 썸네일용
+                    correct: r.result === '정답',    
+                    metaReason: r.detailCategory,  
+                    githubUrl: githubUrl,          
                     memo: r.memo
                 };
             });
@@ -3943,6 +3941,7 @@ async function completeGrading() {
                 results: dashboardResults
             };
 
+            // [1] 깃허브(GitHub) 전송
             const fileId = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
             const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
 
@@ -3952,16 +3951,25 @@ async function completeGrading() {
                 body: JSON.stringify({ message: '선생님 직접 채점: ' + currentGradingTest.studentName + ' — ' + currentGradingTest.title, content })
             });
 
-            showStatus(`✅ 채점 완료 및 대시보드 전송 성공! 점수: ${score}점`, true);
+            // 🔥 [2] 구글 드라이브(GAS) 실시간 전송 추가!
+            const googleScriptUrl = "https://script.google.com/macros/s/AKfycbyneXMqQ_HozdzHSO6qCo7IOsVo7bz9zM2v_dQbgStcejSAh3z-OP3pH2uCT2TCFlUItA/exec";
+            try {
+                await fetch(googleScriptUrl, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: { "Content-Type": "text/plain;charset=utf-8" } 
+                });
+            } catch(e) { console.warn('구글 드라이브 전송 지연:', e); }
+
+            showStatus(`✅ 채점 완료 및 서버 전송 성공! 점수: ${score}점`, true);
         } catch(e) {
             console.error('GitHub 결과 업로드 실패:', e);
-            showStatus(`⚠️ 채점은 완료되었으나 대시보드 전송에 실패했습니다.`, false);
+            showStatus(`⚠️ 채점은 완료되었으나 서버 전송에 실패했습니다.`, false);
         }
     } else {
         showStatus(`✅ 채점 완료! 점수: ${score}점 (${correctCount}/${totalProblems})`, true);
     }
     
-    // 채점 목록으로 돌아가기
     exitGrading();
 }
 

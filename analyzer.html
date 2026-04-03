@@ -24,7 +24,6 @@
   .sidebar-header { padding: 16px; background: #f1f5f9; border-bottom: 1px solid var(--border); font-weight: bold; font-size: 14px; color: var(--text-muted); display:flex; justify-content:space-between; align-items:center;}
   
   .list-group { margin-bottom: 8px; }
-  /* 🔥 리스트 타이틀 아코디언 설정 */
   .list-title { padding: 12px 16px; font-size: 14px; font-weight: bold; border-bottom: 1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; cursor: pointer; user-select: none; transition: background 0.2s; }
   .list-title:hover { filter: brightness(0.95); }
   .list-title.concept { background: #fef2f2; color: #b91c1c; border-color: #fee2e2; }
@@ -204,12 +203,10 @@
   window.onload = function() { 
     const today = new Date();
     const lastSixMonths = new Date();
-    // 🔥 기본 조회 기간을 '1개월'에서 '6개월'로 넉넉하게 늘립니다! (과거 문제 추적용)
     lastSixMonths.setMonth(today.getMonth() - 6); 
     document.getElementById('endDate').value = today.toISOString().split('T')[0];
     document.getElementById('startDate').value = lastSixMonths.toISOString().split('T')[0];
     
-    // 🔥 구글 서버 응답 대기 전에, 내 PC에 있는 학생 목록부터 무조건 드롭다운에 띄우기!
     const localStudents = JSON.parse(localStorage.getItem('students') || '[]');
     const sel = document.getElementById('studentSelector');
     sel.innerHTML = '<option value="">👤 학생을 선택하세요</option>' + 
@@ -229,8 +226,6 @@
       }
     } catch (e) { console.warn("구글 연동 지연, 로컬 데이터 위주로 분석합니다."); }
 
-    // 🔥 [초강력 기능] 내 PC(대시보드)에 남은 채점 기록을 강제로 끌어와 합치기! 
-    // (깃허브/구글 연동이 지연되거나 실패해도 무조건 화면에 뜹니다)
     try {
         const localGrading = JSON.parse(localStorage.getItem('gradingResults') || '{}');
         const localTestPapers = JSON.parse(localStorage.getItem('testPapers') || '{}');
@@ -254,17 +249,18 @@
         });
     } catch(e) { console.warn("로컬 채점 데이터 병합 중 오류:", e); }
 
-    // 🔥 데이터 심폐소생술 (이름 잃어버린 과거 문제 복원)
     try {
         const localTestPapers = JSON.parse(localStorage.getItem('testPapers') || '{}');
         allResults.forEach(test => {
             (test.results || []).forEach((r, idx) => {
-                if (!r.filename) {
-                    const matchedPaper = Object.values(localTestPapers).find(p => p.studentName === test.student && p.title === test.title);
-                    if (matchedPaper && matchedPaper.problems && matchedPaper.problems[idx]) {
-                        r.filename = matchedPaper.problems[idx].filename;
-                    }
-                }
+             // 1. 이름표나 '전체 주소'가 없다면 내 PC를 뒤져서 복구 시도
+                  if (!r.filename || !r.githubUrl) {
+                      const matchedPaper = Object.values(localTestPapers).find(p => p.studentName === test.student && p.title === test.title);
+                      if (matchedPaper && matchedPaper.problems && matchedPaper.problems[idx]) {
+                          if (!r.filename) r.filename = matchedPaper.problems[idx].filename;
+                          if (!r.githubUrl) r.githubUrl = matchedPaper.problems[idx].githubUrl; // 🔥 폴더 경로가 포함된 진짜 주소 복원!
+                      }
+                  }
                 if (!r.filename) {
                     r.filename = `[이름유실]_${test.title}_${r.number||idx+1}번.png`;
                 }
@@ -272,18 +268,17 @@
         });
     } catch(err) { console.warn("데이터 복구 중 오류 방어:", err); }
 
-    // 드롭다운 학생 목록 최종 업데이트 (PC 학생 + 구글 옛날 학생 싹 다 모으기)
     const localStudents = JSON.parse(localStorage.getItem('students') || '[]');
     const googleStudents = allResults.map(r => r.student).filter(Boolean);
     const combinedStudents = [...new Set([...localStudents, ...googleStudents])].sort();
     
     const sel = document.getElementById('studentSelector');
-    const currentVal = sel.value; // 기존에 선택해둔 학생 유지
+    const currentVal = sel.value; 
     sel.innerHTML = '<option value="">👤 학생을 선택하세요</option>' + 
                     combinedStudents.map(s => `<option value="${s}" ${s===currentVal?'selected':''}>${s}</option>`).join('');
     
     showToast("✅ 데이터 로드 및 로컬 기록 복구 완료!");
-    if (sel.value) processStudentData(); // 이미 학생이 선택되어 있다면 화면 즉시 갱신
+    if (sel.value) processStudentData(); 
   }
 
   function getDifficulty(name) {
@@ -297,7 +292,6 @@
     if (githubUrl && githubUrl.startsWith('http')) return githubUrl; 
     const user = localStorage.getItem('db_gh_user') || localStorage.getItem('gh_username');
     const repo = localStorage.getItem('db_gh_repo') || localStorage.getItem('gh_repo');
-    // 이름유실 파일은 더미 이미지로 강제 처리
     if (filename.includes('[이름유실]')) return `https://dummyimage.com/600x250/e2e8f0/ef4444.png&text=${filename}`;
     if (user && repo && filename) return `https://raw.githubusercontent.com/${user}/${repo}/main/${filename}`;
     return `https://dummyimage.com/600x250/e2e8f0/334155.png&text=[+${filename}+]`;
@@ -307,7 +301,10 @@
     const student = document.getElementById('studentSelector').value;
     const sDate = document.getElementById('startDate').value;
     const eDate = document.getElementById('endDate').value;
-    if(!student || !sDate || !eDate) return;
+    if(!student || !sDate || !eDate) {
+        updateCartUI(); // 학생이 없으면 장바구니 패널도 숨김
+        return;
+    }
 
     document.getElementById('chartTitle').innerText = `📊 ${student} 학생의 난이도별 오답 극복 추이`;
     const start = new Date(sDate); start.setHours(0, 0, 0, 0);
@@ -332,7 +329,7 @@
     const problemMap = {};
     sData.forEach(test => {
       (test.results || []).forEach(r => {
-        if(!r.filename) return; // 위에서 방어코드를 짰으므로 이제 여길 무사히 통과합니다!
+        if(!r.filename) return; 
         
         if (!r.correct && r.userAnswer) {
             const uAns = r.userAnswer.toString().trim().toLowerCase().replace(/\s+/g, '');
@@ -369,9 +366,9 @@
     renderSidebar();
     drawResolutionChart(); 
     showDashboard(); 
+    updateCartUI(); // 🔥 데이터 처리가 끝나면 장바구니 버튼도 업데이트
   }
 
-  // 아코디언 토글 기능
   function toggleGroup(groupId) {
     const groupEl = document.getElementById(groupId);
     groupEl.classList.toggle('open');
@@ -394,7 +391,6 @@
       let titleClass = reason.includes('계산') ? 'mistake' : (reason.includes('개념') ? 'concept' : 'etc');
       let groupId = `grp_${reason.replace(/[\s\[\]]/g,'')}`;
       
-      // 처음엔 닫혀있도록 'open' 클래스 제외
       html += `<div class="list-group" id="${groupId}">
         <div class="list-title ${titleClass}" onclick="toggleGroup('${groupId}')">
           <span><span class="acc-icon">▶</span> 🚨 ${reason} (${probs.length})</span>
@@ -454,7 +450,7 @@
     
     let bHtml = `<span class="diff-badge ${p.diff.class}" style="font-size:14px;">${p.diff.label}</span>`;
     bHtml += p.isMastered ? `<span style="font-size:14px; color:#10b981; background:#d1fae5; padding:4px 10px; border-radius:20px; font-weight:bold; margin-left:8px;">🎉 마스터 완료</span>` 
-                          : `<span style="font-size:14px; color:#ef4444; background:#fee2e2; padding:4px 10px; border-radius:20px; font-weight:bold; margin-left:8px;">🚨 ${p.wrongCount}회 오답</span>`;
+                          : `<span style="font-size:14px; color:#ef4444; background:#fee2e2; padding:4px 10px; border-radius:20px; font-weight:bold; margin-left:8px;">🚨 ${p.wrongCount}회 만성 오답</span>`;
     document.getElementById('focusBadge').innerHTML = bHtml;
 
     const metaArea = document.getElementById('focusMetaArea');
@@ -533,11 +529,44 @@
     });
   }
 
+  // 🔥 장바구니 UI 업데이트 함수 추가
+  function updateCartUI() {
+    const stu = document.getElementById('studentSelector').value;
+    let panel = document.getElementById('cartPanel');
+    
+    if (!panel) {
+      panel = document.createElement('div'); 
+      panel.id = 'cartPanel';
+      panel.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--primary-blue);color:white;padding:12px 24px;border-radius:30px;box-shadow:0 4px 15px rgba(0,0,0,0.3);display:none;align-items:center;z-index:900;cursor:pointer;font-weight:bold;transition:all 0.2s;';
+      panel.onmouseover = () => panel.style.transform = 'translateX(-50%) translateY(-3px)';
+      panel.onmouseout = () => panel.style.transform = 'translateX(-50%) translateY(0)';
+      document.body.appendChild(panel);
+    }
+    
+    if(!stu) { panel.style.display = 'none'; return; }
+
+    let cart = JSON.parse(localStorage.getItem('mathWrongCart_' + stu) || '[]');
+    if (cart.length > 0) { 
+      panel.innerHTML = `🛒 ${stu} 학생 장바구니 <span style="background:white;color:var(--primary-blue);padding:2px 8px;border-radius:12px;margin:0 8px;">${cart.length}개</span> <span style="font-size:12px;background:rgba(255,255,255,0.2);padding:4px 8px;border-radius:4px;">복습지 인쇄하기 ➔</span>`;
+      panel.style.display = 'flex'; 
+      panel.onclick = () => { 
+          if(confirm(`[${stu}] 학생의 장바구니 문제(${cart.length}개)로 복습지를 만드시겠습니까?`)) {
+              localStorage.setItem('mathWrongCart', JSON.stringify(cart));
+              localStorage.setItem('mathWrongStudent', stu); 
+              window.open('index.html', '_blank');
+              localStorage.removeItem('mathWrongCart_' + stu);
+              updateCartUI(); // 비운 후 패널 숨기기
+          }
+      };
+    } else { 
+      panel.style.display = 'none'; 
+    }
+  }
+
   function bulkAddToCart(stu, probArray) {
     let cart = JSON.parse(localStorage.getItem('mathWrongCart_' + stu) || '[]');
     let added = 0;
     probArray.forEach(p => {
-      // 장바구니로 넘어갈 땐 반드시 원본 이미지 주소를 넘깁니다.
       const targetUrl = (p.filename.includes('[이름유실]')) ? p.filename : p.realImgSrc;
       if(!cart.some(i => i.githubUrl === targetUrl || i.name === p.filename)) {
         cart.push({ githubUrl: targetUrl, name: p.filename, answer: '재채점요망' });
@@ -545,6 +574,7 @@
       }
     });
     localStorage.setItem('mathWrongCart_' + stu, JSON.stringify(cart));
+    updateCartUI(); // 🔥 장바구니 담은 직후 버튼 새로고침
     showToast(`🛒 ${added}문제가 장바구니에 담겼습니다!`);
   }
 

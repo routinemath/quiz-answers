@@ -199,7 +199,6 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 <div id="toast"></div>
 
 <script>
-// Chart.js 전역 테마 설정 (어두운 테마용 흰색 글씨)
 Chart.defaults.color = '#e8eaf6';
 Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
 
@@ -222,6 +221,29 @@ async function loadResults() {
     if (fetchedData.status === "error") throw new Error(fetchedData.message);
     allResults = fetchedData;
     
+    // 🔥 [오류 해결의 궁극적 핵심] 구글에서 받아온 데이터에 '원장님이 구제해준 데이터'를 미리 덮어씌워 둡니다!
+    const dashboardOverrides = JSON.parse(localStorage.getItem('mathAnswerOverrides') || '{}');
+    const dashboardAltAnswers = JSON.parse(localStorage.getItem('mathAltAnswers') || '{}');
+    
+    allResults.forEach(r => {
+        let correctCount = 0;
+        (r.results || []).forEach(p => {
+            if (!p.correct && p.userAnswer && p.filename) {
+                const uAns = p.userAnswer.toString().trim().toLowerCase().replace(/\s+/g, '');
+                const oAns = (dashboardOverrides[p.filename]||'').toString().trim().toLowerCase().replace(/\s+/g, '');
+                const aAns = (dashboardAltAnswers[p.filename]||[]).map(a => a.toString().trim().toLowerCase().replace(/\s+/g, ''));
+                if ((oAns && uAns === oAns) || aAns.includes(uAns)) {
+                    p.correct = true;
+                    p.metaReason = '대시보드 구제 처리됨';
+                }
+            }
+            if (p.correct) correctCount++;
+        });
+        r.correct = correctCount;
+        r.score = Math.round((correctCount / r.total) * 100);
+    });
+    // -----------------------------------------------------------------------------------
+
     syncAllStudentsToLocalStorage();
     
     document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString('ko-KR') + ' 동기화 완료';
@@ -296,7 +318,6 @@ function openStudentDetail(studentName) {
   updateCartUI(); 
 }
 
-// 최초 오답 추적 기능 포함
 function renderStudentDetail(data) {
   const scores = data.map(r => r.score || 0);
   document.getElementById('dTot').textContent = data.length + '회';
@@ -574,7 +595,6 @@ function renderMetaChart(data) {
   }).join('');
 }
 
-// 🔥 수정 1: 최초 오답 정보 포함 상세 보기 (+ 정답 구제 UI 추가)
 function showDetail(idx) {
   const r = filteredResults[idx]; if (!r) return;
   document.getElementById('mTitle').textContent = `📋 ${r.title} 상세 기록`;
@@ -613,7 +633,6 @@ function showDetail(idx) {
         </div>
     </div>`;
 
-    // 💡 [핵심] 학생이 '정답오류의심'을 체크한 경우 원장님 전용 구제 패널 띄우기
     if (!p.correct && isSpecial) {
         const orgAns = targetP.correctAnswer || '없음';
         const stuAns = targetP.userAnswer || '입력안함';
@@ -641,7 +660,7 @@ function showDetail(idx) {
   document.getElementById('mBody').innerHTML = html; document.getElementById('modal').classList.add('open');
 }
 
-// 🔥 수정 2: 원장님의 판결을 처리하고 시스템을 진화시키는 마법 엔진
+// 🔥 수정: 원장님의 판결을 처리하고 시스템을 진화시키는 마법 엔진 (원본 데이터 갱신 완벽 반영)
 async function handleAnswerCorrection(testIdx, probNum, mode) {
     const r = filteredResults[testIdx];
     const pIndex = r.results.findIndex(x => x.number === probNum);
@@ -660,7 +679,6 @@ async function handleAnswerCorrection(testIdx, probNum, mode) {
         if (input === null || input.trim() === '') return; 
         newCorrectAnswer = input.trim();
         
-        // 🛠️ 진짜 정답 덮어쓰기 DB 저장
         let overrideDB = JSON.parse(localStorage.getItem('mathAnswerOverrides') || '{}');
         if (targetP.filename) {
             overrideDB[targetP.filename] = newCorrectAnswer;
@@ -671,7 +689,6 @@ async function handleAnswerCorrection(testIdx, probNum, mode) {
     } else if (mode === 'alt') {
         if (!confirm(`학생의 답안 [ ${stuAns} ] 을(를) 정답으로 인정하시겠습니까?\n(기존 정답인 [ ${orgAns} ] 도 계속 정답으로 유지됩니다)`)) return;
         
-        // 🤝 복수 정답 허용 DB 저장
         let altDB = JSON.parse(localStorage.getItem('mathAltAnswers') || '{}');
         if (targetP.filename) {
             if (!altDB[targetP.filename]) altDB[targetP.filename] = [];
@@ -681,29 +698,38 @@ async function handleAnswerCorrection(testIdx, probNum, mode) {
             localStorage.setItem('mathAltAnswers', JSON.stringify(altDB));
         }
         alert(`🤝 [ ${stuAns} ] 답안이 복수 정답 사전에 추가되었습니다!`);
-        newCorrectAnswer = orgAns; // 원래 답은 유지
+        newCorrectAnswer = orgAns; 
     }
     
     // [2단계] 현재 학생의 성적표 즉시 세탁 (구제 처리)
-    document.getElementById('mTitle').innerHTML = `📋 ${r.title} 상세 기록 <span style="font-size:12px;color:#FF9800;animation:blink 1s infinite;">(데이터 수정 및 깃허브 동기화 중...)</span>`;
-    
-    p.correct = true; // 정답 처리!
+    p.correct = true;
     if (mode === 'fix') {
         p.correctAnswer = newCorrectAnswer;
         if (p.wrongInstance) p.wrongInstance.correctAnswer = newCorrectAnswer;
     }
-    
-    // 구제되었으므로 꼬리표(최초오답, 정답오류의심 등) 완벽 제거
     p.everWrong = false;
     p.metaReason = '';
     delete p.wrongInstance;
     
-    // 점수 재계산
     let correctCount = r.results.filter(x => x.correct).length;
     r.correct = correctCount;
     r.score = Math.round((correctCount / r.total) * 100);
     
-    // 학생 누적 그래프(성실도, 정답률 등)에서 오답 1개 빼고 정답 1개 더해주기
+    // 🔥 [오류 해결 핵심] 원본 데이터(allResults)를 확실하게 찾아 업데이트!
+    const originalTest = allResults.find(test => test.title === r.title && test.student === r.student && test.gradedAt === r.gradedAt);
+    if (originalTest) {
+        const origP = originalTest.results.find(x => x.number === probNum);
+        if (origP) {
+            origP.correct = true;
+            origP.metaReason = '대시보드 구제 처리됨';
+            if (mode === 'fix') origP.correctAnswer = newCorrectAnswer;
+        }
+        let newCorrectCount = originalTest.results.filter(x => x.correct).length;
+        originalTest.correct = newCorrectCount;
+        originalTest.score = Math.round((newCorrectCount / originalTest.total) * 100);
+    }
+    
+    // 학생 누적 성실도 업데이트
     const studentKey = `student_${r.student}`;
     let studentData = JSON.parse(localStorage.getItem(studentKey) || '{}');
     if (targetP.filename && studentData[targetP.filename]) {
@@ -721,7 +747,15 @@ async function handleAnswerCorrection(testIdx, probNum, mode) {
     localStorage.setItem('mathWrongCart_' + r.student, JSON.stringify(cart));
     updateCartUI();
     
-    // [3단계] 깃허브 원본 파일 덮어쓰기 (점수 조작 영구 보존)
+    // 화면 0.1초 만에 즉시 다시 그리기
+    toast(`🎉 구제 처리 중... 점수가 ${r.score}점으로 올랐습니다!`);
+    renderMainView();
+    openStudentDetail(r.student);
+    showDetail(testIdx); 
+    
+    document.getElementById('mTitle').innerHTML = `📋 ${r.title} 상세 기록 <span style="font-size:12px;color:#FF9800;animation:blink 1s infinite;">(깃허브 동기화 중...)</span>`;
+
+    // [3단계] 깃허브 원본 파일 덮어쓰기 (백그라운드 처리)
     if (r._fname) {
         const user = localStorage.getItem('db_gh_user') || localStorage.getItem('gh_username');
         const repo = localStorage.getItem('db_gh_repo') || localStorage.getItem('gh_repo');
@@ -729,7 +763,6 @@ async function handleAnswerCorrection(testIdx, probNum, mode) {
         
         if (user && repo && token) {
             try {
-                // 기존 파일의 고유값(SHA) 확인
                 const fileInfoRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/results/${r._fname}`, {
                     headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' }
                 });
@@ -737,7 +770,6 @@ async function handleAnswerCorrection(testIdx, probNum, mode) {
                 if (fileInfoRes.ok) {
                     const fileInfo = await fileInfoRes.json();
                     
-                    // 전송용 깨끗한 페이로드 (쓸데없는 속성 제거)
                     const payload = {
                         title: r.title, student: r.student, score: r.score, correct: r.correct, total: r.total, gradedAt: r.gradedAt,
                         results: r.results.map(x => ({
@@ -749,7 +781,6 @@ async function handleAnswerCorrection(testIdx, probNum, mode) {
                     
                     const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
                     
-                    // 수정된 정보로 깃허브 덮어쓰기
                     await fetch(`https://api.github.com/repos/${user}/${repo}/contents/results/${r._fname}`, {
                         method: 'PUT',
                         headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
@@ -759,19 +790,14 @@ async function handleAnswerCorrection(testIdx, probNum, mode) {
                             sha: fileInfo.sha 
                         })
                     });
+                    
+                    document.getElementById('mTitle').innerHTML = `📋 ${r.title} 상세 기록 <span style="font-size:12px;color:#4CAF50;">(✅ 서버 저장 완료!)</span>`;
                 }
-            } catch(e) { console.warn("깃허브 덮어쓰기 에러:", e); toast("⚠️ 서버 통신 지연 (로컬에는 반영됨)"); }
+            } catch(e) { console.warn("깃허브 덮어쓰기 에러:", e); toast("⚠️ 서버 통신 지연 (로컬에는 잘 반영되었습니다)"); }
         }
     }
-    
-    // [4단계] 화면 새로고침
-    toast(`🎉 구제 완료! 점수가 ${r.score}점으로 올랐습니다!`);
-    renderMainView();
-    openStudentDetail(r.student);
-    showDetail(testIdx); // 모달창 즉시 갱신
 }
 
-// v9 파일로 재인쇄
 function reprintQuiz(idx) {
     const r = filteredResults[idx]; if (!r || !r.results) return;
     const reprintItems = r.results.map(p => ({ githubUrl: p.githubUrl, name: p.filename || `문제_${p.number}번.png`, answer: p.correctAnswer || p.answer || '', number: p.number })).filter(item => item.githubUrl);
@@ -785,7 +811,6 @@ document.getElementById('modal').addEventListener('click', e => { if(e.target===
 function toast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(window.toastTimer); window.toastTimer = setTimeout(() => el.classList.remove('show'), 3000); }
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-// 학생별 장바구니 시스템 + v9 파일 연결
 function getCart() {
     if(!currentDetailStudent) return [];
     return JSON.parse(localStorage.getItem('mathWrongCart_' + currentDetailStudent) || '[]');
@@ -828,7 +853,6 @@ function addToCart(url, fname, ans, num, stu) {
 }
 setTimeout(updateCartUI, 500);
 
-// 🔥 잘려나갔던 수기 채점 마법 코드 완벽 복구
 let mgData = {}; let localTestPapers = {};
 function openManualGrade() {
     document.getElementById('manualModal').style.display = 'flex';
@@ -909,16 +933,27 @@ async function submitMg() {
     const user = localStorage.getItem('db_gh_user'), repo = localStorage.getItem('db_gh_repo'), token = localStorage.getItem('db_gh_token');
     if(!user || !token) { toast('⚠️ 깃허브 설정 필요'); return; }
     
-    document.getElementById('mgGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:30px;">🚀 전송 중...</div>';
+    document.getElementById('mgGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:30px;">🚀 서버로 전송 중...</div>';
     
     try {
         const fileId = "manual_" + Date.now().toString(36) + "_" + Math.floor(Math.random()*10000);
         const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
         
+        // [1] 깃허브에 업로드
         await fetch(`https://api.github.com/repos/${user}/${repo}/contents/results/${fileId}_result.json`, {
             method: 'PUT', headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: '수기 채점: ' + student, content })
         });
+
+        // 🔥 [2] 구글 드라이브(GAS) 실시간 전송 추가!
+        const googleScriptUrl = "https://script.google.com/macros/s/AKfycbyneXMqQ_HozdzHSO6qCo7IOsVo7bz9zM2v_dQbgStcejSAh3z-OP3pH2uCT2TCFlUItA/exec";
+        try {
+            await fetch(googleScriptUrl, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { "Content-Type": "text/plain;charset=utf-8" } 
+            });
+        } catch(e) { console.warn('구글 드라이브 전송 지연:', e); }
         
         if (paper) { localTestPapers[testId].status = '채점완료'; localStorage.setItem('testPapers', JSON.stringify(localTestPapers)); }
         
@@ -934,11 +969,10 @@ async function submitMg() {
         });
         localStorage.setItem(studentKey, JSON.stringify(studentData));
 
-        // 화면 0.1초 즉시 반영 (마술)
         payload._fname = fileId + "_result.json";
         allResults.push(payload);
         
-        toast(`🎉 전송 완료! 점수: ${score}점 (즉시 반영됨)`); closeMg(); 
+        toast(`🎉 구글 드라이브 전송 완료! 점수: ${score}점 (즉시 반영됨)`); closeMg(); 
         
         renderMainView();
         if (currentDetailStudent === student) {
@@ -946,7 +980,6 @@ async function submitMg() {
         }
     } catch(e) { toast('❌ 실패: ' + e.message); }
 }
-
 </script>
 </body>
 </html>
