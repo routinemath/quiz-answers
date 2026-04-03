@@ -1,0 +1,234 @@
+{
+  "title": "준희 복습과제 3.25~27 [1회차]",
+  "student": "최준희",
+  "score": 75,
+  "correct": 24,
+  "total": 32,
+  "gradedAt": "2026. 3. 27. 오후 4:11:38",
+  "results": [
+    {
+      "number": 1,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_4.인수분해-0603-미분류.png"
+    },
+    {
+      "number": 2,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_4.인수분해-0605-미분류.png"
+    },
+    {
+      "number": 3,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_1.제곱근과 실수-0164-미분류.png"
+    },
+    {
+      "number": 4,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0452-미분류.png"
+    },
+    {
+      "number": 5,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_4.인수분해-0587-미분류.png"
+    },
+    {
+      "number": 6,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_4.인수분해-0608-미분류.png"
+    },
+    {
+      "number": 7,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0340-미분류.png"
+    },
+    {
+      "number": 8,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0455-미분류.png"
+    },
+    {
+      "number": 9,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_4.인수분해-0586-미분류.png"
+    },
+    {
+      "number": 10,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0333-미분류.png"
+    },
+    {
+      "number": 11,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_1.제곱근과 실수-0170-미분류.png"
+    },
+    {
+      "number": 12,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0447-미분류.png"
+    },
+    {
+      "number": 13,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_1.제곱근과 실수-0165-미분류.png"
+    },
+    {
+      "number": 14,
+      "correct": false,
+      "metaReason": "개념부족",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0343-미분류.png"
+    },
+    {
+      "number": 15,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0444-미분류.png"
+    },
+    {
+      "number": 16,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0437-미분류.png"
+    },
+    {
+      "number": 17,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_4.인수분해-0602-미분류.png"
+    },
+    {
+      "number": 18,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0325-미분류.png"
+    },
+    {
+      "number": 19,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0439-미분류.png"
+    },
+    {
+      "number": 20,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_1.제곱근과 실수-0169-미분류.png"
+    },
+    {
+      "number": 21,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_1.제곱근과 실수-0168-미분류.png"
+    },
+    {
+      "number": 22,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_4.인수분해-0596-미분류.png"
+    },
+    {
+      "number": 23,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0440-미분류.png"
+    },
+    {
+      "number": 24,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0328-미분류.png"
+    },
+    {
+      "number": 25,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0331-미분류.png"
+    },
+    {
+      "number": 26,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0446-미분류.png"
+    },
+    {
+      "number": 27,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0344-미분류.png"
+    },
+    {
+      "number": 28,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_1.제곱근과 실수-0176-미분류.png"
+    },
+    {
+      "number": 29,
+      "correct": false,
+      "metaReason": "문제잘못읽음",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_1.제곱근과 실수-0172-미분류.png"
+    },
+    {
+      "number": 30,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_4.인수분해-0601-미분류.png"
+    },
+    {
+      "number": 31,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_1.제곱근과 실수-0167-미분류.png"
+    },
+    {
+      "number": 32,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0326-미분류.png"
+    }
+  ]
+}
