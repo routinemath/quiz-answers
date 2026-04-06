@@ -1,0 +1,250 @@
+{
+  "title": "유림이 오답 복습과제 (4.4까지)",
+  "student": "김유림",
+  "score": 63,
+  "correct": 15,
+  "total": 24,
+  "gradedAt": "2026. 4. 6. 오후 3:33:39",
+  "results": [
+    {
+      "number": 1,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0072-대표문제.png",
+      "correctAnswer": "②, ④",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "집중력부족",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 2,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0075-중.png",
+      "correctAnswer": "ㄱ, ㄴ",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "집중력부족",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 3,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0079-중.png",
+      "correctAnswer": "(-√3)²",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 4,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0147-중.png",
+      "correctAnswer": "C",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 5,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0161-중상.png",
+      "correctAnswer": "6개",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 6,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0171-미분류.png",
+      "correctAnswer": "60",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "집중력부족",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 7,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0172-미분류.png",
+      "correctAnswer": "ㄱ, ㄴ, ㅂ",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "집중력부족",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 8,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0173-미분류.png",
+      "correctAnswer": "-5+√2",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 9,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0175-미분류.png",
+      "correctAnswer": "③, ⑤",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 10,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0179-미분류.png",
+      "correctAnswer": "2a",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 11,
+      "filename": "RPM(3-1)_1.제곱근과 실수-0185-미분류.png",
+      "correctAnswer": "20",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "집중력부족",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 12,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0269-중상.png",
+      "correctAnswer": "-5",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "집중력부족",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 13,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0272-중.png",
+      "correctAnswer": "3√6 cm",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 14,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0275-중하.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 15,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0279-중하.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 16,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0308-중상.png",
+      "correctAnswer": "30√5 cm³",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "집중력부족",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 17,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0320-중상.png",
+      "correctAnswer": "②",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "집중력부족",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 18,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0330-미분류.png",
+      "correctAnswer": "0",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 19,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0335-미분류.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": false,
+      "metaReason": "조건활용못함",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 20,
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0342-미분류.png",
+      "correctAnswer": "-1/18",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 21,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0372-대표문제.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 22,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0373-하.png",
+      "correctAnswer": "③",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 23,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0375-중하.png",
+      "correctAnswer": "④",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이",
+      "githubUrl": "",
+      "memo": ""
+    },
+    {
+      "number": 24,
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0379-중상.png",
+      "correctAnswer": "16",
+      "userAnswer": "",
+      "correct": true,
+      "metaReason": "정확한풀이",
+      "githubUrl": "",
+      "memo": ""
+    }
+  ]
+}
