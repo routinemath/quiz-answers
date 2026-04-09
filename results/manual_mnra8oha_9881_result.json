@@ -1,0 +1,150 @@
+{
+  "title": "유림 오답 반복과제(4.8까지)",
+  "student": "김유림",
+  "score": 75,
+  "correct": 15,
+  "total": 20,
+  "gradedAt": "2026. 4. 9. 오후 6:36:31",
+  "results": [
+    {
+      "number": 1,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0275-중하.png"
+    },
+    {
+      "number": 2,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0272-중.png"
+    },
+    {
+      "number": 3,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_4.인수분해-0572-중.png"
+    },
+    {
+      "number": 4,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0372-대표문제.png"
+    },
+    {
+      "number": 5,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_1.제곱근과 실수-0075-중.png"
+    },
+    {
+      "number": 6,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_4.인수분해-0559-중.png"
+    },
+    {
+      "number": 7,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0399-중.png"
+    },
+    {
+      "number": 8,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0402-중.png"
+    },
+    {
+      "number": 9,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0400-중상.png"
+    },
+    {
+      "number": 10,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_4.인수분해-0577-중상.png"
+    },
+    {
+      "number": 11,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0308-중상.png"
+    },
+    {
+      "number": 12,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0373-하.png"
+    },
+    {
+      "number": 13,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0375-중하.png"
+    },
+    {
+      "number": 14,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_1.제곱근과 실수-0172-미분류.png"
+    },
+    {
+      "number": 15,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_1.제곱근과 실수-0072-대표문제.png"
+    },
+    {
+      "number": 16,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_4.인수분해-0527-중상.png"
+    },
+    {
+      "number": 17,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0269-중상.png"
+    },
+    {
+      "number": 18,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0248-중.png"
+    },
+    {
+      "number": 19,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_1.제곱근과 실수-0175-미분류.png"
+    },
+    {
+      "number": 20,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_4.인수분해-0581-중상.png"
+    }
+  ]
+}
