@@ -1,0 +1,129 @@
+{
+  "title": "🔥 최준희 맞춤형 오답 복습지",
+  "student": "최준희",
+  "score": 47,
+  "correct": 8,
+  "total": 17,
+  "gradedAt": "2026. 4. 9. 오후 6:29:04",
+  "results": [
+    {
+      "number": 1,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "쎈_중등-0403-상.png"
+    },
+    {
+      "number": 2,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "쎈(중3-1)1.제곱근의 뜻과 성질-0087-중.png"
+    },
+    {
+      "number": 3,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0428-상.png"
+    },
+    {
+      "number": 4,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "쎈_중등-0408-상.png"
+    },
+    {
+      "number": 5,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_1.제곱근과 실수-0179-미분류.png"
+    },
+    {
+      "number": 6,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_3.다항식의 곱셈(곱셈공식)-0436-미분류.png"
+    },
+    {
+      "number": 7,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_4.인수분해-0606-미분류.png"
+    },
+    {
+      "number": 8,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_4.인수분해-0605-미분류.png"
+    },
+    {
+      "number": 9,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0298-중.png"
+    },
+    {
+      "number": 10,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "쎈(중3-1)1.제곱근의 뜻과 성질-0129-중.png"
+    },
+    {
+      "number": 11,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_1.제곱근과 실수-0167-미분류.png"
+    },
+    {
+      "number": 12,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_2.근호를 포함한 식의 계산-0342-미분류.png"
+    },
+    {
+      "number": 13,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "쎈_중등-0660-중.png"
+    },
+    {
+      "number": 14,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "쎈_중등-0537-중.png"
+    },
+    {
+      "number": 15,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_1.제곱근과 실수-0182-미분류.png"
+    },
+    {
+      "number": 16,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "쎈_중등-0422-C단계.png"
+    },
+    {
+      "number": 17,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "RPM(3-1)_1.제곱근과 실수-0070-중.png"
+    }
+  ]
+}
