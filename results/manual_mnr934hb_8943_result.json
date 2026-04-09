@@ -1,0 +1,94 @@
+{
+  "title": "지우 일일테스트 0409",
+  "student": "김지우",
+  "score": 83,
+  "correct": 10,
+  "total": 12,
+  "gradedAt": "2026. 4. 9. 오후 6:04:12",
+  "results": [
+    {
+      "number": 1,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "라이트쎈_1.소인수분해-0076-미분류.png"
+    },
+    {
+      "number": 2,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0186-미분류.png"
+    },
+    {
+      "number": 3,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0193-미분류.png"
+    },
+    {
+      "number": 4,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0251-미분류.png"
+    },
+    {
+      "number": 5,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0257-미분류.png"
+    },
+    {
+      "number": 6,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_3.정수와 유리수-0376-미분류.png"
+    },
+    {
+      "number": 7,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_3.정수와 유리수-0384-미분류.png"
+    },
+    {
+      "number": 8,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_3.정수와 유리수-0387-미분류.png"
+    },
+    {
+      "number": 9,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_4.유리수 계산-0576-미분류.png"
+    },
+    {
+      "number": 10,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "라이트쎈_6.일차방정식의 풀이-0876-중하.png"
+    },
+    {
+      "number": 11,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_6.일차방정식의 풀이-0916-미분류.png"
+    },
+    {
+      "number": 12,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_6.일차방정식의 풀이-0925-미분류.png"
+    }
+  ]
+}
