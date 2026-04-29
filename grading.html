@@ -22,7 +22,7 @@ body {
 .header h1 { margin: 0 0 6px; font-size: 19px; font-weight: 700; }
 .header p  { margin: 0; font-size: 13px; opacity: 0.9; }
 
-/* ── 결과 요약 화면 (처음엔 숨김) ── */
+/* ── 결과 요약 화면 ── */
 #score-summary {
   display: none; background: white; margin: 16px; border-radius: 16px;
   padding: 30px 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
@@ -71,7 +71,7 @@ body {
 }
 .qb:active { background: #C7D2FE; }
 
-/* ── 인라인 오답 분석 (카드 내부) ── */
+/* ── 인라인 오답 분석 ── */
 .inline-meta-box { display: none; margin-top: 16px; border-top: 2px dashed #FECACA; padding-top: 16px; }
 .meta-title { font-size: 14px; font-weight: bold; color: #EF4444; margin-bottom: 10px; text-align: center; }
 .meta-grid { display: grid; grid-template-columns: 1fr; gap: 6px; }
@@ -123,7 +123,6 @@ body {
 </div>
 
 <div id="main" style="display:none;">
-  
   <div id="score-summary">
     <div class="score-circle">
       <div class="score-num" id="rScore">0</div>
@@ -132,7 +131,6 @@ body {
     <div class="score-msg" id="rMsg">채점 완료!</div>
     <div class="score-guide" id="rGuide" style="display:none;">아래 틀린 문제의 오답 원인을 체크해주세요! 👇</div>
   </div>
-
   <div class="problem-wrap" id="problemWrap"></div>
 </div>
 
@@ -151,12 +149,11 @@ body {
 
 <script>
 let examData = null;
-let autoSaveKey = ''; // 💡 학생 폰 임시저장용 금고 열쇠
+let autoSaveKey = ''; 
 
 const ROW1 = [['①','①'], ['②','②'], ['③','③'], ['④','④'], ['⑤','⑤']];
 const ROW2 = [['√','√'], ['²','²'], ['³','³'], ['분수(/)','/'], ['π','π']];
 
-// 오답 원인 리스트
 const META_REASONS = [
   { id: '계산실수', text: '🧮 아차! 단순 계산 실수' },
   { id: '집중력부족', text: '😵 아뿔싸! 문제를 잘못 읽음' },
@@ -168,11 +165,22 @@ const META_REASONS = [
 
 (async function init() {
   const id = new URLSearchParams(location.search).get('id');
-  autoSaveKey = 'autosave_student_grading_' + id; // 💡 각 시험지마다 고유한 금고 생성
+  autoSaveKey = 'autosave_student_grading_' + id; 
   const base = location.href.replace(/\/grading\.html.*$/, '');
   try {
     const res = await fetch(base + '/answers/' + id + '.json');
-    examData = await res.json();
+    const data = await res.json();
+    
+    examData = data;
+    
+    // 🔥 [핵심 수정] 주소(githubUrl)와 파일명(filename)을 꽉 쥐고 놓치지 않습니다!
+    examData.problems = (data.problems || []).map(p => ({
+        number: p.number,
+        filename: p.filename || '',
+        githubUrl: p.githubUrl || '',
+        answer: p.answer || p.correctAnswer || ''
+    }));
+    
     renderProblems();
   } catch(e) {
     document.getElementById('loading').innerHTML = '⚠️ 문제를 불러올 수 없습니다.';
@@ -187,7 +195,6 @@ function renderProblems() {
   const wrap = document.getElementById('problemWrap');
   let html = '';
 
-  // 💡 [임시저장 1단계] 금고에서 이전 답안 꺼내오기
   const savedAnswers = JSON.parse(localStorage.getItem(autoSaveKey) || '{}');
   let restoredCount = 0;
 
@@ -203,7 +210,6 @@ function renderProblems() {
       `<button class="meta-btn ${r.isSpecial ? 'special' : ''}" id="mb_${p.number}_${r.id}" onclick="selectMeta(${p.number}, '${r.id}', '${r.text}')">${r.text}</button>`
     ).join('');
 
-    // 💡 [임시저장 2단계] input에 value="${myAns}"와 oninput="saveAutoSave()" 장착!
     html += `
       <div class="card" id="card_${p.number}">
         <div class="card-header">
@@ -226,7 +232,6 @@ function renderProblems() {
   wrap.innerHTML = html;
   document.getElementById('main').style.display = 'block';
 
-  // 💡 [임시저장 3단계] 복구된 답이 있으면 기분 좋게 알림!
   if (restoredCount > 0) {
     const toast = document.createElement('div');
     toast.textContent = `💡 작성 중이던 답안 ${restoredCount}개를 복구했습니다!`;
@@ -236,7 +241,6 @@ function renderProblems() {
   }
 }
 
-// 💡 [임시저장 엔진] 글자를 입력할 때마다 0.1초만에 몰래 저장
 function saveAutoSave() {
   if (!examData || !autoSaveKey) return;
   const currentData = {};
@@ -258,7 +262,7 @@ function insertQuick(inputId, val) {
   el.value = v.slice(0, start) + val + v.slice(end);
   el.setSelectionRange(start + val.length, start + val.length);
   el.focus();
-  saveAutoSave(); // 💡 퀵버튼을 눌렀을 때도 바로 저장!
+  saveAutoSave(); 
 }
 
 function norm(s) {
@@ -384,7 +388,7 @@ function retryWrong() {
     }
   });
 
-  saveAutoSave(); // 💡 다시 풀기로 지운 내용도 임시저장에 반영!
+  saveAutoSave(); 
 
   document.getElementById('score-summary').style.display = 'none';
   document.getElementById('btn-grade').style.display = 'block';
@@ -396,12 +400,14 @@ async function uploadResultToGitHub(correct, total, pct) {
   try {
     const googleScriptUrl = "https://script.google.com/macros/s/AKfycbyneXMqQ_HozdzHSO6qCo7IOsVo7bz9zM2v_dQbgStcejSAh3z-OP3pH2uCT2TCFlUItA/exec";
 
+    // 🔥 [핵심 수정] 결과를 보낼 때도 주소와 이름표를 꽉 쥐고 전송합니다!
     const payload = {
-      title:   examData.title,
-      student: examData.student,
-      score:   pct,
+      title:     examData.title,
+      student:   examData.student,
+      score:     pct,
       correct,
       total,
+      gradedAt:  new Date().toLocaleString('ko-KR'),
       results: examData.problems.map(p => ({
         number:        p.number,
         filename:      p.filename  || '',
@@ -409,7 +415,7 @@ async function uploadResultToGitHub(correct, total, pct) {
         userAnswer:    p.userAns   || '',
         correctAnswer: p.answer    || '',
         correct:       p.ok        || false,
-        metaReason:    p.metaReasonId || '' 
+        metaReason:    p.metaReasonText || p.metaReasonId || ''
       }))
     };
 
@@ -420,7 +426,7 @@ async function uploadResultToGitHub(correct, total, pct) {
     });
 
     if (res.ok) {
-      if (autoSaveKey) localStorage.removeItem(autoSaveKey); // 💡 전송 성공 시 임시 금고 폭파!
+      if (autoSaveKey) localStorage.removeItem(autoSaveKey); 
       
       document.getElementById('main').style.display = 'none';
       document.getElementById('submit-bar').style.display = 'none';
@@ -438,7 +444,6 @@ async function uploadResultToGitHub(correct, total, pct) {
   }
 }
 
-// 🛡️ 꼼수 방지: 우클릭, 드래그, F12 개발자도구 원천 차단!
 document.addEventListener('contextmenu', e => {
     e.preventDefault();
     alert('👀 우클릭은 사용할 수 없습니다!');

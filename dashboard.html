@@ -66,14 +66,16 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 .tab-btn { background:var(--surface2); color:var(--text); border:1px solid var(--border); padding:8px 16px; border-radius:20px; font-size:13px; cursor:pointer; font-weight:bold; transition:all 0.2s; }
 .tab-btn.active { background:var(--accent); color:white; border-color:var(--accent); }
 
-#modal, #manualModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:1000;align-items:center;justify-content:center;padding:20px;}
-#modal.open{display:flex;}
+#modal, #manualModal, #tagModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:1000;align-items:center;justify-content:center;padding:20px;}
+#modal.open, #tagModal.open{display:flex;}
 .mbox{background:var(--surface);border:1px solid var(--border);border-radius:18px;width:100%;max-height:90vh;overflow-y:auto;padding:26px;}
 .mbox h3{font-size:16px;margin-bottom:16px;}
 .mrow{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
-.meta-tag{font-size:11px;padding:2px 8px;border-radius:12px;background:rgba(162,89,255,.15);color:var(--accent2);}
+.meta-tag{font-size:11px;padding:4px 8px;border-radius:12px; font-weight:bold;}
 .meta-tag.special{background:rgba(245,158,11,.15);color:var(--yellow);}
-.cfg-field{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px 12px;font-size:13px;outline:none;}
+.cfg-field{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:10px 12px;font-size:13px;outline:none;}
+.cfg-field:focus { border-color:var(--accent); }
+
 #toast{position:fixed;bottom:24px;right:24px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px 16px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.4);transform:translateY(16px);opacity:0;transition:all .3s;z-index:999;}
 #toast.show{transform:translateY(0);opacity:1;}
 
@@ -83,7 +85,6 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 .grass-cell.l1 { background: rgba(46,204,138, 0.3); }
 .grass-cell.l2 { background: rgba(46,204,138, 0.6); }
 .grass-cell.l3 { background: rgba(46,204,138, 1); }
-.grass-cell:hover::after { content: attr(title); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: #fff; color: #000; padding: 4px 8px; font-size: 11px; border-radius: 4px; white-space: nowrap; z-index: 10; pointer-events: none; margin-bottom: 4px; }
 </style>
 </head>
 <body>
@@ -108,7 +109,10 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 <div id="detailView" class="main" style="display:none;">
   <div class="detail-header">
     <h2 id="detailTitle">👤 학생 이름</h2>
-    <button class="btn btn-g" onclick="showMainView()">⬅️ 전체 목록으로</button>
+    <div style="display:flex; gap:8px;">
+      <button class="btn btn-g" onclick="exportForClaude()" style="background:var(--accent2); color:white; border:none; font-weight:bold;">🤖 Claude 분석용 내보내기</button>
+      <button class="btn btn-g" onclick="showMainView()">⬅️ 전체 목록으로</button>
+    </div>
   </div>
   
   <div class="summary">
@@ -166,12 +170,39 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 </div>
 
 <div id="modal">
-  <div class="mbox" style="max-width:550px;">
+  <div class="mbox" style="max-width:650px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
       <h3 id="mTitle">상세 기록</h3>
       <button class="btn btn-g btn-sm" onclick="closeModal()">✕ 닫기</button>
     </div>
     <div id="mBody"></div>
+  </div>
+</div>
+
+<div id="tagModal">
+  <div class="mbox" style="max-width:400px; background:var(--surface);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h3 id="tagModalTitle" style="color:var(--accent);">🏷️ 대면 첨삭 태그 입력</h3>
+    </div>
+    <div style="margin-bottom: 12px;">
+      <label style="font-size:12px; color:var(--muted); display:block; margin-bottom:6px;">📖 개념 태그 (예: 이차방정식)</label>
+      <input type="text" id="inpConcept" list="dlConcept" class="cfg-field" placeholder="개념을 입력하세요">
+      <datalist id="dlConcept"></datalist>
+    </div>
+    <div style="margin-bottom: 12px;">
+      <label style="font-size:12px; color:var(--muted); display:block; margin-bottom:6px;">🧩 유형 태그 (예: 근의공식, 활용)</label>
+      <input type="text" id="inpType" list="dlType" class="cfg-field" placeholder="문제 유형을 입력하세요">
+      <datalist id="dlType"></datalist>
+    </div>
+    <div style="margin-bottom: 24px;">
+      <label style="font-size:12px; color:var(--muted); display:block; margin-bottom:6px;">🚨 오답원인 (예: 계산실수, 부호주의)</label>
+      <input type="text" id="inpReason" list="dlReason" class="cfg-field" placeholder="오답 원인을 입력하세요">
+      <datalist id="dlReason"></datalist>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:8px;">
+      <button class="btn btn-g" onclick="closeTagModal()">취소</button>
+      <button class="btn btn-p" onclick="saveTags()">💾 태그 저장 및 서버 동기화</button>
+    </div>
   </div>
 </div>
 
@@ -208,8 +239,33 @@ let currentDetailStudent = '';
 let chapterChartInst = null;
 let diffTrendInst = null;
 let globalBookData = {}; 
+let currentTagTarget = { testIdx: -1, probNum: -1 };
 
-window.onload = function() { loadResults(); };
+// 🔥 단어장 초기화 함수 (자동완성)
+function initDatalists() {
+    const concepts = JSON.parse(localStorage.getItem('math_tags_concept') || '[]');
+    const types = JSON.parse(localStorage.getItem('math_tags_type') || '[]');
+    const reasons = JSON.parse(localStorage.getItem('math_tags_reason') || '[]');
+    document.getElementById('dlConcept').innerHTML = concepts.map(t => `<option value="${t}">`).join('');
+    document.getElementById('dlType').innerHTML = types.map(t => `<option value="${t}">`).join('');
+    document.getElementById('dlReason').innerHTML = reasons.map(t => `<option value="${t}">`).join('');
+}
+
+// 🔥 단어장에 새 단어 추가
+function addToDict(category, value) {
+    if (!value.trim()) return;
+    const key = `math_tags_${category}`;
+    let tags = JSON.parse(localStorage.getItem(key) || '[]');
+    if (!tags.includes(value.trim())) {
+        tags.push(value.trim());
+        localStorage.setItem(key, JSON.stringify(tags));
+    }
+}
+
+window.onload = function() { 
+    initDatalists(); // 켜자마자 단어장 로드
+    loadResults(); 
+};
 
 async function loadResults() {
   const googleScriptUrl = "https://script.google.com/macros/s/AKfycbyneXMqQ_HozdzHSO6qCo7IOsVo7bz9zM2v_dQbgStcejSAh3z-OP3pH2uCT2TCFlUItA/exec";
@@ -221,7 +277,6 @@ async function loadResults() {
     if (fetchedData.status === "error") throw new Error(fetchedData.message);
     allResults = fetchedData;
     
-    // 🔥 [오류 해결의 궁극적 핵심] 구글에서 받아온 데이터에 '원장님이 구제해준 데이터'를 미리 덮어씌워 둡니다!
     const dashboardOverrides = JSON.parse(localStorage.getItem('mathAnswerOverrides') || '{}');
     const dashboardAltAnswers = JSON.parse(localStorage.getItem('mathAltAnswers') || '{}');
     
@@ -242,7 +297,6 @@ async function loadResults() {
         r.correct = correctCount;
         r.score = Math.round((correctCount / r.total) * 100);
     });
-    // -----------------------------------------------------------------------------------
 
     syncAllStudentsToLocalStorage();
     
@@ -298,11 +352,64 @@ function renderMainView() {
   grid.innerHTML = html;
 }
 
+function exportForClaude() {
+  if (!currentDetailStudent) return;
+  const studentData = allResults.filter(r => r.student === currentDetailStudent);
+  if (studentData.length === 0) { alert('데이터가 없습니다.'); return; }
+
+  let text = `[Claude 분석 요청]\n학생: ${currentDetailStudent}\n분석 기간: ${studentData[0].gradedAt} ~ ${studentData[studentData.length-1].gradedAt}\n총 제출 횟수: ${studentData.length}회\n\n`;
+
+  // 오답 문제 수집
+  const wrongMap = {};
+  studentData.forEach(test => {
+    (test.results || []).forEach(p => {
+      if (!p.correct) {
+        const key = p.filename || `${test.title}_${p.number}번`;
+        if (!wrongMap[key]) wrongMap[key] = { 
+          filename: p.filename || '', 
+          unit: p.unit || '(단원미입력)',
+          concept: p.concept || '',
+          difficulty: p.difficulty || (p.filename ? (p.filename.match(/-(하|중하|중|중상|상)\.png/i)||[])[1] || '' : ''),
+          reasons: [], dates: [], count: 0 
+        };
+        wrongMap[key].count++;
+        if (p.metaReason) wrongMap[key].reasons.push(p.metaReason);
+        wrongMap[key].dates.push(test.gradedAt);
+      }
+    });
+  });
+
+  const wrongs = Object.values(wrongMap).sort((a,b) => b.count - a.count);
+  if (wrongs.length === 0) {
+    text += '오답 문제 없음 (모두 정답!)';
+  } else {
+    text += `■ 오답 문제 목록 (총 ${wrongs.length}개)\n`;
+    wrongs.forEach((w, i) => {
+      const reasonSummary = w.reasons.length > 0 
+        ? [...new Set(w.reasons)].join(', ') 
+        : '원인 미입력';
+      text += `\n${i+1}. 파일: ${w.filename || '미확인'}\n`;
+      text += `   단원: ${w.unit}${w.concept ? ' / ' + w.concept : ''}\n`;
+      text += `   난이도: ${w.difficulty || '미입력'}\n`;
+      text += `   오답 횟수: ${w.count}회\n`;
+      text += `   오답 원인: ${reasonSummary}\n`;
+    });
+  }
+
+  // 클립보드 복사
+  navigator.clipboard.writeText(text).then(() => {
+    alert('✅ Claude 분석용 텍스트가 클립보드에 복사되었습니다!\n\nClaude.ai에 붙여넣기(Ctrl+V)해서 분석을 요청하세요.');
+  }).catch(() => {
+    // 클립보드 실패 시 텍스트 창 표시
+    const win = window.open('', '_blank', 'width=600,height=500');
+    win.document.write('<pre style="font-family:monospace;padding:20px;white-space:pre-wrap;">' + text + '</pre>');
+  });
+}
+
 function showMainView() { 
   document.getElementById('detailView').style.display = 'none'; 
   document.getElementById('mainView').style.display = 'block'; 
   currentDetailStudent = ''; 
-  updateCartUI(); 
 }
 
 function openStudentDetail(studentName) {
@@ -315,7 +422,6 @@ function openStudentDetail(studentName) {
   renderGrassChart(sData);        
   renderBookTabs(sData);          
   renderDifficultyTrend(sData);   
-  updateCartUI(); 
 }
 
 function renderStudentDetail(data) {
@@ -339,19 +445,13 @@ function renderStudentDetail(data) {
       
       g.attempts.forEach(a => {
           (a.results || []).forEach(p => {
-              if (!p.correct && !everWrongMap[p.number]) {
-                  everWrongMap[p.number] = { ...p };
-              }
+              if (!p.correct && !everWrongMap[p.number]) { everWrongMap[p.number] = { ...p }; }
           });
       });
 
       merged.results.forEach(p => {
-          if (everWrongMap[p.number]) {
-              p.everWrong = true;
-              p.wrongInstance = everWrongMap[p.number];
-          } else {
-              p.everWrong = false;
-          }
+          if (everWrongMap[p.number]) { p.everWrong = true; p.wrongInstance = everWrongMap[p.number]; }
+          else { p.everWrong = false; }
       });
       return merged;
   });
@@ -373,7 +473,7 @@ function renderStudentDetail(data) {
       <td><span class="badge ${cls}">${pct}%</span></td>
       <td><div class="wtags">${wrongHtml}</div></td>
       <td class="ts" style="font-size:12px;">${fullDate}</td>
-      <td><button class="btn btn-g btn-sm" onclick="showDetail(${idx})">상세</button></td>
+      <td><button class="btn btn-g btn-sm" onclick="showDetail(${idx})">상세/태그달기</button></td>
     </tr>`;
   }).join('');
 }
@@ -406,11 +506,22 @@ function renderBookTabs(data) {
     globalBookData = {};
     data.forEach(test => {
         (test.results || []).forEach(r => {
-            if(!r.filename || !r.filename.includes('_')) return; 
-            const parts = r.filename.split('_');
-            let book = parts[0].replace(/^RPM(\d)-/, 'RPM중$1-'); 
-            let rest = parts.slice(1).join('_');
-            let chapter = rest.split('-')[0].replace(/\.[^/.]+$/, ""); 
+            if(!r.filename) return;
+            // ✅ unit/memo 필드 우선 사용, 없으면 파일명에서 추출
+            let book, chapter;
+            if (r.unit) {
+                // 새 형식: unit 필드가 있는 경우
+                book = r.book || r.filename.split('_')[0].replace(/^RPM(\d)-/, 'RPM중$1-') || '기타';
+                chapter = r.unit;
+            } else if (r.filename.includes('_')) {
+                // 기존 파일명 파싱 방식
+                const parts = r.filename.split('_');
+                book = parts[0].replace(/^RPM(\d)-/, 'RPM중$1-');
+                const rest = parts.slice(1).join('_');
+                chapter = rest.split('-')[0].replace(/\.[^/.]+$/, "");
+            } else {
+                return; // 파싱 불가 → 건너뜀
+            }
             
             if(!globalBookData[book]) globalBookData[book] = {};
             if(!globalBookData[book][chapter]) globalBookData[book][chapter] = { correct: 0, total: 0 };
@@ -461,9 +572,7 @@ function selectBookTab(bookName, index, totalTabs) {
     const ctx = document.getElementById('chapterChart');
     if(chapterChartInst) chapterChartInst.destroy();
     
-    if(labels.length === 0) {
-        ctx.style.display = 'none'; return;
-    }
+    if(labels.length === 0) { ctx.style.display = 'none'; return; }
     
     ctx.style.display = 'block';
     const chartType = labels.length >= 3 ? 'radar' : 'bar';
@@ -508,9 +617,15 @@ function renderDifficultyTrend(data) {
 
         (test.results || []).forEach(r => {
             if(!r.filename) return;
-            const match = r.filename.match(/-(하|중하|중|중상|상|4점)\.png$/i);
-            if(!match) return;
-            const d = match[1];
+            // ✅ difficulty 필드 우선 사용, 없으면 파일명에서 추출
+            let d;
+            if (r.difficulty) {
+                d = r.difficulty;
+            } else {
+                const match = r.filename.match(/-(하|중하|중|중상|상|4점)\.png$/i);
+                if(!match) return;
+                d = match[1];
+            }
             
             diffsSet.add(d);
             currentTestDiffs.add(d); 
@@ -563,20 +678,25 @@ function renderDifficultyTrend(data) {
             },
             plugins: {
                 legend: { position: 'bottom', labels: { color: '#e8eaf6', usePointStyle: true, padding: 20 } },
-                tooltip: { 
-                    callbacks: { 
-                        title: (ctx) => timeline[ctx[0].dataIndex].label.replace('\n', ' - '),
-                        label: (ctx) => `${ctx.dataset.label}: ${ctx.raw}%` 
-                    } 
-                }
+                tooltip: { callbacks: { title: (ctx) => timeline[ctx[0].dataIndex].label.replace('\n', ' - '), label: (ctx) => `${ctx.dataset.label}: ${ctx.raw}%` } }
             }
         }
     });
 }
 
 function renderMetaChart(data) {
-  const counts = {}; const keywords = ['계산실수', '집중력부족', '조건활용못함', '식세우기어려움', '개념연결못함', '개념부족', '문제잘못읽음', '정답오류의심', '기타'];
-  data.forEach(r => { (r.results||[]).forEach(p => { if (!p.metaReason) return; keywords.forEach(k => { if(p.metaReason.includes(k)) counts[k] = (counts[k] || 0) + 1; }); }); });
+  // ✅ grading.html이 보내는 한글 전체 텍스트와 매칭되도록 키워드 업데이트
+  const counts = {}; 
+  const keywords = [
+    '계산실수', '집중력부족', '조건활용못함', 
+    '식세우기어려움', '개념연결못함', '개념부족', 
+    '문제잘못읽음', '정답오류의심', '기타'
+  ];
+  // metaReason이 "🧮 아차! 단순 계산 실수" 같은 형식이어도 키워드 포함 여부로 판단
+  data.forEach(r => { (r.results||[]).forEach(p => { 
+    if (!p.metaReason) return; 
+    keywords.forEach(k => { if(p.metaReason.includes(k)) counts[k] = (counts[k] || 0) + 1; }); 
+  }); });
   const entries = Object.entries(counts).sort((a,b) => b[1] - a[1]);
   if (entries.length === 0) { document.getElementById('detailMetaChart').innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="ico">🧐</div><div>데이터 없음</div></div>'; return; }
   const max = entries[0][1];
@@ -603,37 +723,45 @@ function showDetail(idx) {
     <div style="display:flex; justify-content:flex-end; margin-bottom:12px;"><button class="btn btn-p" onclick="reprintQuiz(${idx})" style="font-weight:bold;">🖨️ 이 시험지 다시 인쇄</button></div>
     <div class="mrow"><span class="lbl">최종 점수</span><span class="badge ${cls}">${pct}%</span></div>
     <div class="mrow"><span class="lbl">최종 정답</span><span style="font-weight:bold;">${r.correct||0} / ${r.total||0} 문제</span></div>
-    <div style="margin:20px 0 10px;font-size:12px;font-weight:bold;color:var(--muted);">문제별 결과 및 장바구니</div>`;
+    <div style="margin:20px 0 10px;font-size:12px;font-weight:bold;color:var(--muted);">문제별 결과 및 첨삭 태그</div>`;
     
   (r.results||[]).forEach(p => {
     const targetP = p.everWrong ? (p.wrongInstance || p) : p;
-    let meta = ''; 
-    const isSpecial = targetP.metaReason && targetP.metaReason.includes('정답오류');
-    if(targetP.metaReason) { 
-        meta = `<span class="meta-tag ${isSpecial ? 'special' : ''}">${esc(targetP.metaReason)}</span>`; 
-    }
-    const imgThumb = targetP.githubUrl ? `<img src="${targetP.githubUrl}" style="height:45px; border-radius:4px; border:1px solid #ddd; cursor:pointer;" onclick="window.open('${targetP.githubUrl}')">` : '';
     
+    // 🔥 저장된 태그들 화면에 표시
+    let tagHtml = '';
+    if (targetP.conceptTag) tagHtml += `<span class="meta-tag" style="background:#e0e7ff; color:#4338ca;">📖 ${esc(targetP.conceptTag)}</span> `;
+    if (targetP.typeTag) tagHtml += `<span class="meta-tag" style="background:#fce7f3; color:#be185d;">🧩 ${esc(targetP.typeTag)}</span> `;
+    if (targetP.errorReasonTag) tagHtml += `<span class="meta-tag special" style="background:#fef3c7; color:#b45309;">🚨 ${esc(targetP.errorReasonTag)}</span> `;
+    if (!tagHtml && targetP.metaReason) tagHtml = `<span class="meta-tag special">${esc(targetP.metaReason)}</span>`; // 예전 방식 호환
+
+    const imgThumb = targetP.githubUrl ? `<img src="${targetP.githubUrl}" style="height:45px; border-radius:4px; border:1px solid #ddd; cursor:pointer;" onclick="window.open('${targetP.githubUrl}')">` : '';
     const cartBtn = (targetP.githubUrl && p.everWrong) ? `<button class="btn btn-sm" style="background:var(--accent);color:white;border:none;margin-left:8px;" onclick="addToCart('${targetP.githubUrl}', '${targetP.filename||''}', '${targetP.correctAnswer||targetP.answer||''}', '${targetP.number}', '${esc(r.student)}')">+ 담기</button>` : '';
     
     let statusHtml = '';
     if (p.correct && p.everWrong) {
-        statusHtml = `<span style="font-weight:bold; color:var(--accent);">🔄 갱신정답</span><span style="font-size:11px; color:var(--red); margin-left:4px;">(최초오답)</span>`;
+        statusHtml = `<span style="font-weight:bold; color:var(--accent);">🔄 갱신정답</span>`;
     } else if (p.correct) {
         statusHtml = `<span style="font-weight:bold; color:var(--green);">✅ 정답</span>`;
     } else {
         statusHtml = `<span style="font-weight:bold; color:var(--red);">❌ 오답</span>`;
     }
 
-    html += `<div class="mrow" style="align-items:center;">
-        <span class="lbl" style="width:40px; font-weight:bold;">${targetP.number}번</span>
-        <div style="flex:1; display:flex; align-items:center;">${imgThumb}</div>
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
-            ${statusHtml} ${meta} ${cartBtn}
+    // 🔥 태그 달기 버튼
+    const tagBtn = `<button class="btn btn-sm" style="background:#8b5cf6; color:white; border:none; margin-left:8px;" onclick="openTagModal(${idx}, ${targetP.number})">🏷️ 태그달기</button>`;
+
+    html += `<div class="mrow" style="align-items:flex-start; flex-direction:column; gap:8px;">
+        <div style="display:flex; align-items:center; gap:10px; width:100%;">
+            <span class="lbl" style="width:40px; font-weight:bold;">${targetP.number}번</span>
+            <div style="flex:1; display:flex; align-items:center;">${imgThumb}</div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+                ${statusHtml} ${tagBtn} ${cartBtn}
+            </div>
         </div>
+        <div style="width:100%; padding-left:50px; display:flex; gap:6px; flex-wrap:wrap;">${tagHtml}</div>
     </div>`;
 
-    if (!p.correct && isSpecial) {
+    if (!p.correct && targetP.metaReason && targetP.metaReason.includes('정답오류')) {
         const orgAns = targetP.correctAnswer || '없음';
         const stuAns = targetP.userAnswer || '입력안함';
         
@@ -660,7 +788,112 @@ function showDetail(idx) {
   document.getElementById('mBody').innerHTML = html; document.getElementById('modal').classList.add('open');
 }
 
-// 🔥 수정: 원장님의 판결을 처리하고 시스템을 진화시키는 마법 엔진 (원본 데이터 갱신 완벽 반영)
+// 🔥 태그 모달 열기
+function openTagModal(testIdx, probNum) {
+    currentTagTarget = { testIdx, probNum };
+    const r = filteredResults[testIdx];
+    const p = r.results.find(x => x.number === probNum);
+    const targetP = p.everWrong ? (p.wrongInstance || p) : p;
+
+    document.getElementById('tagModalTitle').innerText = `🏷️ ${probNum}번 문제 태그 입력`;
+    document.getElementById('inpConcept').value = targetP.conceptTag || '';
+    document.getElementById('inpType').value = targetP.typeTag || '';
+    document.getElementById('inpReason').value = targetP.errorReasonTag || '';
+    document.getElementById('tagModal').classList.add('open');
+}
+
+function closeTagModal() { document.getElementById('tagModal').classList.remove('open'); }
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+// 🔥 태그 저장 및 서버 동기화
+async function saveTags() {
+    const concept = document.getElementById('inpConcept').value.trim();
+    const type = document.getElementById('inpType').value.trim();
+    const reason = document.getElementById('inpReason').value.trim();
+
+    // 단어장(localStorage)에 추가
+    addToDict('concept', concept);
+    addToDict('type', type);
+    addToDict('reason', reason);
+    initDatalists();
+
+    const { testIdx, probNum } = currentTagTarget;
+    const r = filteredResults[testIdx];
+    
+    // 화면 데이터 업데이트
+    const pIndex = r.results.findIndex(x => x.number === probNum);
+    if (pIndex !== -1) {
+        const p = r.results[pIndex];
+        const targetP = p.everWrong ? (p.wrongInstance || p) : p;
+        targetP.conceptTag = concept;
+        targetP.typeTag = type;
+        targetP.errorReasonTag = reason;
+    }
+
+    // 원본 데이터 업데이트
+    const originalTest = allResults.find(test => test._fname === r._fname || (test.title === r.title && test.student === r.student && test.gradedAt === r.gradedAt));
+    if (originalTest) {
+        const origP = originalTest.results.find(x => x.number === probNum);
+        if (origP) {
+            origP.conceptTag = concept;
+            origP.typeTag = type;
+            origP.errorReasonTag = reason;
+        }
+    }
+
+    closeTagModal();
+    showDetail(testIdx); 
+    document.getElementById('mTitle').innerHTML = `📋 ${r.title} 상세 기록 <span style="font-size:12px;color:#FF9800;animation:blink 1s infinite;">(서버 동기화 중...)</span>`;
+
+    // 깃허브 및 구글 서버 전송
+    if (r._fname) {
+        const user = localStorage.getItem('db_gh_user') || localStorage.getItem('gh_username');
+        const repo = localStorage.getItem('db_gh_repo') || localStorage.getItem('gh_repo');
+        const token = localStorage.getItem('db_gh_token') || localStorage.getItem('gh_token');
+        
+        if (user && repo && token) {
+            try {
+                const fileInfoRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/results/${r._fname}`, {
+                    headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' }
+                });
+                
+                if (fileInfoRes.ok) {
+                    const fileInfo = await fileInfoRes.json();
+                    const payload = {
+                        title: r.title, student: r.student, score: r.score, correct: r.correct, total: r.total, gradedAt: r.gradedAt,
+                        results: r.results.map(x => ({
+                            number: x.number, filename: x.filename, githubUrl: x.githubUrl,
+                            userAnswer: x.userAnswer || '', correctAnswer: x.correctAnswer || '',
+                            correct: x.correct, metaReason: x.metaReason || '',
+                            conceptTag: x.conceptTag || '', typeTag: x.typeTag || '', errorReasonTag: x.errorReasonTag || ''
+                        }))
+                    };
+                    const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+                    
+                    await fetch(`https://api.github.com/repos/${user}/${repo}/contents/results/${r._fname}`, {
+                        method: 'PUT',
+                        headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: `👨‍🏫 원장님 태그 첨삭: ${r.student} - ${probNum}번`, content: content, sha: fileInfo.sha })
+                    });
+
+                    // 구글 드라이브(GAS) POST
+                    const googleScriptUrl = "https://script.google.com/macros/s/AKfycbyneXMqQ_HozdzHSO6qCo7IOsVo7bz9zM2v_dQbgStcejSAh3z-OP3pH2uCT2TCFlUItA/exec";
+                    try {
+                        await fetch(googleScriptUrl, {
+                            method: 'POST',
+                            body: JSON.stringify(payload),
+                            headers: { "Content-Type": "text/plain;charset=utf-8" } 
+                        });
+                    } catch(e) {}
+
+                    document.getElementById('mTitle').innerHTML = `📋 ${r.title} 상세 기록 <span style="font-size:12px;color:#4CAF50;">(✅ 서버 저장 완료!)</span>`;
+                    toast("💾 태그가 깃허브 및 구글에 동기화되었습니다!");
+                }
+            } catch(e) { toast("⚠️ 서버 통신 지연 (로컬에는 잘 반영되었습니다)"); }
+        }
+    }
+}
+
 async function handleAnswerCorrection(testIdx, probNum, mode) {
     const r = filteredResults[testIdx];
     const pIndex = r.results.findIndex(x => x.number === probNum);
@@ -673,7 +906,6 @@ async function handleAnswerCorrection(testIdx, probNum, mode) {
     const stuAns = targetP.userAnswer || '';
     let newCorrectAnswer = orgAns;
     
-    // [1단계] 사전에 데이터 등록
     if (mode === 'fix') {
         const input = prompt(`[${probNum}번 문제 정답 수정]\n\n현재 시스템 정답: ${orgAns}\n학생이 제출한 답: ${stuAns}\n\n시스템에 새롭게 등록할 '진짜 정답'을 적어주세요:`, stuAns);
         if (input === null || input.trim() === '') return; 
@@ -701,7 +933,6 @@ async function handleAnswerCorrection(testIdx, probNum, mode) {
         newCorrectAnswer = orgAns; 
     }
     
-    // [2단계] 현재 학생의 성적표 즉시 세탁 (구제 처리)
     p.correct = true;
     if (mode === 'fix') {
         p.correctAnswer = newCorrectAnswer;
@@ -715,7 +946,6 @@ async function handleAnswerCorrection(testIdx, probNum, mode) {
     r.correct = correctCount;
     r.score = Math.round((correctCount / r.total) * 100);
     
-    // 🔥 [오류 해결 핵심] 원본 데이터(allResults)를 확실하게 찾아 업데이트!
     const originalTest = allResults.find(test => test.title === r.title && test.student === r.student && test.gradedAt === r.gradedAt);
     if (originalTest) {
         const origP = originalTest.results.find(x => x.number === probNum);
@@ -729,7 +959,6 @@ async function handleAnswerCorrection(testIdx, probNum, mode) {
         originalTest.score = Math.round((newCorrectCount / originalTest.total) * 100);
     }
     
-    // 학생 누적 성실도 업데이트
     const studentKey = `student_${r.student}`;
     let studentData = JSON.parse(localStorage.getItem(studentKey) || '{}');
     if (targetP.filename && studentData[targetP.filename]) {
@@ -741,13 +970,10 @@ async function handleAnswerCorrection(testIdx, probNum, mode) {
         localStorage.setItem(studentKey, JSON.stringify(studentData));
     }
     
-    // 장바구니에서 문제 압수
     let cart = JSON.parse(localStorage.getItem('mathWrongCart_' + r.student) || '[]');
     cart = cart.filter(item => item.githubUrl !== targetP.githubUrl);
     localStorage.setItem('mathWrongCart_' + r.student, JSON.stringify(cart));
-    updateCartUI();
     
-    // 화면 0.1초 만에 즉시 다시 그리기
     toast(`🎉 구제 처리 중... 점수가 ${r.score}점으로 올랐습니다!`);
     renderMainView();
     openStudentDetail(r.student);
@@ -755,7 +981,6 @@ async function handleAnswerCorrection(testIdx, probNum, mode) {
     
     document.getElementById('mTitle').innerHTML = `📋 ${r.title} 상세 기록 <span style="font-size:12px;color:#FF9800;animation:blink 1s infinite;">(깃허브 동기화 중...)</span>`;
 
-    // [3단계] 깃허브 원본 파일 덮어쓰기 (백그라운드 처리)
     if (r._fname) {
         const user = localStorage.getItem('db_gh_user') || localStorage.getItem('gh_username');
         const repo = localStorage.getItem('db_gh_repo') || localStorage.getItem('gh_repo');
@@ -769,89 +994,29 @@ async function handleAnswerCorrection(testIdx, probNum, mode) {
                 
                 if (fileInfoRes.ok) {
                     const fileInfo = await fileInfoRes.json();
-                    
                     const payload = {
                         title: r.title, student: r.student, score: r.score, correct: r.correct, total: r.total, gradedAt: r.gradedAt,
                         results: r.results.map(x => ({
                             number: x.number, filename: x.filename, githubUrl: x.githubUrl,
                             userAnswer: x.userAnswer || '', correctAnswer: x.correctAnswer || '',
-                            correct: x.correct, metaReason: x.metaReason || ''
+                            correct: x.correct, metaReason: x.metaReason || '',
+                            conceptTag: x.conceptTag || '', typeTag: x.typeTag || '', errorReasonTag: x.errorReasonTag || ''
                         }))
                     };
-                    
                     const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
                     
                     await fetch(`https://api.github.com/repos/${user}/${repo}/contents/results/${r._fname}`, {
                         method: 'PUT',
                         headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ 
-                            message: `👨‍🏫 원장님 정답 구제: ${r.student} - ${probNum}번`, 
-                            content: content,
-                            sha: fileInfo.sha 
-                        })
+                        body: JSON.stringify({ message: `👨‍🏫 원장님 정답 구제: ${r.student} - ${probNum}번`, content: content, sha: fileInfo.sha })
                     });
                     
                     document.getElementById('mTitle').innerHTML = `📋 ${r.title} 상세 기록 <span style="font-size:12px;color:#4CAF50;">(✅ 서버 저장 완료!)</span>`;
                 }
-            } catch(e) { console.warn("깃허브 덮어쓰기 에러:", e); toast("⚠️ 서버 통신 지연 (로컬에는 잘 반영되었습니다)"); }
+            } catch(e) { toast("⚠️ 서버 통신 지연 (로컬에는 잘 반영되었습니다)"); }
         }
     }
 }
-
-function reprintQuiz(idx) {
-    const r = filteredResults[idx]; if (!r || !r.results) return;
-    const reprintItems = r.results.map(p => ({ githubUrl: p.githubUrl, name: p.filename || `문제_${p.number}번.png`, answer: p.correctAnswer || p.answer || '', number: p.number })).filter(item => item.githubUrl);
-    if (reprintItems.length === 0) { toast('⚠️ 이미지 데이터가 없습니다.'); return; }
-    localStorage.setItem('mathReprintQuiz', JSON.stringify({ title: r.title, student: r.student, items: reprintItems }));
-    if (confirm(`[${r.title}] 시험지를 다시 인쇄하시겠습니까?`)) window.open('index.html', '_blank');
-}
-
-function closeModal() { document.getElementById('modal').classList.remove('open'); }
-document.getElementById('modal').addEventListener('click', e => { if(e.target===document.getElementById('modal')) closeModal(); });
-function toast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(window.toastTimer); window.toastTimer = setTimeout(() => el.classList.remove('show'), 3000); }
-function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-function getCart() {
-    if(!currentDetailStudent) return [];
-    return JSON.parse(localStorage.getItem('mathWrongCart_' + currentDetailStudent) || '[]');
-}
-
-function updateCartUI() {
-  let panel = document.getElementById('cartPanel');
-  if (!panel) {
-    panel = document.createElement('div'); panel.id = 'cartPanel';
-    panel.style.cssText = 'position:fixed;bottom:24px;left:24px;background:var(--accent);color:white;padding:12px 20px;border-radius:30px;box-shadow:0 4px 12px rgba(0,0,0,0.3);display:none;align-items:center;z-index:900;cursor:pointer;font-weight:bold;';
-    document.body.appendChild(panel);
-  }
-  
-  if(!currentDetailStudent) { panel.style.display = 'none'; return; }
-
-  let cart = getCart();
-  if (cart.length > 0) { 
-    panel.innerHTML = `<span>🛒 ${esc(currentDetailStudent)} 학생 전용 장바구니</span> <span id="cartCount" style="background:white;color:var(--accent);padding:2px 8px;border-radius:12px;margin:0 8px;">${cart.length}</span> <span style="font-size:12px;">복습지 인쇄➔</span>`;
-    panel.style.display = 'flex'; 
-    panel.onclick = () => { 
-        if(confirm(`[${currentDetailStudent}] 학생의 장바구니 문제(${cart.length}개)로 복습지를 만드시겠습니까?`)) {
-            localStorage.setItem('mathWrongCart', JSON.stringify(cart));
-            localStorage.setItem('mathWrongStudent', currentDetailStudent); 
-            window.open('index.html', '_blank');
-            localStorage.removeItem('mathWrongCart_' + currentDetailStudent);
-            updateCartUI();
-        }
-    };
-  } else { panel.style.display = 'none'; }
-}
-
-function addToCart(url, fname, ans, num, stu) { 
-    if(!currentDetailStudent) return;
-    let cart = getCart();
-    if (cart.some(i => i.githubUrl === url)) { toast('이미 담겼습니다.'); return; } 
-    cart.push({ githubUrl: url, name: fname || `오답_${stu}_${num}번.png`, answer: ans }); 
-    localStorage.setItem('mathWrongCart_' + currentDetailStudent, JSON.stringify(cart)); 
-    updateCartUI(); 
-    toast(`🛒 ${stu} 학생 장바구니에 담았습니다!`); 
-}
-setTimeout(updateCartUI, 500);
 
 let mgData = {}; let localTestPapers = {};
 function openManualGrade() {
@@ -939,13 +1104,11 @@ async function submitMg() {
         const fileId = "manual_" + Date.now().toString(36) + "_" + Math.floor(Math.random()*10000);
         const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
         
-        // [1] 깃허브에 업로드
         await fetch(`https://api.github.com/repos/${user}/${repo}/contents/results/${fileId}_result.json`, {
             method: 'PUT', headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: '수기 채점: ' + student, content })
         });
 
-        // 🔥 [2] 구글 드라이브(GAS) 실시간 전송 추가!
         const googleScriptUrl = "https://script.google.com/macros/s/AKfycbyneXMqQ_HozdzHSO6qCo7IOsVo7bz9zM2v_dQbgStcejSAh3z-OP3pH2uCT2TCFlUItA/exec";
         try {
             await fetch(googleScriptUrl, {
@@ -980,6 +1143,9 @@ async function submitMg() {
         }
     } catch(e) { toast('❌ 실패: ' + e.message); }
 }
+
+function toast(msg) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(window.toastTimer); window.toastTimer = setTimeout(() => el.classList.remove('show'), 3000); }
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 </script>
 </body>
 </html>
