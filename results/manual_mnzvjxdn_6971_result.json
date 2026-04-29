@@ -1,0 +1,262 @@
+{
+  "title": "나무 오답 복습과제(4.10까지)",
+  "student": "문나무",
+  "score": 56,
+  "correct": 20,
+  "total": 36,
+  "gradedAt": "2026. 4. 15. 오후 6:55:17",
+  "results": [
+    {
+      "number": 1,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_4.유리수 계산-0502-미분류.png"
+    },
+    {
+      "number": 2,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_3.정수와 유리수-0396-미분류.png"
+    },
+    {
+      "number": 3,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_중등-1102-미분류.png"
+    },
+    {
+      "number": 4,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_4.유리수 계산-0560-미분류.png"
+    },
+    {
+      "number": 5,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "라이트쎈_4.유리수 계산-0595-미분류.png"
+    },
+    {
+      "number": 6,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "라이트쎈_4.유리수 계산-0562-미분류.png"
+    },
+    {
+      "number": 7,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_2.최대공약수와 최소공배수-0199-미분류.png"
+    },
+    {
+      "number": 8,
+      "correct": false,
+      "metaReason": "개념부족",
+      "githubUrl": "",
+      "filename": "라이트쎈_중등-1022-미분류.png"
+    },
+    {
+      "number": 9,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_6.일차방정식의 풀이-0899-중하.png"
+    },
+    {
+      "number": 10,
+      "correct": false,
+      "metaReason": "개념부족",
+      "githubUrl": "",
+      "filename": "라이트쎈_중등-0999-대표문제.png"
+    },
+    {
+      "number": 11,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_중등-0960-중하.png"
+    },
+    {
+      "number": 12,
+      "correct": false,
+      "metaReason": "개념부족",
+      "githubUrl": "",
+      "filename": "라이트쎈_3.정수와 유리수-0394-미분류.png"
+    },
+    {
+      "number": 13,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_1.소인수분해-0102-미분류.png"
+    },
+    {
+      "number": 14,
+      "correct": false,
+      "metaReason": "개념부족",
+      "githubUrl": "",
+      "filename": "라이트쎈_중등-0990-하.png"
+    },
+    {
+      "number": 15,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "라이트쎈_3.정수와 유리수-0386-미분류.png"
+    },
+    {
+      "number": 16,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "라이트쎈_중등-1025-미분류.png"
+    },
+    {
+      "number": 17,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "라이트쎈_4.유리수 계산-0559-미분류.png"
+    },
+    {
+      "number": 18,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "라이트쎈_중등-1023-미분류.png"
+    },
+    {
+      "number": 19,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_중등-0994-하.png"
+    },
+    {
+      "number": 20,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_1.소인수분해-0099-미분류.png"
+    },
+    {
+      "number": 21,
+      "correct": false,
+      "metaReason": "개념부족",
+      "githubUrl": "",
+      "filename": "라이트쎈_6.일차방정식의 풀이-0925-미분류.png"
+    },
+    {
+      "number": 22,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_4.유리수 계산-0499-미분류.png"
+    },
+    {
+      "number": 23,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_1.소인수분해-0096-미분류.png"
+    },
+    {
+      "number": 24,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_4.유리수 계산-0581-미분류.png"
+    },
+    {
+      "number": 25,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_1.소인수분해-0132-미분류.png"
+    },
+    {
+      "number": 26,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_6.일차방정식의 풀이-0890-중상.png"
+    },
+    {
+      "number": 27,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_6.일차방정식의 풀이-0901-대표문제.png"
+    },
+    {
+      "number": 28,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "라이트쎈_중등-1186-대표문제.png"
+    },
+    {
+      "number": 29,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "라이트쎈_4.유리수 계산-0544-미분류.png"
+    },
+    {
+      "number": 30,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "라이트쎈_중등-0961-하.png"
+    },
+    {
+      "number": 31,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_4.유리수 계산-0549-미분류.png"
+    },
+    {
+      "number": 32,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "라이트쎈_4.유리수 계산-0543-미분류.png"
+    },
+    {
+      "number": 33,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_중등-0962-하.png"
+    },
+    {
+      "number": 34,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_중등-0991-대표문제.png"
+    },
+    {
+      "number": 35,
+      "correct": false,
+      "metaReason": "계산실수",
+      "githubUrl": "",
+      "filename": "라이트쎈_1.소인수분해-0131-미분류.png"
+    },
+    {
+      "number": 36,
+      "correct": true,
+      "metaReason": "",
+      "githubUrl": "",
+      "filename": "라이트쎈_3.정수와 유리수-0365-미분류.png"
+    }
+  ]
+}
